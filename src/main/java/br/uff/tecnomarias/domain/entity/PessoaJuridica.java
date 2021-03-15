@@ -9,6 +9,9 @@ import java.io.Serializable;
 import java.util.List;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "PessoaJuridica.findByCnpj", query = "SELECT pj FROM PessoaJuridica pj WHERE pj.cnpj LIKE :cnpj")
+})
 public class PessoaJuridica extends Pessoa implements Serializable {
     private static final long serialVersionUID = 1L;
 

@@ -21,8 +21,7 @@ public class BaseDAOImpl<E> implements BaseDAO<E>{
 
     @Override
     public Optional<E> buscarPorIdOptional(Long id) {
-        E entidade = entityManager.find(clazz, id);
-        return entidade != null ? Optional.of(entidade) : Optional.empty();
+        return Optional.ofNullable(entityManager.find(clazz, id));
     }
 
     @Override
