@@ -5,17 +5,18 @@
              version="2.2">
     <persistence-unit name="tecnomariasPU" transaction-type ="JTA">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <jta-data-source>java:comp/DefaultDataSource</jta-data-source>
 
-        <class>br.uff.tecnomarias.domain.entity.Pessoa</class>
-        <class>br.uff.tecnomarias.domain.entity.PessoaFisica</class>
+<!--        <class>br.uff.tecnomarias.domain.entity.Pessoa</class>-->
+<!--        <class>br.uff.tecnomarias.domain.entity.PessoaFisica</class>-->
         <class>br.uff.tecnomarias.domain.entity.PessoaJuridica</class>
         <class>br.uff.tecnomarias.domain.entity.Vaga</class>
-        <class>br.uff.tecnomarias.domain.entity.Avaliacao</class>
-        <class>br.uff.tecnomarias.domain.entity.Usuario</class>
-        <class>br.uff.tecnomarias.domain.entity.Telefone</class>
-        <class>br.uff.tecnomarias.domain.entity.Endereco</class>
-        <class>br.uff.tecnomarias.domain.entity.Feedback</class>
-        <class>br.uff.tecnomarias.domain.entity.Links</class>
+<!--        <class>br.uff.tecnomarias.domain.entity.Avaliacao</class>-->
+<!--        <class>br.uff.tecnomarias.domain.entity.Usuario</class>-->
+<!--        <class>br.uff.tecnomarias.domain.entity.Telefone</class>-->
+<!--        <class>br.uff.tecnomarias.domain.entity.Endereco</class>-->
+<!--        <class>br.uff.tecnomarias.domain.entity.Feedback</class>-->
+<!--        <class>br.uff.tecnomarias.domain.entity.Links</class>-->
 
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
@@ -28,6 +29,7 @@
 
             <property name="hibernate.show_sql" value="true" />
             <property name="hibernate.format_sql" value="true" />
+            <property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.SunOneJtaPlatform"/>
         </properties>
     </persistence-unit>
 </persistence>
