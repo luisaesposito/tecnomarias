@@ -4,94 +4,112 @@ import javax.persistence.*;
 import java.util.List;
 import java.util.Optional;
 
-public class BaseDAOImpl<E> implements BaseDAO<E>{
+/**
+ * Classe que encapsula as funcionalidades do EntityManager comuns a todas as entidades.
+ * @param <E> Tipo da entidade
+ */
+public abstract class BaseDAOImpl<E> implements BaseDAO<E> {
+
+    protected Class<E> clazz;
 
     @PersistenceContext(unitName = "tecnomariasPU")
-    private EntityManager entityManager;
-    protected final Class<E> clazz;
-
-    public BaseDAOImpl(Class<E> clazz) {
-        this.clazz = clazz;
-    }
-
-    @Override
-    public E buscarPorId(Long id) {
-        return entityManager.find(clazz, id);
-    }
-
-    @Override
-    public Optional<E> buscarPorIdOptional(Long id) {
-        return Optional.ofNullable(entityManager.find(clazz, id));
-    }
-
-    @Override
-    public List<E> buscarTodas() {
-        String queryAll = String.format("select e from %s e ",clazz.getName());
-        return entityManager.createQuery(queryAll).getResultList();
-    }
-
-    @Override
-    public void salvar(E entidade) {
-        beginTransaction();
-        entityManager.persist(entidade);
-        commitTransaction();
-    }
-
-    @Override
-    public void remover(Long id) {
-        E entidade = buscarPorId(id);
-        if (entidade == null)
-            throw new EntityNotFoundException();
-        // TODO ler sobre EntityNotFoundException
-        beginTransaction();
-        entityManager.remove(entidade);
-        commitTransaction();
-    }
-
-    @Override
-    public void remover(E entidade) {
-        beginTransaction();
-        entityManager.remove(entidade);
-        commitTransaction();
-    }
-
-
-    @Override
-    public void merge(E entidade) {
-        entityManager.merge(entidade);
-    }
-
-    @Override
-    public void flush() {
-        entityManager.flush();
-    }
+    protected EntityManager entityManager;
 
     public EntityManager getEntityManager() {
         return this.entityManager;
     }
 
-    private void beginTransaction() {
+    @Override
+    public E buscarPorId(Long id) {
+        return getEntityManager().find(clazz, id);
+    }
+
+    @Override
+    public Optional<E> buscarPorIdOptional(Long id) {
+        return Optional.ofNullable(getEntityManager().find(clazz, id));
+    }
+
+    @Override
+    public List<E> buscarTodas() {
+        String queryAll = String.format("select e from %s e ", clazz.getName());
+        return getEntityManager().createQuery(queryAll).getResultList();
+    }
+
+    @Override
+    public E salvar(E entidade) {
         try {
-            entityManager.getTransaction().begin();
-        } catch (IllegalStateException e) {
-            rollBackTransaction();
+            getEntityManager().persist(entidade);
+            getEntityManager().flush();
+            return entidade;
+        } catch (PersistenceException exception) {
+            throw new DAOException(exception.getMessage(), exception);
         }
     }
 
-    private void commitTransaction() {
+    @Override
+    public void remover(E entidade) {
         try {
-            entityManager.getTransaction().commit();
-        } catch (IllegalStateException | RollbackException e) {
-            rollBackTransaction();
+            getEntityManager().remove(entidade);
+            getEntityManager().flush();
+        } catch (PersistenceException exception) {
+            throw new DAOException(exception.getMessage(), exception);
         }
     }
 
-    private void rollBackTransaction() {
+    @Override
+    public E merge(E entidade) {
         try {
-            entityManager.getTransaction().rollback();
-        } catch (IllegalStateException | PersistenceException e) {
-            e.printStackTrace();
+            E entidadePersistida = getEntityManager().merge(entidade);
+            getEntityManager().flush();
+            return entidadePersistida;
+        } catch (PersistenceException exception) {
+            throw new DAOException(exception.getMessage(), exception);
         }
     }
+
+    @Override
+    public void refresh(E entidade) {
+        getEntityManager().refresh(entidade);
+    }
+
+    @Override
+    public void flush() {
+        getEntityManager().flush();
+    }
+
+    // TODO implementar paginacao
+//    protected void setPaginacao(Query query, Paginacao paginacao) {
+//        if (paginacao.getTamanhoPagina() != null) {
+//            query.setMaxResults(paginacao.getTamanhoPagina());
+//
+//            if (paginacao.getFirstResult() != null) {
+//                query.setFirstResult(paginacao.getFirstResult());
+//            }
+//        }
+//    }
+
+//    private void beginTransaction() {
+//        try {
+//            getEntityManager().getTransaction().begin();
+//        } catch (IllegalStateException e) {
+//            rollBackTransaction();
+//        }
+//    }
+//
+//    private void commitTransaction() {
+//        try {
+//            getEntityManager().getTransaction().commit();
+//        } catch (IllegalStateException | RollbackException e) {
+//            rollBackTransaction();
+//        }
+//    }
+//
+//    private void rollBackTransaction() {
+//        try {
+//            getEntityManager().getTransaction().rollback();
+//        } catch (IllegalStateException | PersistenceException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 }

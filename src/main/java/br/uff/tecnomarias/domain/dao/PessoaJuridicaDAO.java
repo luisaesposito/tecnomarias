@@ -8,8 +8,8 @@ import java.util.Optional;
 public class PessoaJuridicaDAO extends BaseDAOImpl<PessoaJuridica> {
 
     @Inject
-    public PessoaJuridicaDAO(Class<PessoaJuridica> clazz) {
-        super(clazz);
+    public PessoaJuridicaDAO() {
+        this.clazz = PessoaJuridica.class;
     }
 
     public Optional<PessoaJuridica> buscarPorCNPJ(String cnpj) {

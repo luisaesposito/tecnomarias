@@ -15,19 +15,19 @@ import javax.ws.rs.Produces;
  */
 @ApplicationScoped
 public class EntityManagerProducer {
-
-    @PersistenceUnit()
-    EntityManagerFactory emFactory;
-
-    @Produces
-    @RequestScoped
-    public EntityManager getEntityManager() {
-        if (emFactory == null)
-            emFactory = Persistence.createEntityManagerFactory("tecnomariasPU");
-        return emFactory.createEntityManager();
-    }
-
-    public void close(@Disposes EntityManager entityManager) {
-        entityManager.close();
-    }
+//
+//    @PersistenceUnit()
+//    EntityManagerFactory emFactory;
+//
+//    @Produces
+//    @RequestScoped
+//    public EntityManager getEntityManager() {
+//        if (emFactory == null)
+//            emFactory = Persistence.createEntityManagerFactory("tecnomarias");
+//        return emFactory.createEntityManager();
+//    }
+//
+//    public void close(@Disposes EntityManager entityManager) {
+//        entityManager.close();
+//    }
 }
