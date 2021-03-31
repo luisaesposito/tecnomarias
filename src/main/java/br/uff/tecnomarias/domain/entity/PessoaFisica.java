@@ -8,7 +8,6 @@ public class PessoaFisica extends Pessoa implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @Column(name = "id_links")
     private Links links;
 
     public PessoaFisica() {

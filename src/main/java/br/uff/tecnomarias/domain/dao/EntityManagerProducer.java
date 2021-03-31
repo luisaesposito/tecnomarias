@@ -1,4 +1,4 @@
-package br.uff.tecnomarias.service;
+package br.uff.tecnomarias.domain.dao;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.RequestScoped;
@@ -15,15 +15,15 @@ import javax.ws.rs.Produces;
  */
 @ApplicationScoped
 public class EntityManagerProducer {
-
-//    @PersistenceUnit
+//
+//    @PersistenceUnit()
 //    EntityManagerFactory emFactory;
 //
 //    @Produces
 //    @RequestScoped
 //    public EntityManager getEntityManager() {
 //        if (emFactory == null)
-//            emFactory = Persistence.createEntityManagerFactory("tecnomariasPU");
+//            emFactory = Persistence.createEntityManagerFactory("tecnomarias");
 //        return emFactory.createEntityManager();
 //    }
 //

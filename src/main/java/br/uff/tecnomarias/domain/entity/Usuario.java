@@ -6,6 +6,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Locale;
 
 public class Usuario implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -41,7 +42,7 @@ public class Usuario implements Serializable {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.email = email.toLowerCase();
     }
 
     public String getSenha() {
