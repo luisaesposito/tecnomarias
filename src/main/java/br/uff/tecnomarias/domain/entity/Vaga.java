@@ -1,6 +1,7 @@
 package br.uff.tecnomarias.domain.entity;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
@@ -9,7 +10,9 @@ import java.io.Serializable;
         @NamedQuery(name = "Vaga.findByEmpresa", query = "SELECT v FROM Vaga v WHERE v.empresa = :empresa"),
         @NamedQuery(name = "Vaga.findByArea", query = "SELECT v FROM Vaga v WHERE v.areaAtuacao LIKE :area"),
         @NamedQuery(name = "Vaga.findByCargo", query = "SELECT v FROM Vaga v WHERE v.cargo LIKE :cargo"),
-        @NamedQuery(name = "Vaga.findByValor",query = "SELECT v FROM Vaga v WHERE v.valor >= :min AND v.valor < :max")
+        @NamedQuery(name = "Vaga.findByLocalidade", query = "SELECT v FROM Vaga v WHERE v.localidade LIKE :localidade"),
+        @NamedQuery(name = "Vaga.countAll", query = "SELECT COUNT(v) FROM Vaga v")
+//        @NamedQuery(name = "Vaga.findByValor",query = "SELECT v FROM Vaga v WHERE v.valor >= :min AND v.valor < :max")
 })
 public class Vaga implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -36,7 +39,19 @@ public class Vaga implements Serializable {
 
     private Double valor;
 
+    //TODO alterar para cidade ou estado
+    private String localidade;
+
     public Vaga() {
+    }
+
+    public Vaga atualizarDados(@Valid final Vaga vagaAtualizada) {
+        this.areaAtuacao = vagaAtualizada.getAreaAtuacao();
+        this.cargo = vagaAtualizada.getCargo();
+        this.descricao = vagaAtualizada.getDescricao();
+        this.valor = vagaAtualizada.getValor();
+        this.localidade = vagaAtualizada.getLocalidade();
+        return this;
     }
 
     public Long getId() {
@@ -85,5 +100,13 @@ public class Vaga implements Serializable {
 
     public void setValor(Double valor) {
         this.valor = valor;
+    }
+
+    public String getLocalidade() {
+        return localidade;
+    }
+
+    public void setLocalidade(String localidade) {
+        this.localidade = localidade;
     }
 }
