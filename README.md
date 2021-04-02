@@ -1,5 +1,7 @@
 # TECNOMARIAS REST API
 
+URL base: localhost:8080/tecnomarias
+
 ## Vaga
 
 Serviço para criação, busca, alteração e remoção de vagas. Uma vaga só pode ser criada por uma `PessoaJuridica` e alterada ou removida pela PJ que a criou. 
@@ -93,6 +95,20 @@ Retorna uma organização pelo seu ID.
 `GET /api/pj/area_atuacao`
 
 Lista as areas de atuação cadastradas.
+
+`POST /api/pj/{id}/avaliacao`
+
+### body
+```json
+{
+  "comentario": "empresa showdi",
+  "nota": "4.5",
+  "timestamp": "2021-04-01T12:00",
+  "nomeAvaliadora": "Ana"
+}
+```
+
+Cria uma nova avaliacao para uma empresa. Somente usuaria logada pode enviar uma avaliação. Nome da avaliadora é opcional.
 
 ## PessoaFisica
 
