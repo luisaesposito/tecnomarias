@@ -1,6 +1,6 @@
 package br.uff.tecnomarias.rest.dto;
 
-import br.uff.tecnomarias.domain.entity.Avaliacao;
+import br.uff.tecnomarias.domain.entity.Endereco;
 import br.uff.tecnomarias.domain.entity.PessoaJuridica;
 import br.uff.tecnomarias.domain.enums.PorteEmpresa;
 
@@ -8,8 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class PessoaJuridicaDTO {
+public class PessoaJuridicaDTO extends PessoaDTO {
 
+    private Long id;
     private String cnpj;
     private String site;
     private String descricao;
@@ -17,11 +18,15 @@ public class PessoaJuridicaDTO {
     private String areaAtuacao;
     private List<AvaliacaoDTO> avaliacoes;
     private Double mediaAvaliacao;
+    private Endereco endereco;
 
     public PessoaJuridicaDTO() {
+        super();
     }
 
     public PessoaJuridicaDTO(PessoaJuridica pj) {
+        super(pj);
+        this.id = pj.getId();
         this.cnpj = pj.getCnpj();
         this.site = pj.getSite();
         this.descricao = pj.getDescricao();
@@ -34,6 +39,7 @@ public class PessoaJuridicaDTO {
                             .collect(Collectors.toList()));
         }
         this.mediaAvaliacao = pj.getMediaAvaliacao();
+        this.endereco = pj.getEndereco();
     }
 
     public PessoaJuridica toEntity() {
@@ -43,11 +49,21 @@ public class PessoaJuridicaDTO {
         pj.setDescricao(this.descricao);
         pj.setPorteEmpresa(this.porteEmpresa);
         pj.setAreaAtuacao(this.areaAtuacao);
+        pj.setEndereco(this.endereco);
+        gerarPessoa(pj);
         return pj;
     }
 
     public static List<PessoaJuridicaDTO> toDTOList(List<PessoaJuridica> pjList) {
         return pjList.stream().map(pj -> new PessoaJuridicaDTO(pj)).collect(Collectors.toList());
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getCnpj() {
@@ -104,5 +120,13 @@ public class PessoaJuridicaDTO {
 
     public void setMediaAvaliacao(Double mediaAvaliacao) {
         this.mediaAvaliacao = mediaAvaliacao;
+    }
+
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
     }
 }

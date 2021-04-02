@@ -1,12 +1,15 @@
 package br.uff.tecnomarias.domain.entity;
 
 import br.uff.tecnomarias.domain.enums.PorteEmpresa;
+import br.uff.tecnomarias.domain.enums.TipoPessoa;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.List;
+import java.util.function.Consumer;
 
 @Entity
 @NamedQueries({
@@ -39,7 +42,24 @@ public class PessoaJuridica extends Pessoa implements Serializable {
     @OneToMany(mappedBy = "empresa", cascade = CascadeType.REMOVE)
     private List<Vaga> vagas;
 
+    @Valid
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_endereco")
+    private Endereco endereco;
+
     public PessoaJuridica() {
+        setTipoPessoa(TipoPessoa.PESSOA_JURIDICA);
+    }
+
+    public PessoaJuridica atualizarDados(@Valid final PessoaJuridica pjAtualizada) {
+        //TODO usar setIfNotNull
+        this.cnpj = pjAtualizada.getCnpj();
+        this.site = pjAtualizada.getSite();
+        this.areaAtuacao = pjAtualizada.getAreaAtuacao();
+        this.descricao = pjAtualizada.getDescricao();
+        this.porteEmpresa = pjAtualizada.getPorteEmpresa();
+        this.endereco = pjAtualizada.getEndereco();
+        return this;
     }
 
     public String getCnpj() {
@@ -113,5 +133,13 @@ public class PessoaJuridica extends Pessoa implements Serializable {
 
     public void addAvaliacao(Avaliacao avaliacao) {
         this.avaliacoes.add(avaliacao);
+    }
+
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
     }
 }

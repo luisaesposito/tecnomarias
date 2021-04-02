@@ -1,11 +1,14 @@
 package br.uff.tecnomarias.domain.entity;
 
+import br.uff.tecnomarias.domain.enums.TipoPessoa;
+
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -16,6 +19,9 @@ public abstract class Pessoa implements Serializable {
     @GeneratedValue
     private Long id;
 
+    @NotNull(message="Tipo de pessoa deve ser definido")
+    private TipoPessoa tipoPessoa;
+
     @NotNull(message = "nome é obrigatório")
     private String nome;
 
@@ -25,20 +31,20 @@ public abstract class Pessoa implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pessoa")
     private List<Telefone> telefoneList;
 
-    @Valid
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_endereco")
-    private Endereco endereco;
-
-    public Pessoa() {
-    }
-
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public TipoPessoa getTipoPessoa() {
+        return tipoPessoa;
+    }
+
+    public void setTipoPessoa(TipoPessoa tipoPessoa) {
+        this.tipoPessoa = tipoPessoa;
     }
 
     public String getNome() {
@@ -83,11 +89,9 @@ public abstract class Pessoa implements Serializable {
         return false;
     }
 
-    public Endereco getEndereco() {
-        return endereco;
-    }
-
-    public void setEndereco(Endereco endereco) {
-        this.endereco = endereco;
+    public <T> void setIfNotNull(final Consumer<T> setter, final T value) {
+        if (value != null) {
+            setter.accept(value);
+        }
     }
 }

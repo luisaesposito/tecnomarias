@@ -17,6 +17,18 @@ public class PessoaJuridicaResource {
     @Inject
     PessoaJuridicaService pjService;
 
+    @POST
+    public Response salvarPJ(PessoaJuridicaDTO pjDTO) {
+        PessoaJuridicaDTO pjSalva = new PessoaJuridicaDTO(pjService.salvar(pjDTO.toEntity()));
+        return Response.ok(pjSalva).build();
+    }
+
+    @PUT
+    @Path("{id}")
+    public Response alterar(@PathParam("id") final Long id, PessoaJuridicaDTO pjDTO) {
+        return Response.ok(new PessoaJuridicaDTO(pjService.alterar(id, pjDTO.toEntity()))).build();
+    }
+
     @GET
     public Response buscarTodas() {
         return Response.ok(PessoaJuridicaDTO.toDTOList(pjService.buscarTodas())).build();
