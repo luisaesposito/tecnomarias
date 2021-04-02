@@ -5,6 +5,7 @@ import br.uff.tecnomarias.domain.entity.Vaga;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class VagaDAO extends BaseDAOImpl<Vaga> {
 
@@ -36,4 +37,8 @@ public class VagaDAO extends BaseDAOImpl<Vaga> {
         return getEntityManager().createNamedQuery("Vaga.findByLocalidade", this.clazz).getResultList();
     }
 
+    public List<String> listarAreaAtuacao() {
+        List<String> result = getEntityManager().createQuery("SELECT v.areaAtuacao FROM Vaga v").getResultList();
+        return result.stream().distinct().collect(Collectors.toList());
+    }
 }

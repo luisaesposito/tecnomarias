@@ -107,4 +107,8 @@ public class PessoaJuridica extends Pessoa implements Serializable {
     public void setVagas(List<Vaga> vagas) {
         this.vagas = vagas;
     }
+
+    public void addAvaliacao(Avaliacao avaliacao) {
+        this.avaliacoes.add(avaliacao);
+    }
 }

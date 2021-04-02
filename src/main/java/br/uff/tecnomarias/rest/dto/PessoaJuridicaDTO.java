@@ -2,7 +2,6 @@ package br.uff.tecnomarias.rest.dto;
 
 import br.uff.tecnomarias.domain.entity.Avaliacao;
 import br.uff.tecnomarias.domain.entity.PessoaJuridica;
-import br.uff.tecnomarias.domain.entity.Vaga;
 import br.uff.tecnomarias.domain.enums.PorteEmpresa;
 
 import java.util.List;
@@ -17,7 +16,6 @@ public class PessoaJuridicaDTO {
     private String areaAtuacao;
     private List<Avaliacao> avaliacoes;
     private Double mediaAvaliacao;
-    private List<Vaga> vagas;
 
     public PessoaJuridicaDTO() {
     }
@@ -39,8 +37,6 @@ public class PessoaJuridicaDTO {
         pj.setDescricao(this.descricao);
         pj.setPorteEmpresa(this.porteEmpresa);
         pj.setAreaAtuacao(this.areaAtuacao);
-        pj.setAvaliacoes(this.avaliacoes);
-        pj.setMediaAvaliacao(this.mediaAvaliacao);
         return pj;
     }
 
@@ -102,13 +98,5 @@ public class PessoaJuridicaDTO {
 
     public void setMediaAvaliacao(Double mediaAvaliacao) {
         this.mediaAvaliacao = mediaAvaliacao;
-    }
-
-    public List<Vaga> getVagas() {
-        return vagas;
-    }
-
-    public void setVagas(List<Vaga> vagas) {
-        this.vagas = vagas;
     }
 }

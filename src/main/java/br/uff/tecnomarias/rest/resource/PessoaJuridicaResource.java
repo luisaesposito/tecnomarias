@@ -1,5 +1,6 @@
 package br.uff.tecnomarias.rest.resource;
 
+import br.uff.tecnomarias.rest.dto.AvaliacaoDTO;
 import br.uff.tecnomarias.rest.dto.PessoaJuridicaDTO;
 import br.uff.tecnomarias.service.PessoaJuridicaService;
 
@@ -25,6 +26,13 @@ public class PessoaJuridicaResource {
     @Path("{id}")
     public Response buscarPorId(@PathParam("id") final Long id) {
         return Response.ok(new PessoaJuridicaDTO(pjService.buscarPorId(id))).build();
+    }
+
+    @POST
+    @Path("{id}/avaliacao")
+    public Response avaliarEmpresa(@PathParam("id") final Long id, AvaliacaoDTO avaliacaoDTO) {
+        AvaliacaoDTO resp = new AvaliacaoDTO(pjService.avaliarEmpresa(id, avaliacaoDTO.toEntity()));
+        return Response.ok(resp).build();
     }
 
 }
