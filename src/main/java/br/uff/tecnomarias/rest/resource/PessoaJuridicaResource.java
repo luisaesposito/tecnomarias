@@ -31,6 +31,7 @@ public class PessoaJuridicaResource {
     @POST
     @Path("{id}/avaliacao")
     public Response avaliarEmpresa(@PathParam("id") final Long id, AvaliacaoDTO avaliacaoDTO) {
+        //TODO implementar auth
         AvaliacaoDTO resp = new AvaliacaoDTO(pjService.avaliarEmpresa(id, avaliacaoDTO.toEntity()));
         return Response.ok(resp).build();
     }

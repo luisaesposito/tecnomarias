@@ -26,8 +26,6 @@ public class PessoaJuridica extends Pessoa implements Serializable {
 
     @NotNull(message = "PorteEmpresa é obrigatório")
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "VARCHAR(11) " +
-            "CHECK (porteEmpresa IN ('MICROEMPRESA','EMRPESA_PEQUENO_PORTE','EMPRESA_MEDIO_PORTE','GRANDE_EMPRESA')")
     private PorteEmpresa porteEmpresa;
 
     @NotNull(message = "AreaAtuacao é obrigatório")
@@ -96,8 +94,13 @@ public class PessoaJuridica extends Pessoa implements Serializable {
         return mediaAvaliacao;
     }
 
-    public void setMediaAvaliacao(Double mediaAvaliacao) {
-        this.mediaAvaliacao = mediaAvaliacao;
+    public void setMediaAvaliacao() {
+        if (this.avaliacoes != null) {
+            this.mediaAvaliacao = this.getAvaliacoes().stream()
+                    .mapToDouble(Avaliacao::getNota).average().orElse(Double.NaN);
+        } else {
+            this.mediaAvaliacao = Double.NaN;
+        }
     }
 
     public List<Vaga> getVagas() {
