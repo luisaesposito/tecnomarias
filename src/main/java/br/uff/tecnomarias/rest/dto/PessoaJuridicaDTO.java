@@ -4,6 +4,7 @@ import br.uff.tecnomarias.domain.entity.Avaliacao;
 import br.uff.tecnomarias.domain.entity.PessoaJuridica;
 import br.uff.tecnomarias.domain.enums.PorteEmpresa;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,7 +15,7 @@ public class PessoaJuridicaDTO {
     private String descricao;
     private PorteEmpresa porteEmpresa;
     private String areaAtuacao;
-    private List<Avaliacao> avaliacoes;
+    private List<AvaliacaoDTO> avaliacoes;
     private Double mediaAvaliacao;
 
     public PessoaJuridicaDTO() {
@@ -26,7 +27,12 @@ public class PessoaJuridicaDTO {
         this.descricao = pj.getDescricao();
         this.porteEmpresa = pj.getPorteEmpresa();
         this.areaAtuacao = pj.getAreaAtuacao();
-        this.avaliacoes = pj.getAvaliacoes();
+        if (pj.getAvaliacoes() != null && !pj.getAvaliacoes().isEmpty()) {
+            this.avaliacoes = new ArrayList<>();
+            this.avaliacoes.addAll(pj.getAvaliacoes().stream()
+                            .map(av -> new AvaliacaoDTO(av))
+                            .collect(Collectors.toList()));
+        }
         this.mediaAvaliacao = pj.getMediaAvaliacao();
     }
 
@@ -84,11 +90,11 @@ public class PessoaJuridicaDTO {
         this.areaAtuacao = areaAtuacao;
     }
 
-    public List<Avaliacao> getAvaliacoes() {
+    public List<AvaliacaoDTO> getAvaliacoes() {
         return avaliacoes;
     }
 
-    public void setAvaliacoes(List<Avaliacao> avaliacoes) {
+    public void setAvaliacoes(List<AvaliacaoDTO> avaliacoes) {
         this.avaliacoes = avaliacoes;
     }
 

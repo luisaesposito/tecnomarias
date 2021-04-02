@@ -22,6 +22,10 @@ public class Feedback implements Serializable {
     public Feedback() {
     }
 
+    public Feedback(String comentario) {
+        this.comentario = comentario;
+    }
+
     public Long getId() {
         return id;
     }
