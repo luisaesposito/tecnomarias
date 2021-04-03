@@ -88,6 +88,14 @@ Retorna vagas de acordo com um determinado atributo.
 
 Retorna todas as organizações cadastradas.
 
+```json
+[
+  {
+    
+  }
+]
+```
+
 `GET /api/pj/{id}`
 
 Retorna uma organização pelo seu ID.
@@ -198,7 +206,7 @@ Salva um feedback enviado por uma usuária.
 
 ___
 
-## Rodando aplicação
+## Rodando a aplicação
 
 O projeto possui um wrapper do Maven, portanto não é necessário ter a ferramenta instalada. Para compilar aplicação e gerar um WAR que será deployed em um servidor local, na raíz do projeto usar comando:
 
