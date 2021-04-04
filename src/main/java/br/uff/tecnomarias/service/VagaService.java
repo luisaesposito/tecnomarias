@@ -21,7 +21,12 @@ public class VagaService {
     PessoaJuridicaDAO pjDAO;
 
     public Vaga salvar(@Valid Vaga vaga) {
-        return vagaDAO.salvar(vaga);
+        PessoaJuridica pj = pjDAO.buscarPorIdOptional(
+                vaga.getEmpresa().getId()
+        ).orElseThrow(() -> new WebApplicationException("Empresa nao encontrada", 400));
+        vaga.setEmpresa(pj);
+        vagaDAO.salvar(vaga);
+        return vaga;
     }
 
     public Vaga buscarPorId(final Long id) {
