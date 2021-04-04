@@ -6,7 +6,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.Locale;
 
 public class Usuario implements Serializable {
     private static final long serialVersionUID = 1L;

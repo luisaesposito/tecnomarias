@@ -1,6 +1,8 @@
 package br.uff.tecnomarias.domain.entity;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 import java.io.Serializable;
 
 @Entity
