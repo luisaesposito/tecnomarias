@@ -3,6 +3,7 @@ package br.uff.tecnomarias.domain.entity;
 import br.uff.tecnomarias.domain.enums.TipoPessoa;
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -16,20 +17,18 @@ public abstract class Pessoa implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue
-    private Long id;
-
-    @NotNull(message="Tipo de pessoa deve ser definido")
-    private TipoPessoa tipoPessoa;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", updatable = false, nullable = false)
+    protected Long id;
 
     @NotNull(message = "nome é obrigatório")
-    private String nome;
+    protected String nome;
 
     @NotNull(message = "email é obrigatório")
-    private String email;
+    protected String email;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pessoa")
-    private List<Telefone> telefoneList;
+    protected List<Telefone> telefoneList;
 
     public Long getId() {
         return id;
@@ -37,14 +36,6 @@ public abstract class Pessoa implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public TipoPessoa getTipoPessoa() {
-        return tipoPessoa;
-    }
-
-    public void setTipoPessoa(TipoPessoa tipoPessoa) {
-        this.tipoPessoa = tipoPessoa;
     }
 
     public String getNome() {

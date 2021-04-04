@@ -10,14 +10,12 @@ import java.util.Optional;
  */
 public abstract class BaseDAOImpl<E> implements BaseDAO<E> {
 
-    @PersistenceUnit(unitName = "tecnomariasPU")
+    protected Class<E> clazz;
     private EntityManagerFactory emFactory;
     private EntityManager entityManager;
 
-    protected Class<E> clazz;
-
     protected EntityManager getEntityManager() {
-        if (!emFactory.isOpen())
+        if (emFactory == null || !emFactory.isOpen())
             emFactory = Persistence.createEntityManagerFactory("tecnomariasPU");
         if (this.entityManager == null)
             this.entityManager = emFactory.createEntityManager();
@@ -25,8 +23,10 @@ public abstract class BaseDAOImpl<E> implements BaseDAO<E> {
     }
 
     protected void closeEM() {
-        if (this.entityManager != null && this.entityManager.isOpen())
+        if (this.entityManager != null && this.entityManager.isOpen()) {
             this.entityManager.close();
+            this.emFactory.close();
+        }
     }
     protected EntityTransaction getTransaction() {
         return getEntityManager().getTransaction();

@@ -33,7 +33,7 @@ public class PessoaJuridica extends Pessoa implements Serializable {
     @NotNull(message = "AreaAtuacao é obrigatório")
     private String areaAtuacao;
 
-    @OneToMany(mappedBy = "empresa", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "empresa", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private List<Avaliacao> avaliacoes;
 
     private Double mediaAvaliacao;
@@ -42,13 +42,11 @@ public class PessoaJuridica extends Pessoa implements Serializable {
     private List<Vaga> vagas;
 
     @Valid
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "id_endereco")
     private Endereco endereco;
 
-    public PessoaJuridica() {
-        setTipoPessoa(TipoPessoa.PESSOA_JURIDICA);
-    }
+    public PessoaJuridica() {}
 
     public PessoaJuridica atualizarDados(@Valid final PessoaJuridica pjAtualizada) {
         //TODO usar setIfNotNull
