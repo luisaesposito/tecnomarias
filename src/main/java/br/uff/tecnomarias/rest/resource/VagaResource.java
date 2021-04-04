@@ -8,7 +8,9 @@ import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Path("vaga")
@@ -33,7 +35,8 @@ public class VagaResource {
     }
 
     @GET
-    public Response buscarPorId(@QueryParam("id") final Long id) {
+    @Path("{id}")
+    public Response buscarPorId(@PathParam("id") final Long id) {
         Vaga vaga = vagaService.buscarPorId(id);
         Response.Status status = vaga != null ? Response.Status.OK : Response.Status.NO_CONTENT;
         return Response.status(status).entity(vaga).build();
@@ -87,5 +90,13 @@ public class VagaResource {
     public Response removerVaga(@PathParam("id") final Long id) {
         vagaService.remover(id);
         return Response.ok("Vaga removida com sucesso.").build();
+    }
+
+    @GET
+    @Path("area_atuacao")
+    public Response listarAreaAtuacao() {
+        Map<String, List<String>> resp = new HashMap<>();
+        resp.put("listaAreaAtuacao", vagaService.listarAreaAtuacao());
+        return Response.ok(resp).build();
     }
 }

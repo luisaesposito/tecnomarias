@@ -3,11 +3,11 @@
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd"
              version="2.2">
-    <persistence-unit name="tecnomariasPU" transaction-type ="RESOURCE_LOCAL">
-        <non-jta-data-source>jdbc/tecnomarias</non-jta-data-source>
+    <persistence-unit name="tecnomariasPU" transaction-type ="JTA">
+        <jta-data-source>jdbc/tecnomarias</jta-data-source>
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
         <properties>
-            <property name="javax.persistence.schema-generation.database.action"  value="none"/>
+            <property name="javax.persistence.schema-generation.database.action"  value="create"/>
             <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
 
 <!--            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/tecnomarias" />-->

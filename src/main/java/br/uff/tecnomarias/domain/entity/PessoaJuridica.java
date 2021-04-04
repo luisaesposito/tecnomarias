@@ -1,12 +1,15 @@
 package br.uff.tecnomarias.domain.entity;
 
 import br.uff.tecnomarias.domain.enums.PorteEmpresa;
+import br.uff.tecnomarias.domain.enums.TipoPessoa;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.List;
+import java.util.function.Consumer;
 
 @Entity
 @NamedQueries({
@@ -26,8 +29,6 @@ public class PessoaJuridica extends Pessoa implements Serializable {
 
     @NotNull(message = "PorteEmpresa é obrigatório")
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "VARCHAR(11) " +
-            "CHECK (porteEmpresa IN ('MICROEMPRESA','EMRPESA_PEQUENO_PORTE','EMPRESA_MEDIO_PORTE','GRANDE_EMPRESA')")
     private PorteEmpresa porteEmpresa;
 
     @NotNull(message = "AreaAtuacao é obrigatório")
@@ -41,7 +42,24 @@ public class PessoaJuridica extends Pessoa implements Serializable {
     @OneToMany(mappedBy = "empresa", cascade = CascadeType.REMOVE)
     private List<Vaga> vagas;
 
+    @Valid
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_endereco")
+    private Endereco endereco;
+
     public PessoaJuridica() {
+        setTipoPessoa(TipoPessoa.PESSOA_JURIDICA);
+    }
+
+    public PessoaJuridica atualizarDados(@Valid final PessoaJuridica pjAtualizada) {
+        //TODO usar setIfNotNull
+        this.cnpj = pjAtualizada.getCnpj();
+        this.site = pjAtualizada.getSite();
+        this.areaAtuacao = pjAtualizada.getAreaAtuacao();
+        this.descricao = pjAtualizada.getDescricao();
+        this.porteEmpresa = pjAtualizada.getPorteEmpresa();
+        this.endereco = pjAtualizada.getEndereco();
+        return this;
     }
 
     public String getCnpj() {
@@ -96,8 +114,13 @@ public class PessoaJuridica extends Pessoa implements Serializable {
         return mediaAvaliacao;
     }
 
-    public void setMediaAvaliacao(Double mediaAvaliacao) {
-        this.mediaAvaliacao = mediaAvaliacao;
+    public void setMediaAvaliacao() {
+        if (this.avaliacoes != null) {
+            this.mediaAvaliacao = this.getAvaliacoes().stream()
+                    .mapToDouble(Avaliacao::getNota).average().orElse(Double.NaN);
+        } else {
+            this.mediaAvaliacao = Double.NaN;
+        }
     }
 
     public List<Vaga> getVagas() {
@@ -106,5 +129,17 @@ public class PessoaJuridica extends Pessoa implements Serializable {
 
     public void setVagas(List<Vaga> vagas) {
         this.vagas = vagas;
+    }
+
+    public void addAvaliacao(Avaliacao avaliacao) {
+        this.avaliacoes.add(avaliacao);
+    }
+
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
     }
 }

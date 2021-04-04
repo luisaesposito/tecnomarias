@@ -21,8 +21,7 @@ public class VagaService {
     PessoaJuridicaDAO pjDAO;
 
     public Vaga salvar(@Valid Vaga vaga) {
-        vagaDAO.salvar(vaga);
-        return vaga;
+        return vagaDAO.salvar(vaga);
     }
 
     public Vaga buscarPorId(final Long id) {
@@ -34,6 +33,7 @@ public class VagaService {
     }
 
     public List<Vaga> buscarTodas(int start, int size) {
+        //TODO implementar paginacao
         return vagaDAO.buscarTodas();
     }
 
@@ -67,4 +67,7 @@ public class VagaService {
         vagaDAO.remover(vaga);
     }
 
+    public List<String> listarAreaAtuacao() {
+        return vagaDAO.listarAreaAtuacao();
+    }
 }
