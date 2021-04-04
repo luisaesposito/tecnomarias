@@ -3,6 +3,7 @@ package br.uff.tecnomarias.domain.dao;
 import br.uff.tecnomarias.domain.entity.Feedback;
 
 import javax.inject.Inject;
+import javax.persistence.EntityTransaction;
 import java.util.List;
 
 public class FeedbackDAO extends BaseDAOImpl<Feedback> {
@@ -13,8 +14,19 @@ public class FeedbackDAO extends BaseDAOImpl<Feedback> {
     }
 
     public List<Feedback> buscarRecentes() {
-        return getEntityManager().createQuery("select f from Feedback f ORDER BY f.id DESC")
-                .setMaxResults(3)
-                .getResultList();
+        EntityTransaction tx = getTransaction();
+        List<Feedback> resultList;
+        try {
+            tx.begin();
+            resultList = getEntityManager().createQuery("SELECT f FROM Feedback f ORDER BY f.id DESC")
+                    .setMaxResults(3)
+                    .getResultList();
+            tx.commit();
+        } catch (RuntimeException e) {
+            throw new DAOException(e.getMessage(), e);
+        } finally {
+            closeEM();
+        }
+        return resultList;
     }
 }
