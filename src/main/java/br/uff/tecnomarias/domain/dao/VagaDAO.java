@@ -14,10 +14,6 @@ public class VagaDAO extends BaseDAOImpl<Vaga> {
         this.clazz = Vaga.class;
     }
 
-    public int count() {
-        return (int) getEntityManager().createNamedQuery("Vaga.countAll").getSingleResult();
-    }
-
     public List<Vaga> buscarPorEmpresa(PessoaJuridica empresa) {
         return getEntityManager().createNamedQuery("Vaga.findByEmpresa", this.clazz).getResultList();
     }

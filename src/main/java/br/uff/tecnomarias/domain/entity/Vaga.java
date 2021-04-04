@@ -11,7 +11,7 @@ import java.io.Serializable;
         @NamedQuery(name = "Vaga.findByArea", query = "SELECT v FROM Vaga v WHERE v.areaAtuacao LIKE :area"),
         @NamedQuery(name = "Vaga.findByCargo", query = "SELECT v FROM Vaga v WHERE v.cargo LIKE :cargo"),
         @NamedQuery(name = "Vaga.findByLocalidade", query = "SELECT v FROM Vaga v WHERE v.localidade LIKE :localidade"),
-        @NamedQuery(name = "Vaga.countAll", query = "SELECT COUNT(v) FROM Vaga v")
+//        @NamedQuery(name = "Vaga.countAll", query = "SELECT COUNT(v) FROM Vaga v")
 //        @NamedQuery(name = "Vaga.findByValor",query = "SELECT v FROM Vaga v WHERE v.valor >= :min AND v.valor < :max")
 })
 public class Vaga implements Serializable {
