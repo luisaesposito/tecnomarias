@@ -23,7 +23,11 @@ public class VagaResource {
 
     @POST
     public Response criarVaga(VagaDTO vagaDTO) {
-        VagaDTO vagaSalva = new VagaDTO(vagaService.salvar(vagaDTO.toEntity()));
+        VagaDTO vagaSalva = new VagaDTO(
+                vagaService.salvar(
+                        vagaDTO.toEntity()
+                )
+        );
         return Response.status(Response.Status.CREATED).entity(vagaSalva).build();
     }
 
