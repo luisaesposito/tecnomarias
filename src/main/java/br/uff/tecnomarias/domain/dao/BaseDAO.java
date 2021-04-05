@@ -11,7 +11,4 @@ public interface BaseDAO<E> {
     int count();
     E salvar(E entidade);
     void remover(E entidade);
-    E merge(E entidade);
-    void refresh(E entidade);
-    void flush();
 }

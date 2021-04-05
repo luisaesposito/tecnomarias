@@ -22,10 +22,12 @@ public abstract class PessoaDTO {
     }
 
     public PessoaDTO(Pessoa pessoa) {
+        this.nome = pessoa.getNome();
         this.email = pessoa.getEmail();
         this.telefoneList = pessoa.getTelefones();
     }
     public void gerarPessoa(Pessoa pessoa) {
+        pessoa.setNome(this.nome);
         pessoa.setEmail(this.email);
         pessoa.setTelefones(this.telefoneList);
     }
