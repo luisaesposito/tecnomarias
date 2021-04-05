@@ -13,8 +13,8 @@ public class FeedbackDAO extends BaseDAOImpl<Feedback> {
     }
 
     public List<Feedback> buscarRecentes() {
-        return getEntityManager().createQuery("select f from Feedback f ORDER BY f.id DESC")
-                .setMaxResults(3)
-                .getResultList();
+        return entityManager.createQuery("SELECT f FROM Feedback f ORDER BY f.id DESC")
+                    .setMaxResults(3)
+                    .getResultList();
     }
 }

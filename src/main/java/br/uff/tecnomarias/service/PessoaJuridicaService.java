@@ -7,8 +7,10 @@ import br.uff.tecnomarias.domain.entity.PessoaJuridica;
 
 import javax.annotation.ManagedBean;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import javax.ws.rs.WebApplicationException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @ManagedBean
@@ -20,10 +22,12 @@ public class PessoaJuridicaService {
     @Inject
     AvaliacaoDAO avaliacaoDAO;
 
+    @Transactional
     public PessoaJuridica salvar(@Valid PessoaJuridica pj) {
         return pjDAO.salvar(pj);
     }
 
+    @Transactional
     public PessoaJuridica alterar(Long id, @Valid PessoaJuridica pjAlterada) {
         PessoaJuridica pjSalva = pjDAO.buscarPorIdOptional(id)
                 .orElseThrow(() -> new WebApplicationException("Vaga nao encontrada", 404));
@@ -39,11 +43,15 @@ public class PessoaJuridicaService {
         return pjDAO.buscarTodas();
     }
 
+    @Transactional
     public Avaliacao avaliarEmpresa(Long idEmpresa, Avaliacao avaliacao) {
         PessoaJuridica pj = pjDAO.buscarPorIdOptional(idEmpresa)
                 .orElseThrow(() -> new WebApplicationException("Empresa não encontrada", 400));
         avaliacao.setEmpresa(pj);
-        return avaliacaoDAO.salvar(avaliacao);
+        avaliacao.setTimestamp(LocalDateTime.now());
+        pj.addAvaliacao(avaliacao);
+        pjDAO.salvar(pj);
+        return avaliacao;
     }
 
 }

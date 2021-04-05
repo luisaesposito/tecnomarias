@@ -1,24 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd"
-             version="2.2">
-    <persistence-unit name="tecnomariasPU" transaction-type ="RESOURCE_LOCAL">
-        <non-jta-data-source>jdbc/tecnomarias</non-jta-data-source>
-        <exclude-unlisted-classes>false</exclude-unlisted-classes>
-        <properties>
-            <property name="javax.persistence.schema-generation.database.action"  value="drop-and-create"/>
-            <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
+             version="2.1">
 
+    <persistence-unit name="tecnomariasPU" transaction-type="JTA">
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        <jta-data-source>jdbc/tecnomarias</jta-data-source>
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
+
+        <properties>
+            <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
+            <property name="javax.persistence.schema-generation.database.action"  value="drop-and-create"/>
             <property name="javax.persistence.sql-load-script-source" value="META-INF/sql/data.sql" />
 
 <!--            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/tecnomarias" />-->
 <!--            <property name="javax.persistence.jdbc.user" value="postgres" />-->
-<!--            <property name="javax.persistence.jdbc.password" value="postgres" />-->
-<!--            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL9Dialect"/>-->
-<!--            <property name="hibernate.hbm2ddl.auto" value="update" /> &lt;!&ndash; create / create-drop / update &ndash;&gt;-->
-<!--            <property name="hibernate.show_sql" value="true" />-->
-<!--            <property name="hibernate.format_sql" value="true" />-->
+<!--            <property name="javax.persistence.jdbc.password" value="admin" />-->
         </properties>
     </persistence-unit>
 </persistence>

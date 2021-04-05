@@ -14,31 +14,34 @@ public class VagaDAO extends BaseDAOImpl<Vaga> {
         this.clazz = Vaga.class;
     }
 
-    public int count() {
-        return (int) getEntityManager().createNamedQuery("Vaga.countAll").getSingleResult();
-    }
-
     public List<Vaga> buscarPorEmpresa(PessoaJuridica empresa) {
-        return getEntityManager().createNamedQuery("Vaga.findByEmpresa", this.clazz).getResultList();
+        return entityManager.createNamedQuery("Vaga.findByEmpresa", this.clazz)
+                    .setParameter("empresa", empresa)
+                    .getResultList();
     }
 
     public List<Vaga> buscarPorAreaAtuacao(String areaAtuacao) {
-        // TODO usar paginacao
-        return getEntityManager().createNamedQuery("Vaga.findByArea", this.clazz).getResultList();
+        return entityManager.createNamedQuery("Vaga.findByArea", this.clazz)
+                    .setParameter("area", areaAtuacao)
+                    .getResultList();
     }
 
     public List<Vaga> buscarPorCargo(String cargo) {
         // TODO usar paginacao
-        return getEntityManager().createNamedQuery("Vaga.findByCargo", this.clazz).getResultList();
+        return entityManager.createNamedQuery("Vaga.findByCargo", this.clazz)
+                    .setParameter("cargo", cargo)
+                    .getResultList();
     }
 
     public List<Vaga> buscarPorLocalidade(String localidade) {
         // TODO usar paginacao
-        return getEntityManager().createNamedQuery("Vaga.findByLocalidade", this.clazz).getResultList();
+        return entityManager.createNamedQuery("Vaga.findByLocalidade", this.clazz)
+                    .setParameter("localidade", localidade)
+                    .getResultList();
     }
 
     public List<String> listarAreaAtuacao() {
-        List<String> result = getEntityManager().createQuery("SELECT v.areaAtuacao FROM Vaga v").getResultList();
+        List<String> result = entityManager.createQuery("SELECT v.areaAtuacao FROM Vaga v").getResultList();
         return result.stream().distinct().collect(Collectors.toList());
     }
 }

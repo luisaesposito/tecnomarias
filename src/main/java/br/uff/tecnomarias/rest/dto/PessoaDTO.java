@@ -14,7 +14,6 @@ import java.util.List;
 //})
 public abstract class PessoaDTO {
 
-    private TipoPessoa tipoPessoa;
     private String nome;
     private String email;
     private List<Telefone> telefoneList;
@@ -23,22 +22,14 @@ public abstract class PessoaDTO {
     }
 
     public PessoaDTO(Pessoa pessoa) {
-        this.tipoPessoa = pessoa.getTipoPessoa();
+        this.nome = pessoa.getNome();
         this.email = pessoa.getEmail();
         this.telefoneList = pessoa.getTelefones();
     }
     public void gerarPessoa(Pessoa pessoa) {
-        pessoa.setTipoPessoa(this.getTipoPessoa());
+        pessoa.setNome(this.nome);
         pessoa.setEmail(this.email);
         pessoa.setTelefones(this.telefoneList);
-    }
-
-    public TipoPessoa getTipoPessoa() {
-        return tipoPessoa;
-    }
-
-    public void setTipoPessoa(TipoPessoa tipoPessoa) {
-        this.tipoPessoa = tipoPessoa;
     }
 
     public String getNome() {

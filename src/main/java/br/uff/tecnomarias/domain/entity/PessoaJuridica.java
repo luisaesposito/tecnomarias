@@ -8,13 +8,14 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
 
 @Entity
 @NamedQueries({
         @NamedQuery(name = "PessoaJuridica.findByCnpj", query = "SELECT pj FROM PessoaJuridica pj WHERE pj.cnpj LIKE :cnpj")
 })
+@DiscriminatorValue("PJ")
 public class PessoaJuridica extends Pessoa implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -34,22 +35,17 @@ public class PessoaJuridica extends Pessoa implements Serializable {
     @NotNull(message = "AreaAtuacao é obrigatório")
     private String areaAtuacao;
 
-    @OneToMany(mappedBy = "empresa", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "empresa", cascade = CascadeType.ALL)
     private List<Avaliacao> avaliacoes;
 
     private Double mediaAvaliacao;
-
-    @OneToMany(mappedBy = "empresa", cascade = CascadeType.REMOVE)
-    private List<Vaga> vagas;
 
     @Valid
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_endereco")
     private Endereco endereco;
 
-    public PessoaJuridica() {
-        setTipoPessoa(TipoPessoa.PESSOA_JURIDICA);
-    }
+    public PessoaJuridica() {}
 
     public PessoaJuridica atualizarDados(@Valid final PessoaJuridica pjAtualizada) {
         //TODO usar setIfNotNull
@@ -121,14 +117,6 @@ public class PessoaJuridica extends Pessoa implements Serializable {
         } else {
             this.mediaAvaliacao = Double.NaN;
         }
-    }
-
-    public List<Vaga> getVagas() {
-        return vagas;
-    }
-
-    public void setVagas(List<Vaga> vagas) {
-        this.vagas = vagas;
     }
 
     public void addAvaliacao(Avaliacao avaliacao) {
