@@ -1,55 +1,138 @@
 # TECNOMARIAS REST API
 
-URL base: localhost:8080/tecnomarias
+URL base: `localhost:8080/tecnomarias`
 
 ## Vaga
 
 Serviço para criação, busca, alteração e remoção de vagas. Uma vaga só pode ser criada por uma `PessoaJuridica` e alterada ou removida pela PJ que a criou. 
 A recuperação de vagas é aberta e feita sem precisar de autenticação. É possível filtrar vagas por área de atuação, cargo, localidade ou empresa.
 
-`POST /api/vaga`
+### Criar vaga
 
-### body
+`POST /api/vaga` cria uma nova vaga associada a uma PJ válida, pelo idEmpresa.
 
-```json
+#### Exemplo 1
 
-```
-
-### repsonse
+#### Body
 
 ```json
 {
-  "id": 4445,
-  "stuff": "things"
+  "idEmpresa": 234,
+  "areaAtuacao": "analise de dados",
+  "cargo": "JUNIOR",
+  "descricao": "Descrição da vaga",
+  "valor": 3500
 }
 ```
 
-`GET /api/vaga/{id}`
+#### Response
 
-Retorna vaga pelo seu ID.
-
-`PUT /api/vaga/{id}`
-
-### body 
-```json
-
-```
-
-Altera a vaga com ID informado.
-
-### response
+`200 OK`
 
 ```json
-
+{
+  "id": 4431,
+  "idEmpresa": 234,
+  "areaAtuacao": "analise de dados",
+  "cargo": "JUNIOR",
+  "descricao": "Descrição da vaga",
+  "valor": 3500
+}
 ```
+
+#### Exemplo 2
+
+#### Body
+
+```json
+{
+  "idEmpresa": 0,
+  "areaAtuacao": "analise de dados",
+  "cargo": "JUNIOR",
+  "descricao": "Descrição da vaga",
+  "valor": 3500
+}
+```
+
+#### Response
+
+`400 BAD_REQUEST` empresa inválida
+
+### Buscar vaga
+
+`GET /api/vaga/{id}` Retorna vaga pelo seu ID.
+
+#### Exemplo
+
+`GET /api/vaga/4431`
+
+```json
+{
+  "id": 4431,
+  "idEmpresa": 234,
+  "areaAtuacao": "analise de dados",
+  "cargo": "JUNIOR",
+  "descricao": "Descrição da vaga",
+  "valor": 3500
+}
+```
+
+#### Exemplo
+
+`GET /api/vaga/888888`
+
+#### Response
+
+`404 BAD_REQUEST` vaga não encontrada
+
+### Alterar vaga
+
+`PUT /api/vaga/{id}` altera a vaga com ID informado
+
+#### Exemplo
+
+`PUT /api/vaga/4431`
+
+#### Body
+
+```json
+{
+  "idEmpresa": 234,
+  "areaAtuacao": "ANALISTA DE DADOS",
+  "cargo": "JUNIOR",
+  "descricao": "Descrição da vaga",
+  "valor": 3500
+}
+```
+
+#### Response
+
+`200 OK` sucesso
+
+```json
+{
+  "id": 4431,
+  "idEmpresa": 234,
+  "areaAtuacao": "ANALISTA DE DADOS",
+  "cargo": "JUNIOR",
+  "descricao": "Descrição da vaga",
+  "valor": 3500
+}
+```
+
+### Remover Vaga
 
 `DELETE /api/vaga/{id}`
 
 Remove a vaga com ID informado.
 
+### Count vagas
+
 `GET /api/vaga/count`
 
 Retorna o número total de vagas.
+
+### Todas as vagas paginado (em breve)
 
 `GET /api/vaga?start={start}&pageSize={size}`
 
@@ -64,6 +147,8 @@ Retorna todas as vagas com paginação.
 
 Retorna vagas da empresa com id informado.
 
+### Filtrar vagas
+
 `GET /api/vaga/filtro?filtro={filtro}&valor={valor}`
 
 | parametro |                       descrição                      |
@@ -73,7 +158,7 @@ Retorna vagas da empresa com id informado.
 
 Retorna vagas de acordo com um determinado atributo.
 
-### response
+#### response
 
 ```json
 [
@@ -82,79 +167,81 @@ Retorna vagas de acordo com um determinado atributo.
 ]
 ```
 
-## PessoaJuridica
+## Empresa (PessoaJuridica)
 
-`GET /api/pj`
+### Listar empresas
 
-Retorna todas as organizações cadastradas.
+`GET /api/pj` Retorna todas as organizações cadastradas.
 
 ```json
-[
-  {
-    
-  }
-]
+
 ```
 
-`GET /api/pj/{id}`
+### Buscar empresa
 
-Retorna uma organização pelo seu ID.
+`GET /api/pj/{id}` Retorna uma organização pelo seu ID.
 
-`GET /api/pj/area_atuacao`
+### Listar area de atuação
 
-Lista as areas de atuação cadastradas.
+`GET /api/pj/area_atuacao` Lista as areas de atuação cadastradas.
 
-`POST /api/pj/{id}/avaliacao`
+### Avaliar empresa
 
-### body
+`POST /api/pj/{id}/avaliacao` Cria uma nova avaliacao para uma empresa. Somente usuaria logada pode enviar uma avaliação. Nome da avaliadora é opcional.
+
+#### Body
+
 ```json
-{
-  "comentario": "empresa showdi",
-  "nota": "4.5",
-  "timestamp": "2021-04-01T12:00",
-  "nomeAvaliadora": "Ana"
-}
+
 ```
 
-Cria uma nova avaliacao para uma empresa. Somente usuaria logada pode enviar uma avaliação. Nome da avaliadora é opcional.
+#### Response
+
+`200 OK` empresa avaliada com sucesso
+
+```json
+
+```
 
 ## PessoaFisica
 
-`GET /api/pf/{id}`
+### Buscar PF por id
 
-Necessita autenticação, somente usuários logados podem acessar. Retorna informações de perfil de uma usuária.
+`GET /api/pf/{id}` Retorna informações de perfil de uma usuária.
 
-## Usuaria
+Necessita autenticação, somente usuários logados podem acessar. (em breve)
 
-`POST /user`
+#### Response
 
-Cria um novo usuário.
+```json
 
-`GET /user/{id}`
+```
 
-Necessita autenticação. Retorna todas as informações de uma usuária.
+### Salvar uma PF
 
-`POST /user/perfil?tipo={tipo}`
+`POST /api/pf` cria uma nova PF, com a lista de links que serão exibidos no perfil
 
-Necessita autenticação. Cria um perfil de usuário, do tipo PF ou PJ.
+#### Body
 
-`PUT /user/{id}`
+```json
 
-Necessita autenticação. Altera as informações de uma usuária.
+```
 
-`DELETE /user/{id}`
+#### Response
 
-Necessita autenticação. Remove uma usuária.
+```json
+
+```
 
 ## Feedback
 
 Serviço para usuárias comentarem sobre a experiência na plataforma. Comentários serão exibidos na página inicial da aplicação.
 
-`GET /api/feedback`
+### Buscar feedbacks
 
-Endpoint usado pelo frontend para exibir os 3 comentários mais recentes de usuárias sobre a Tecnomarias.
+`GET /api/feedback` Endpoint usado pelo frontend para exibir os 3 comentários mais recentes de usuárias sobre a Tecnomarias.
 
-### response
+#### Response
 
 ```json
 [
@@ -176,9 +263,9 @@ Endpoint usado pelo frontend para exibir os 3 comentários mais recentes de usu�
 ]
 ```
 
-`POST api/feedback`
+### Enviar feedback
 
-Salva um feedback enviado por uma usuária.
+`POST api/feedback`  Salva um feedback enviado por uma usuária.
 
 ### body
 
@@ -189,11 +276,6 @@ Salva um feedback enviado por uma usuária.
 }
 ```
 
-| propriedade |                 descrição                 |
-|-------------|:-----------------------------------------:|
-| comentario  | Comentário de feedback sobre a plataforma |
-| pessoaId    |   ID da pessoa física autora do feedback  |
-
 ### response
 
 ```json
@@ -203,6 +285,28 @@ Salva um feedback enviado por uma usuária.
   "pessoaId": 2345
 }
 ```
+
+## Usuaria (em breve)
+
+`POST /user`
+
+Cria um novo usuário.
+
+`GET /user/{id}`
+
+Necessita autenticação. Retorna todas as informações de uma usuária.
+
+`POST /user/perfil?tipo={tipo}`
+
+Necessita autenticação. Cria um perfil de usuário, do tipo PF ou PJ.
+
+`PUT /user/{id}`
+
+Necessita autenticação. Altera as informações de uma usuária.
+
+`DELETE /user/{id}`
+
+Necessita autenticação. Remove uma usuária.
 
 ___
 
