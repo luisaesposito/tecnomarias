@@ -17,7 +17,7 @@ public abstract class BaseDAOImpl<E> implements BaseDAO<E> {
     protected EntityManager getEntityManager() {
         if (emFactory == null || !emFactory.isOpen())
             emFactory = Persistence.createEntityManagerFactory("tecnomariasPU");
-        if (this.entityManager == null)
+        if (this.entityManager == null || !this.entityManager.isOpen())
             this.entityManager = emFactory.createEntityManager();
         return this.entityManager;
     }

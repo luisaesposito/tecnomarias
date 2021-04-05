@@ -43,7 +43,7 @@ public class VagaResource {
     public Response buscarPorId(@PathParam("id") final Long id) {
         Vaga vaga = vagaService.buscarPorId(id);
         Response.Status status = vaga != null ? Response.Status.OK : Response.Status.NO_CONTENT;
-        return Response.status(status).entity(vaga).build();
+        return Response.status(status).entity(new VagaDTO(vaga)).build();
     }
 
     @GET
@@ -56,7 +56,8 @@ public class VagaResource {
     @GET
     @Path("empresa/{id}")
     public Response buscarPorEmpresa(@PathParam("id") final Long id) {
-        return Response.ok(vagaService.buscarPorEmpresa(id)).build();
+        List<Vaga> vagas = vagaService.buscarPorEmpresa(id);
+        return Response.ok(VagaDTO.toDTOList(vagas)).build();
     }
 
     @GET

@@ -30,7 +30,8 @@ public class VagaService {
     }
 
     public Vaga buscarPorId(final Long id) {
-        return vagaDAO.buscarPorId(id);
+        Vaga vaga = vagaDAO.buscarPorId(id);
+        return vaga;
     }
 
     public int count() {

@@ -7,12 +7,14 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name="TIPO_PESSOA", discriminatorType = DiscriminatorType.STRING)
 public abstract class Pessoa implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -28,7 +30,7 @@ public abstract class Pessoa implements Serializable {
     protected String email;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pessoa")
-    protected List<Telefone> telefoneList;
+    protected List<Telefone> telefoneList = new ArrayList<>();
 
     public Long getId() {
         return id;
