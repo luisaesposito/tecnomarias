@@ -5,6 +5,7 @@ import br.uff.tecnomarias.domain.entity.Feedback;
 
 import javax.annotation.ManagedBean;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -14,6 +15,7 @@ public class FeedbackService {
     @Inject
     FeedbackDAO feedbackDAO;
 
+    @Transactional
     public Feedback salvar(@Valid final Feedback feedback) {
         return feedbackDAO.salvar(feedback);
     }

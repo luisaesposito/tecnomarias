@@ -7,6 +7,7 @@ import br.uff.tecnomarias.domain.entity.Vaga;
 
 import javax.annotation.ManagedBean;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import javax.ws.rs.WebApplicationException;
 import java.util.List;
@@ -20,6 +21,7 @@ public class VagaService {
     @Inject
     PessoaJuridicaDAO pjDAO;
 
+    @Transactional
     public Vaga salvar(@Valid Vaga vaga) {
         PessoaJuridica pj = pjDAO.buscarPorIdOptional(
                 vaga.getEmpresa().getId()
@@ -61,16 +63,18 @@ public class VagaService {
         return vagaDAO.buscarPorLocalidade(localidade);
     }
 
+    @Transactional
     public Vaga alterar(final Long id, @Valid final Vaga vagaAlterada) {
         Vaga vagaSalva = vagaDAO.buscarPorIdOptional(id)
                 .orElseThrow(() -> new WebApplicationException("Vaga nao encontrada", 404));
         return vagaSalva.atualizarDados(vagaAlterada);
     }
 
+    @Transactional
     public void remover(final Long id) {
-//        Vaga vaga = vagaDAO.buscarPorIdOptional(id)
-//                .orElseThrow(() -> new WebApplicationException("Vaga nao encontrada", 404));
-        vagaDAO.remover(id);
+        Vaga vaga = vagaDAO.buscarPorIdOptional(id)
+                .orElseThrow(() -> new WebApplicationException("Vaga nao encontrada", 404));
+        vagaDAO.remover(vaga);
     }
 
     public List<String> listarAreaAtuacao() {

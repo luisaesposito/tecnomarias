@@ -10,8 +10,5 @@ public interface BaseDAO<E> {
     List<E> buscarTodas();
     int count();
     E salvar(E entidade);
-    void remover(Long id);
-    E merge(E entidade);
-    void refresh(E entidade);
-    void flush();
+    void remover(E entidade);
 }
