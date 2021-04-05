@@ -28,7 +28,6 @@ public class AvaliacaoDTO {
         Avaliacao avaliacao = new Avaliacao();
         avaliacao.setComentario(this.comentario);
         avaliacao.setNota(this.nota);
-        avaliacao.setTimestamp(this.timestamp);
         avaliacao.setNomeAvaliadora(this.nomeAvaliadora);
         return avaliacao;
     }

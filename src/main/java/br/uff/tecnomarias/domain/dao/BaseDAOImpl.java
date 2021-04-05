@@ -105,10 +105,11 @@ public abstract class BaseDAOImpl<E> implements BaseDAO<E> {
     }
 
     @Override
-    public void remover(E entidade) {
+    public void remover(Long id) {
         EntityTransaction tx = getTransaction();
         try {
             tx.begin();
+            E entidade = getEntityManager().find(clazz, id);
             getEntityManager().remove(entidade);
             tx.commit();
         } catch (RuntimeException e) {

@@ -14,7 +14,7 @@ public class PessoaJuridicaDTO extends PessoaDTO {
     private String cnpj;
     private String site;
     private String descricao;
-    private PorteEmpresa porteEmpresa;
+    private String porteEmpresa;
     private String areaAtuacao;
     private List<AvaliacaoDTO> avaliacoes;
     private Double mediaAvaliacao;
@@ -30,7 +30,7 @@ public class PessoaJuridicaDTO extends PessoaDTO {
         this.cnpj = pj.getCnpj();
         this.site = pj.getSite();
         this.descricao = pj.getDescricao();
-        this.porteEmpresa = pj.getPorteEmpresa();
+        this.porteEmpresa = pj.getPorteEmpresa().toString();
         this.areaAtuacao = pj.getAreaAtuacao();
         if (pj.getAvaliacoes() != null && !pj.getAvaliacoes().isEmpty()) {
             this.avaliacoes = new ArrayList<>();
@@ -47,7 +47,7 @@ public class PessoaJuridicaDTO extends PessoaDTO {
         pj.setCnpj(this.cnpj);
         pj.setSite(this.site);
         pj.setDescricao(this.descricao);
-        pj.setPorteEmpresa(this.porteEmpresa);
+        pj.setPorteEmpresa(PorteEmpresa.valueOf(this.porteEmpresa));
         pj.setAreaAtuacao(this.areaAtuacao);
         pj.setEndereco(this.endereco);
         gerarPessoa(pj);
@@ -90,11 +90,11 @@ public class PessoaJuridicaDTO extends PessoaDTO {
         this.descricao = descricao;
     }
 
-    public PorteEmpresa getPorteEmpresa() {
+    public String getPorteEmpresa() {
         return porteEmpresa;
     }
 
-    public void setPorteEmpresa(PorteEmpresa porteEmpresa) {
+    public void setPorteEmpresa(String porteEmpresa) {
         this.porteEmpresa = porteEmpresa;
     }
 

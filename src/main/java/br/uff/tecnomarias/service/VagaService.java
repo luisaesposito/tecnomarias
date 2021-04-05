@@ -68,9 +68,9 @@ public class VagaService {
     }
 
     public void remover(final Long id) {
-        Vaga vaga = vagaDAO.buscarPorIdOptional(id)
-                .orElseThrow(() -> new WebApplicationException("Vaga nao encontrada", 404));
-        vagaDAO.remover(vaga);
+//        Vaga vaga = vagaDAO.buscarPorIdOptional(id)
+//                .orElseThrow(() -> new WebApplicationException("Vaga nao encontrada", 404));
+        vagaDAO.remover(id);
     }
 
     public List<String> listarAreaAtuacao() {

@@ -35,7 +35,7 @@ public class PessoaJuridica extends Pessoa implements Serializable {
     @NotNull(message = "AreaAtuacao é obrigatório")
     private String areaAtuacao;
 
-    @OneToMany(mappedBy = "empresa", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "empresa", cascade = CascadeType.ALL)
     private List<Avaliacao> avaliacoes;
 
     private Double mediaAvaliacao;

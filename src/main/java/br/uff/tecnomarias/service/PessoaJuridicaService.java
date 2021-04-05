@@ -9,6 +9,7 @@ import javax.annotation.ManagedBean;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.WebApplicationException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @ManagedBean
@@ -43,7 +44,10 @@ public class PessoaJuridicaService {
         PessoaJuridica pj = pjDAO.buscarPorIdOptional(idEmpresa)
                 .orElseThrow(() -> new WebApplicationException("Empresa não encontrada", 400));
         avaliacao.setEmpresa(pj);
-        return avaliacaoDAO.salvar(avaliacao);
+        avaliacao.setTimestamp(LocalDateTime.now());
+        pj.addAvaliacao(avaliacao);
+        pjDAO.salvar(pj);
+        return avaliacao;
     }
 
 }
