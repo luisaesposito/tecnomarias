@@ -1,7 +1,6 @@
 package br.uff.tecnomarias.domain.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
@@ -9,7 +8,11 @@ public class Links implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
+    @OneToOne
+    @JoinColumn(name = "pessoafisica_id")
+    private PessoaFisica pessoaFisica;
     private String linkedIn;
     private String gitHub;
     private String portfolio;

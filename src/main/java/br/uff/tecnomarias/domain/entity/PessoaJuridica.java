@@ -49,6 +49,9 @@ public class PessoaJuridica extends Pessoa implements Serializable {
 
     public PessoaJuridica atualizarDados(@Valid final PessoaJuridica pjAtualizada) {
         //TODO usar setIfNotNull
+        this.nome = pjAtualizada.getNome();
+        this.email = pjAtualizada.getEmail();
+        this.telefoneList = pjAtualizada.getTelefones();
         this.cnpj = pjAtualizada.getCnpj();
         this.site = pjAtualizada.getSite();
         this.areaAtuacao = pjAtualizada.getAreaAtuacao();
