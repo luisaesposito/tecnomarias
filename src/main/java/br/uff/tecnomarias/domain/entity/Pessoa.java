@@ -1,37 +1,36 @@
 package br.uff.tecnomarias.domain.entity;
 
+import br.uff.tecnomarias.domain.enums.TipoPessoa;
+
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name="TIPO_PESSOA", discriminatorType = DiscriminatorType.STRING)
 public abstract class Pessoa implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", updatable = false, nullable = false)
+    protected Long id;
 
     @NotNull(message = "nome é obrigatório")
-    private String nome;
+    protected String nome;
 
     @NotNull(message = "email é obrigatório")
-    private String email;
+    protected String email;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pessoa")
-    private List<Telefone> telefoneList;
-
-    @Valid
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_endereco")
-    private Endereco endereco;
-
-    public Pessoa() {
-    }
+    protected List<Telefone> telefoneList = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -83,11 +82,9 @@ public abstract class Pessoa implements Serializable {
         return false;
     }
 
-    public Endereco getEndereco() {
-        return endereco;
-    }
-
-    public void setEndereco(Endereco endereco) {
-        this.endereco = endereco;
+    public <T> void setIfNotNull(final Consumer<T> setter, final T value) {
+        if (value != null) {
+            setter.accept(value);
+        }
     }
 }

@@ -15,7 +15,6 @@ public class Endereco implements Serializable {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "VARCHAR(11) CHECK (tipoEndereco IN ('RESIDENCIAL', 'COMERCIAL', 'FISCAL')")
     private TipoEndereco tipoEndereco;
 
     @NotNull(message = "Logradouro é obrigatorio")

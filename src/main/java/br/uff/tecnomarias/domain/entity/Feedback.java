@@ -17,9 +17,13 @@ public class Feedback implements Serializable {
     private String comentario;
 
     @OneToOne
-    private PessoaFisica pessoa;
+    private PessoaFisica pessoaFisica;
 
     public Feedback() {
+    }
+
+    public Feedback(String comentario) {
+        this.comentario = comentario;
     }
 
     public Long getId() {
@@ -39,10 +43,10 @@ public class Feedback implements Serializable {
     }
 
     public PessoaFisica getPessoa() {
-        return pessoa;
+        return pessoaFisica;
     }
 
     public void setPessoa(PessoaFisica pessoa) {
-        this.pessoa = pessoa;
+        this.pessoaFisica = pessoa;
     }
 }
