@@ -4,20 +4,18 @@ import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
-import javax.validation.constraints.NotNull;
-import java.io.Serializable;
+import javax.validation.constraints.NotBlank;
 
-public class Usuario implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class Usuario{
 
     @Id
     private Long id;
 
-    @NotNull
+    @NotBlank
     @Column(nullable = false, unique = true)
     private String email;
 
-    @NotNull
+    @NotBlank
     @Column(nullable = false)
     private String senha;
 

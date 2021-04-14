@@ -4,21 +4,26 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-public class Links implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class Links {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", updatable = false, nullable = false)
     private Long id;
-    @OneToOne
-    @JoinColumn(name = "pessoafisica_id")
-    private PessoaFisica pessoaFisica;
     private String linkedIn;
     private String gitHub;
     private String portfolio;
     private String facebook;
 
     public Links() {
+    }
+
+    public Links atualizarLinks(final Links links) {
+        this.linkedIn = links.getLinkedIn();
+        this.gitHub = links.getGitHub();
+        this.portfolio = links.getPortfolio();
+        this.facebook = links.getFacebook();
+        return this;
     }
 
     public Long getId() {

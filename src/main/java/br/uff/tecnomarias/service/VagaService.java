@@ -1,83 +1,84 @@
 package br.uff.tecnomarias.service;
 
-import br.uff.tecnomarias.domain.dao.PessoaJuridicaDAO;
-import br.uff.tecnomarias.domain.dao.VagaDAO;
 import br.uff.tecnomarias.domain.entity.PessoaJuridica;
 import br.uff.tecnomarias.domain.entity.Vaga;
+import br.uff.tecnomarias.domain.repository.PessoaJuridicaRepository;
+import br.uff.tecnomarias.domain.repository.VagaRepository;
+import br.uff.tecnomarias.service.exception.BadRequestException;
+import br.uff.tecnomarias.service.exception.EntidadeNaoEncontradaException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import javax.annotation.ManagedBean;
-import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
-import javax.ws.rs.WebApplicationException;
 import java.util.List;
+import java.util.Optional;
 
-@ManagedBean
+@Service
 public class VagaService {
 
-    @Inject
-    VagaDAO vagaDAO;
+    @Autowired
+    VagaRepository vagaRepository;
 
-    @Inject
-    PessoaJuridicaDAO pjDAO;
+    @Autowired
+    PessoaJuridicaRepository pjRepository;
 
     @Transactional
     public Vaga salvar(@Valid Vaga vaga) {
-        PessoaJuridica pj = pjDAO.buscarPorIdOptional(
-                vaga.getEmpresa().getId()
-        ).orElseThrow(() -> new WebApplicationException("Empresa nao encontrada", 400));
+        PessoaJuridica pj = pjRepository.findById(vaga.getEmpresa().getId())
+                .orElseThrow(() -> new BadRequestException("Empresa nao encontrada"));
         vaga.setEmpresa(pj);
-        vagaDAO.salvar(vaga);
+        vagaRepository.save(vaga);
         return vaga;
     }
 
     public Vaga buscarPorId(final Long id) {
-        Vaga vaga = vagaDAO.buscarPorId(id);
-        return vaga;
+        return vagaRepository.findById(id)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Vaga nao encontrada"));
     }
 
-    public int count() {
-        return vagaDAO.count();
+    public Long count() {
+        return vagaRepository.count();
     }
 
-    public List<Vaga> buscarTodas(int start, int size) {
-        //TODO implementar paginacao
-        return vagaDAO.buscarTodas();
+    public List<Vaga> buscarTodas() {
+        return vagaRepository.findAll();
     }
 
     public List<Vaga> buscarPorEmpresa(final Long idEmpresa) {
-        PessoaJuridica empresa = pjDAO.buscarPorIdOptional(idEmpresa)
-                .orElseThrow(() -> new WebApplicationException("Empresa nao encontrada", 400));
-        return vagaDAO.buscarPorEmpresa(empresa);
+        PessoaJuridica empresa = pjRepository.findById(idEmpresa)
+                .orElseThrow(() -> new BadRequestException("Empresa nao encontrada"));
+        return vagaRepository.findByEmpresa(empresa);
     }
 
     public List<Vaga> buscarPorAreaAtuacao(String areaAtuacao) {
-        return vagaDAO.buscarPorAreaAtuacao(areaAtuacao);
+        return vagaRepository.findByAreaAtuacao(areaAtuacao);
     }
 
     public List<Vaga> buscarPorCargo(String cargo) {
-        return vagaDAO.buscarPorCargo(cargo);
+        return vagaRepository.findByCargo(cargo);
     }
 
     public List<Vaga> buscarPorLocalidade(String localidade) {
-        return vagaDAO.buscarPorLocalidade(localidade);
+        return vagaRepository.findByLocalidade(localidade);
     }
 
     @Transactional
     public Vaga alterar(final Long id, @Valid final Vaga vagaAlterada) {
-        Vaga vagaSalva = vagaDAO.buscarPorIdOptional(id)
-                .orElseThrow(() -> new WebApplicationException("Vaga nao encontrada", 404));
-        return vagaSalva.atualizarDados(vagaAlterada);
+        Vaga vagaSalva = vagaRepository.findById(id)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Vaga nao encontrada"));
+        return vagaRepository.save(vagaSalva.atualizarDados(vagaAlterada));
     }
 
     @Transactional
     public void remover(final Long id) {
-        Vaga vaga = vagaDAO.buscarPorIdOptional(id)
-                .orElseThrow(() -> new WebApplicationException("Vaga nao encontrada", 404));
-        vagaDAO.remover(vaga);
+        Vaga vaga = vagaRepository.findById(id)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Vaga nao encontrada"));
+        vagaRepository.delete(vaga);
     }
 
     public List<String> listarAreaAtuacao() {
-        return vagaDAO.listarAreaAtuacao();
+        return vagaRepository.listAreaAtuacao();
     }
+
 }

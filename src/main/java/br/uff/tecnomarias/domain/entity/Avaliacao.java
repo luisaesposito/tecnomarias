@@ -1,27 +1,26 @@
 package br.uff.tecnomarias.domain.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
-public class Avaliacao implements Serializable {
+public class Avaliacao {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
-    @NotNull(message = "Comentario é obrigatório")
-    @Column(length = 500, nullable = false)
+    @NotBlank(message = "Comentario é obrigatório")
     private String comentario;
 
     @NotNull(message = "Nota é obrigatório")
-    @Column(nullable = false)
     private Double nota;
 
     @NotNull(message = "Data de avaliacao é obrigatorio")
-    @Column(nullable = false)
     private LocalDateTime timestamp;
 
     private String nomeAvaliadora;

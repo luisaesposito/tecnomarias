@@ -1,11 +1,7 @@
 package br.uff.tecnomarias.rest.dto;
 
-import br.uff.tecnomarias.domain.entity.Endereco;
 import br.uff.tecnomarias.domain.entity.Pessoa;
-import br.uff.tecnomarias.domain.entity.Telefone;
-import br.uff.tecnomarias.domain.enums.TipoPessoa;
-
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 //@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "tipoPessoa", visible = true)
 //@JsonSubTypes({
@@ -16,7 +12,7 @@ public abstract class PessoaDTO {
 
     private String nome;
     private String email;
-    private List<Telefone> telefoneList;
+//    private List<Telefone> telefoneList;
 
     public PessoaDTO() {
     }
@@ -24,12 +20,12 @@ public abstract class PessoaDTO {
     public PessoaDTO(Pessoa pessoa) {
         this.nome = pessoa.getNome();
         this.email = pessoa.getEmail();
-        this.telefoneList = pessoa.getTelefones();
+//        this.telefoneList = pessoa.getTelefones();
     }
     public void gerarPessoa(Pessoa pessoa) {
         pessoa.setNome(this.nome);
         pessoa.setEmail(this.email);
-        pessoa.setTelefones(this.telefoneList);
+//        pessoa.setTelefones(this.telefoneList);
     }
 
     public String getNome() {
@@ -48,12 +44,11 @@ public abstract class PessoaDTO {
         this.email = email;
     }
 
-    public List<Telefone> getTelefoneList() {
-        return telefoneList;
-    }
-
-    public void setTelefoneList(List<Telefone> telefoneList) {
-        this.telefoneList = telefoneList;
-    }
-
+//    public List<Telefone> getTelefoneList() {
+//        return telefoneList;
+//    }
+//
+//    public void setTelefoneList(List<Telefone> telefoneList) {
+//        this.telefoneList = telefoneList;
+//    }
 }

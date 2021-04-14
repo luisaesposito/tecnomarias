@@ -1,27 +1,27 @@
 package br.uff.tecnomarias.service;
 
-import br.uff.tecnomarias.domain.dao.FeedbackDAO;
 import br.uff.tecnomarias.domain.entity.Feedback;
+import br.uff.tecnomarias.domain.repository.FeedbackRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import javax.annotation.ManagedBean;
-import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.List;
 
-@ManagedBean
+@Service
 public class FeedbackService {
 
-    @Inject
-    FeedbackDAO feedbackDAO;
+    @Autowired
+    FeedbackRepository feedbackRepository;
 
     @Transactional
     public Feedback salvar(@Valid final Feedback feedback) {
-        return feedbackDAO.salvar(feedback);
+        return feedbackRepository.save(feedback);
     }
 
     public List<Feedback> buscarRecentes() {
-        return feedbackDAO.buscarRecentes();
+        return feedbackRepository.findTop3ByOrderByIdDesc();
     }
 
 }

@@ -1,23 +1,24 @@
 package br.uff.tecnomarias.domain.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Entity
-public class Feedback implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class Feedback {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
-    @NotNull
+    @NotBlank
     @Column(length = 500, nullable = false)
     private String comentario;
 
     @OneToOne
-    private PessoaFisica pessoaFisica;
+    private PessoaFisica pessoa;
 
     public Feedback() {
     }
@@ -43,10 +44,10 @@ public class Feedback implements Serializable {
     }
 
     public PessoaFisica getPessoa() {
-        return pessoaFisica;
+        return pessoa;
     }
 
     public void setPessoa(PessoaFisica pessoa) {
-        this.pessoaFisica = pessoa;
+        this.pessoa = pessoa;
     }
 }

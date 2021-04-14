@@ -1,6 +1,5 @@
 package br.uff.tecnomarias.rest.dto;
 
-import br.uff.tecnomarias.domain.entity.Endereco;
 import br.uff.tecnomarias.domain.entity.PessoaJuridica;
 import br.uff.tecnomarias.domain.enums.PorteEmpresa;
 
@@ -8,17 +7,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class PessoaJuridicaDTO extends PessoaDTO {
-
+public class PessoaJuridicaDTO extends PessoaDTO{
     private Long id;
     private String cnpj;
     private String site;
     private String descricao;
     private String porteEmpresa;
     private String areaAtuacao;
-    private List<AvaliacaoDTO> avaliacoes;
+//    private List<AvaliacaoDTO> avaliacoes;
     private Double mediaAvaliacao;
-    private Endereco endereco;
+//    private Endereco endereco;
 
     public PessoaJuridicaDTO() {
         super();
@@ -32,14 +30,14 @@ public class PessoaJuridicaDTO extends PessoaDTO {
         this.descricao = pj.getDescricao();
         this.porteEmpresa = pj.getPorteEmpresa().toString();
         this.areaAtuacao = pj.getAreaAtuacao();
-        if (pj.getAvaliacoes() != null && !pj.getAvaliacoes().isEmpty()) {
-            this.avaliacoes = new ArrayList<>();
-            this.avaliacoes.addAll(pj.getAvaliacoes().stream()
-                            .map(av -> new AvaliacaoDTO(av))
-                            .collect(Collectors.toList()));
-        }
+//        if (pj.getAvaliacoes() != null && !pj.getAvaliacoes().isEmpty()) {
+//            this.avaliacoes = new ArrayList<>();
+//            this.avaliacoes.addAll(pj.getAvaliacoes().stream()
+//                    .map(av -> new AvaliacaoDTO(av))
+//                    .collect(Collectors.toList()));
+//        }
         this.mediaAvaliacao = pj.getMediaAvaliacao();
-        this.endereco = pj.getEndereco();
+//        this.endereco = pj.getEndereco();
     }
 
     public PessoaJuridica toEntity() {
@@ -49,7 +47,7 @@ public class PessoaJuridicaDTO extends PessoaDTO {
         pj.setDescricao(this.descricao);
         pj.setPorteEmpresa(PorteEmpresa.valueOf(this.porteEmpresa));
         pj.setAreaAtuacao(this.areaAtuacao);
-        pj.setEndereco(this.endereco);
+//        pj.setEndereco(this.endereco);
         gerarPessoa(pj);
         return pj;
     }
@@ -106,13 +104,13 @@ public class PessoaJuridicaDTO extends PessoaDTO {
         this.areaAtuacao = areaAtuacao;
     }
 
-    public List<AvaliacaoDTO> getAvaliacoes() {
-        return avaliacoes;
-    }
-
-    public void setAvaliacoes(List<AvaliacaoDTO> avaliacoes) {
-        this.avaliacoes = avaliacoes;
-    }
+//    public List<AvaliacaoDTO> getAvaliacoes() {
+//        return avaliacoes;
+//    }
+//
+//    public void setAvaliacoes(List<AvaliacaoDTO> avaliacoes) {
+//        this.avaliacoes = avaliacoes;
+//    }
 
     public Double getMediaAvaliacao() {
         return mediaAvaliacao;
@@ -122,11 +120,11 @@ public class PessoaJuridicaDTO extends PessoaDTO {
         this.mediaAvaliacao = mediaAvaliacao;
     }
 
-    public Endereco getEndereco() {
-        return endereco;
-    }
-
-    public void setEndereco(Endereco endereco) {
-        this.endereco = endereco;
-    }
+//    public Endereco getEndereco() {
+//        return endereco;
+//    }
+//
+//    public void setEndereco(Endereco endereco) {
+//        this.endereco = endereco;
+//    }
 }
