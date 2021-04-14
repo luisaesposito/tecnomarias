@@ -23,10 +23,10 @@ public class PessoaFisicaService {
     }
 
     @Transactional
-    public PessoaFisica alterar(Long id, @Valid Links links) {
+    public PessoaFisica alterar(Long id, @Valid PessoaFisica pf) {
         PessoaFisica pfSalva = pfRepository.findById(id)
                 .orElseThrow(() -> new EntidadeNaoEncontradaException("Pessoa nao encontrada"));
-        pfSalva.getLinks().atualizarLinks(links);
+        pfSalva.atualizarDados(pf);
         return pfRepository.save(pfSalva);
     }
 

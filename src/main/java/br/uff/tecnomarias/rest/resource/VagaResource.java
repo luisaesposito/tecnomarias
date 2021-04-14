@@ -33,7 +33,7 @@ public class VagaResource {
     @ResponseBody
     public List<VagaDTO> buscarTodas() {
         List<Vaga> vagas = vagaService.buscarTodas();//start, pageSize);
-        return vagas.stream().map(vaga -> new VagaDTO(vaga)).collect(Collectors.toList());
+        return VagaDTO.toDTOList(vagas);
     }
 
     @GetMapping("{id}")

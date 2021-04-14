@@ -43,6 +43,6 @@ public class VagaDTO {
     }
 
     public static List<VagaDTO> toDTOList(List<Vaga> vagas) {
-        return vagas.stream().map(vaga -> new VagaDTO(vaga)).collect(Collectors.toList());
+        return vagas.stream().map(VagaDTO::new).collect(Collectors.toList());
     }
 }

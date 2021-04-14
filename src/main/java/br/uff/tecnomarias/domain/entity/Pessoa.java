@@ -3,8 +3,10 @@ package br.uff.tecnomarias.domain.entity;
 import br.uff.tecnomarias.domain.enums.TipoPessoa;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Consumer;
 
 @Entity
@@ -26,8 +28,15 @@ public class Pessoa {
     @Enumerated(EnumType.STRING)
     protected TipoPessoa tipoPessoa;
 
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pessoa")
-//    protected List<Telefone> telefoneList = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pessoa")
+    protected List<Telefone> telefoneList = new ArrayList<>();
+
+    public void atualizarDados(@Valid Pessoa pessoa) {
+        setIfNotNull(this::setNome, pessoa.getNome());
+        setIfNotNull(this::setEmail, pessoa.getEmail());
+        setIfNotNull(this::setTipoPessoa, pessoa.getTipoPessoa());
+        this.telefoneList = pessoa.telefoneList;
+    }
 
     public TipoPessoa getTipoPessoa() {
         return tipoPessoa;
@@ -61,13 +70,17 @@ public class Pessoa {
         this.email = email;
     }
 
-//    public List<Telefone> getTelefoneList() {
-//        return telefoneList;
-//    }
-//
-//    public void setTelefoneList(List<Telefone> telefoneList) {
-//        this.telefoneList = telefoneList;
-//    }
+    public List<Telefone> getTelefoneList() {
+        return telefoneList;
+    }
+
+    public void setTelefoneList(List<Telefone> telefoneList) {
+        this.telefoneList = telefoneList;
+    }
+
+    public void addTelefone(Telefone telefone) {
+        this.telefoneList.add(telefone);
+    }
 
     public <T> void setIfNotNull(final Consumer<T> setter, final T value) {
         if (value != null) {
