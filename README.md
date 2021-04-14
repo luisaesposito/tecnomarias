@@ -1,5 +1,14 @@
 # TECNOMARIAS REST API
 
+
+## Rodando a aplicação
+
+O projeto possui um wrapper do Maven, portanto não é necessário ter a ferramenta instalada. É necessário uma conexão com banco PostgreSQL, com uma base nomeada `tecnomarias`. Para rodar a aplicação localmente, na raíz do projeto usar comando:
+
+```shell
+./mvnw spring-boot:run
+```
+
 URL base: `localhost:8080/tecnomarias`
 
 ## Vaga
@@ -527,15 +536,3 @@ Necessita autenticação. Altera as informações de uma usuária.
 `DELETE /user/{id}`
 
 Necessita autenticação. Remove uma usuária.
-
-___
-
-## Rodando a aplicação
-
-O projeto possui um wrapper do Maven, portanto não é necessário ter a ferramenta instalada. Para compilar aplicação e gerar um WAR que será deployed em um servidor local, na raíz do projeto usar comando:
-
-```shell
-./mvnw clean install
-```
-
-O projeto é configurado para rodar em um servidor Glasshfish 4.1.2.
