@@ -1,51 +1,60 @@
 package br.uff.tecnomarias.rest.resource;
 
-import br.uff.tecnomarias.rest.dto.AvaliacaoDTO;
 import br.uff.tecnomarias.rest.dto.PessoaJuridicaDTO;
 import br.uff.tecnomarias.service.PessoaJuridicaService;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
-import javax.inject.Inject;
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import javax.websocket.server.PathParam;
+import java.util.List;
 
-@Path("pj")
-@Produces(MediaType.APPLICATION_JSON)
-@Consumes(MediaType.APPLICATION_JSON)
+@RestController
+@RequestMapping("pj")
+@Tag(name = "Pessoa Juridica")
+@CrossOrigin
 public class PessoaJuridicaResource {
 
-    @Inject
+    @Autowired
     PessoaJuridicaService pjService;
 
-    @POST
-    public Response salvarPJ(PessoaJuridicaDTO pjDTO) {
-        PessoaJuridicaDTO pjSalva = new PessoaJuridicaDTO(pjService.salvar(pjDTO.toEntity()));
-        return Response.ok(pjSalva).build();
+    @PostMapping
+    @ResponseBody
+    public PessoaJuridicaDTO salvarPJ(@RequestBody PessoaJuridicaDTO pjDTO) {
+        return new PessoaJuridicaDTO(pjService.salvar(pjDTO.toEntity()));
     }
 
-    @PUT
-    @Path("{id}")
-    public Response alterar(@PathParam("id") final Long id, PessoaJuridicaDTO pjDTO) {
-        return Response.ok(new PessoaJuridicaDTO(pjService.alterar(id, pjDTO.toEntity()))).build();
+    @PutMapping("{id}")
+    @ResponseBody
+    public PessoaJuridicaDTO alterar(@PathVariable("id") final Long id,
+                                     @RequestBody PessoaJuridicaDTO pjDTO) {
+        return new PessoaJuridicaDTO(pjService.alterar(id, pjDTO.toEntity()));
     }
 
-    @GET
-    public Response buscarTodas() {
-        return Response.ok(PessoaJuridicaDTO.toDTOList(pjService.buscarTodas())).build();
+    @GetMapping
+    @ResponseBody
+    public List<PessoaJuridicaDTO> buscarTodas() {
+        return PessoaJuridicaDTO.toDTOList(pjService.buscarTodas());
     }
 
-    @GET
-    @Path("{id}")
-    public Response buscarPorId(@PathParam("id") final Long id) {
-        return Response.ok(new PessoaJuridicaDTO(pjService.buscarPorId(id))).build();
+    @GetMapping("{id}")
+    @ResponseBody
+    public PessoaJuridicaDTO buscarPorId(@PathVariable("id") final Long id) {
+        return new PessoaJuridicaDTO(pjService.buscarPorId(id));
     }
 
-    @POST
-    @Path("{id}/avaliacao")
-    public Response avaliarEmpresa(@PathParam("id") final Long id, AvaliacaoDTO avaliacaoDTO) {
-        //TODO implementar auth
-        AvaliacaoDTO resp = new AvaliacaoDTO(pjService.avaliarEmpresa(id, avaliacaoDTO.toEntity()));
-        return Response.ok(resp).build();
+    @DeleteMapping("{id}")
+    @ResponseBody
+    public String removerVaga(@PathVariable Long id) {
+        pjService.remover(id);
+        return "Vaga removida com sucesso.";
     }
 
+//    @POST
+//    @Path("{id}/avaliacao")
+//    public AvaliacaoDTO avaliarEmpresa(@PathParam("id") final Long id, AvaliacaoDTO avaliacaoDTO) {
+//        //TODO implementar auth
+//        AvaliacaoDTO resp = new AvaliacaoDTO(pjService.avaliarEmpresa(id, avaliacaoDTO.toEntity()));
+//        return Response.ok(resp).build();
+//    }
 }

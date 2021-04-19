@@ -2,18 +2,20 @@ package br.uff.tecnomarias.rest.dto;
 
 import br.uff.tecnomarias.domain.entity.PessoaJuridica;
 import br.uff.tecnomarias.domain.entity.Vaga;
+import br.uff.tecnomarias.domain.enums.Cargo;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class VagaDTO {
 
-    private Long id;
-    private Long idEmpresa;
-    private String areaAtuacao;
-    private String cargo;
-    private String descricao;
-    private Double valor;
+    public Long id;
+    public Long idEmpresa;
+    public String areaAtuacao;
+    public Cargo cargo;
+    public String descricao;
+    public Double valor;
+    public String localidade;
 
     public VagaDTO() {}
 
@@ -24,6 +26,7 @@ public class VagaDTO {
         this.cargo = vaga.getCargo();
         this.descricao = vaga.getDescricao();
         this.valor = vaga.getValor();
+        this.localidade = vaga.getLocalidade();
     }
 
     public Vaga toEntity() {
@@ -35,58 +38,11 @@ public class VagaDTO {
         vaga.setCargo(this.cargo);
         vaga.setDescricao(this.descricao);
         vaga.setValor(this.valor);
+        vaga.setLocalidade(this.localidade);
         return vaga;
     }
 
     public static List<VagaDTO> toDTOList(List<Vaga> vagas) {
-        return vagas.stream().map(vaga -> new VagaDTO(vaga)).collect(Collectors.toList());
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getIdEmpresa() {
-        return idEmpresa;
-    }
-
-    public void setIdEmpresa(Long idEmpresa) {
-        this.idEmpresa = idEmpresa;
-    }
-
-    public String getAreaAtuacao() {
-        return areaAtuacao;
-    }
-
-    public void setAreaAtuacao(String areaAtuacao) {
-        this.areaAtuacao = areaAtuacao;
-    }
-
-    public String getCargo() {
-        return cargo;
-    }
-
-    public void setCargo(String cargo) {
-        this.cargo = cargo;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
-    public Double getValor() {
-        return valor;
-    }
-
-    public void setValor(Double valor) {
-        this.valor = valor;
+        return vagas.stream().map(VagaDTO::new).collect(Collectors.toList());
     }
 }

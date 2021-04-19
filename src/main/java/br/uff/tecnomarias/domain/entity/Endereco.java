@@ -1,28 +1,22 @@
 package br.uff.tecnomarias.domain.entity;
 
-import br.uff.tecnomarias.domain.enums.TipoEndereco;
-
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 
 @Entity
-public class Endereco implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class Endereco {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    private TipoEndereco tipoEndereco;
-
-    @NotNull(message = "Logradouro é obrigatorio")
-    @Column(nullable = false)
+    @NotBlank(message = "Logradouro é obrigatorio")
     private String logradouro;
 
-    @NotNull(message = "Numero é obrigatorio")
-    @Column(nullable = false)
+    @NotBlank(message = "Numero é obrigatorio")
     private String numero;
 
     private String complemento;
@@ -30,10 +24,17 @@ public class Endereco implements Serializable {
     private String bairro;
 
     @NotNull(message = "Codigo IBGE do municipio é obrigatorio")
-    @Column(nullable = false)
     private Integer municipioIBGE;
 
-    public Endereco() {
+    public Endereco() { }
+
+    public Endereco atualizar(@Valid Endereco enderecoAtualizado) {
+        this.logradouro = enderecoAtualizado.getLogradouro();
+        this.numero = enderecoAtualizado.getNumero();
+        this.complemento = enderecoAtualizado.getComplemento();
+        this.bairro = enderecoAtualizado.getBairro();
+        this.municipioIBGE = enderecoAtualizado.getMunicipioIBGE();
+        return this;
     }
 
     public Long getId() {
@@ -42,14 +43,6 @@ public class Endereco implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public TipoEndereco getTipoEndereco() {
-        return tipoEndereco;
-    }
-
-    public void setTipoEndereco(TipoEndereco tipoEndereco) {
-        this.tipoEndereco = tipoEndereco;
     }
 
     public String getLogradouro() {

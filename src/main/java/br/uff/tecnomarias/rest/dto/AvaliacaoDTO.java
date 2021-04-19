@@ -1,19 +1,20 @@
 package br.uff.tecnomarias.rest.dto;
 
 import br.uff.tecnomarias.domain.entity.Avaliacao;
+import br.uff.tecnomarias.domain.entity.PessoaJuridica;
 
 import java.time.LocalDateTime;
 
 public class AvaliacaoDTO {
-    private Long id;
-    private String comentario;
-    private Double nota;
-    private LocalDateTime timestamp;
-    private String nomeAvaliadora;
-    private Long idEmpresa;
 
-    public AvaliacaoDTO() {
-    }
+    public Long id;
+    public String comentario;
+    public Double nota;
+    public LocalDateTime timestamp;
+    public String nomeAvaliadora;
+    public Long idEmpresa;
+
+    public AvaliacaoDTO() { }
 
     public AvaliacaoDTO(Avaliacao avaliacao) {
         this.id = avaliacao.getId();
@@ -28,55 +29,11 @@ public class AvaliacaoDTO {
         Avaliacao avaliacao = new Avaliacao();
         avaliacao.setComentario(this.comentario);
         avaliacao.setNota(this.nota);
+        avaliacao.setTimestamp(this.timestamp);
         avaliacao.setNomeAvaliadora(this.nomeAvaliadora);
+        PessoaJuridica empresa = new PessoaJuridica();
+        empresa.setId(this.id);
+        avaliacao.setEmpresa(empresa);
         return avaliacao;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getComentario() {
-        return comentario;
-    }
-
-    public void setComentario(String comentario) {
-        this.comentario = comentario;
-    }
-
-    public Double getNota() {
-        return nota;
-    }
-
-    public void setNota(Double nota) {
-        this.nota = nota;
-    }
-
-    public LocalDateTime getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(LocalDateTime timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public String getNomeAvaliadora() {
-        return nomeAvaliadora;
-    }
-
-    public void setNomeAvaliadora(String nomeAvaliadora) {
-        this.nomeAvaliadora = nomeAvaliadora;
-    }
-
-    public Long getIdEmpresa() {
-        return idEmpresa;
-    }
-
-    public void setIdEmpresa(Long idEmpresa) {
-        this.idEmpresa = idEmpresa;
     }
 }

@@ -1,27 +1,22 @@
 package br.uff.tecnomarias.domain.entity;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 import javax.validation.Valid;
-import java.io.Serializable;
 
 @Entity
-@DiscriminatorValue("PF")
-public class PessoaFisica extends Pessoa implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class PessoaFisica extends Pessoa {
 
-    @OneToOne(mappedBy = "pessoaFisica", cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     private Links links;
 
-    public PessoaFisica() {
-    }
+    public PessoaFisica() { }
 
-    public PessoaFisica atualizarDados(@Valid final PessoaFisica pfAtualizada) {
-        //TODO usar setIfNotNull
-        this.nome = pfAtualizada.getNome();
-        this.email = pfAtualizada.getEmail();
-        this.telefoneList = pfAtualizada.getTelefones();
-        this.links = pfAtualizada.getLinks();
-        return this;
+    public void atualizarDados(@Valid PessoaFisica pf) {
+        super.atualizarDados(pf);
+        if (this.links != null)
+            this.links.atualizarLinks(pf.getLinks());
     }
 
     public Links getLinks() {

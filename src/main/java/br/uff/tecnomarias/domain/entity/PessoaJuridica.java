@@ -5,22 +5,16 @@ import br.uff.tecnomarias.domain.enums.TipoPessoa;
 
 import javax.persistence.*;
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@NamedQueries({
-        @NamedQuery(name = "PessoaJuridica.findByCnpj", query = "SELECT pj FROM PessoaJuridica pj WHERE pj.cnpj LIKE :cnpj")
-})
-@DiscriminatorValue("PJ")
-public class PessoaJuridica extends Pessoa implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class PessoaJuridica extends Pessoa {
 
     @Column(unique = true)
-    @NotNull(message = "CNPJ é obrigatório")
+    @NotBlank(message = "CNPJ é obrigatório")
     @Size(min = 14, max = 14, message = "CNPJ deve ter 14 caracteres")
     private String cnpj;
 
@@ -32,7 +26,7 @@ public class PessoaJuridica extends Pessoa implements Serializable {
     @Enumerated(EnumType.STRING)
     private PorteEmpresa porteEmpresa;
 
-    @NotNull(message = "AreaAtuacao é obrigatório")
+    @NotBlank(message = "AreaAtuacao é obrigatório")
     private String areaAtuacao;
 
     @OneToMany(mappedBy = "empresa", cascade = CascadeType.ALL)
@@ -45,19 +39,18 @@ public class PessoaJuridica extends Pessoa implements Serializable {
     @JoinColumn(name = "id_endereco")
     private Endereco endereco;
 
-    public PessoaJuridica() {}
+    public PessoaJuridica() {
+        super.setTipoPessoa(TipoPessoa.PJ);
+    }
 
     public PessoaJuridica atualizarDados(@Valid final PessoaJuridica pjAtualizada) {
-        //TODO usar setIfNotNull
-        this.nome = pjAtualizada.getNome();
-        this.email = pjAtualizada.getEmail();
-        this.telefoneList = pjAtualizada.getTelefones();
-        this.cnpj = pjAtualizada.getCnpj();
-        this.site = pjAtualizada.getSite();
-        this.areaAtuacao = pjAtualizada.getAreaAtuacao();
-        this.descricao = pjAtualizada.getDescricao();
-        this.porteEmpresa = pjAtualizada.getPorteEmpresa();
-        this.endereco = pjAtualizada.getEndereco();
+        super.atualizarDados(pjAtualizada);
+        setIfNotNull(this::setCnpj, pjAtualizada.getCnpj());
+        setIfNotNull(this::setSite, pjAtualizada.getSite());
+        setIfNotNull(this::setAreaAtuacao, pjAtualizada.getAreaAtuacao());
+        setIfNotNull(this::setDescricao, pjAtualizada.getDescricao());
+        setIfNotNull(this::setPorteEmpresa, pjAtualizada.getPorteEmpresa());
+        setIfNotNull(this::setEndereco, pjAtualizada.getEndereco());
         return this;
     }
 

@@ -1,34 +1,31 @@
 package br.uff.tecnomarias.rest.resource;
 
-import br.uff.tecnomarias.domain.entity.Feedback;
 import br.uff.tecnomarias.rest.dto.FeedbackDTO;
 import br.uff.tecnomarias.service.FeedbackService;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
-import javax.inject.Inject;
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import java.util.List;
 
-@Path("feedback")
-@Consumes(MediaType.APPLICATION_JSON)
-@Produces(MediaType.APPLICATION_JSON)
+@RestController
+@RequestMapping("feedback")
+@Tag(name = "Feedback")
+@CrossOrigin
 public class FeedbackResource {
 
-    @Inject
+    @Autowired
     FeedbackService feedbackService;
 
-    @POST
-    public Response salvar(FeedbackDTO feedbackDTO) {
-        //TODO implementar auth
-        return Response.ok(new FeedbackDTO(
-                feedbackService.salvar(feedbackDTO.toEntity())))
-                .build();
+    @PostMapping
+    @ResponseBody
+    public FeedbackDTO salvar(FeedbackDTO feedbackDTO) {
+        return new FeedbackDTO(feedbackService.salvar(feedbackDTO.toEntity()));
     }
 
-    @GET
-    public Response buscarRecentes() {
-        List<Feedback> resp = feedbackService.buscarRecentes();
-        return Response.ok(resp).build();
+    @GetMapping
+    @ResponseBody
+    public List<FeedbackDTO> buscarRecentes() {
+        return FeedbackDTO.toDTOList(feedbackService.buscarRecentes());
     }
 }

@@ -1,0 +1,13 @@
+package br.uff.tecnomarias;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class TecnomariasApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(TecnomariasApplication.class, args);
+    }
+
+}

@@ -1,46 +1,34 @@
 package br.uff.tecnomarias.domain.entity;
 
+import br.uff.tecnomarias.domain.enums.Cargo;
+
 import javax.persistence.*;
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 
 @Entity
-@NamedQueries({
-        @NamedQuery(name = "Vaga.findByEmpresa", query = "SELECT v FROM Vaga v WHERE v.empresa = :empresa"),
-        @NamedQuery(name = "Vaga.findByArea", query = "SELECT v FROM Vaga v WHERE v.areaAtuacao LIKE :area"),
-        @NamedQuery(name = "Vaga.findByCargo", query = "SELECT v FROM Vaga v WHERE v.cargo LIKE :cargo"),
-        @NamedQuery(name = "Vaga.findByLocalidade", query = "SELECT v FROM Vaga v WHERE v.localidade LIKE :localidade"),
-//        @NamedQuery(name = "Vaga.countAll", query = "SELECT COUNT(v) FROM Vaga v")
-//        @NamedQuery(name = "Vaga.findByValor",query = "SELECT v FROM Vaga v WHERE v.valor >= :min AND v.valor < :max")
-})
-public class Vaga implements Serializable {
-    private static final long serialVersionUID = 1L;
-
+public class Vaga {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
     @ManyToOne
     @JoinColumn(name = "id_empresa")
     private PessoaJuridica empresa;
 
-    @NotNull
-    @Column(nullable = false)
+    @NotBlank
     private String areaAtuacao;
 
     @NotNull
-    @Column(nullable = false)
-    private String cargo;
+    @Enumerated(EnumType.STRING)
+    private Cargo cargo;
 
-    @NotNull
-    @Column(nullable = false)
+    @NotBlank
     private String descricao;
 
     private Double valor;
 
-    //TODO alterar para cidade ou estado
     private String localidade;
 
     public Vaga() {
@@ -79,11 +67,11 @@ public class Vaga implements Serializable {
         this.areaAtuacao = areaAtuacao;
     }
 
-    public String getCargo() {
+    public Cargo getCargo() {
         return cargo;
     }
 
-    public void setCargo(String cargo) {
+    public void setCargo(Cargo cargo) {
         this.cargo = cargo;
     }
 

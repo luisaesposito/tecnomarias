@@ -1,57 +1,63 @@
 package br.uff.tecnomarias.service;
 
-import br.uff.tecnomarias.domain.dao.AvaliacaoDAO;
-import br.uff.tecnomarias.domain.dao.PessoaJuridicaDAO;
 import br.uff.tecnomarias.domain.entity.Avaliacao;
 import br.uff.tecnomarias.domain.entity.PessoaJuridica;
+import br.uff.tecnomarias.domain.repository.AvaliacaoRepository;
+import br.uff.tecnomarias.domain.repository.PessoaJuridicaRepository;
+import br.uff.tecnomarias.service.exception.EntidadeNaoEncontradaException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import javax.annotation.ManagedBean;
-import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
-import javax.ws.rs.WebApplicationException;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@ManagedBean
+@Service
 public class PessoaJuridicaService {
 
-    @Inject
-    PessoaJuridicaDAO pjDAO;
+    @Autowired
+    PessoaJuridicaRepository pjRepository;
 
-    @Inject
-    AvaliacaoDAO avaliacaoDAO;
+    @Autowired
+    AvaliacaoRepository avaliacaoRepository;
 
     @Transactional
     public PessoaJuridica salvar(@Valid PessoaJuridica pj) {
-        return pjDAO.salvar(pj);
+        return pjRepository.save(pj);
     }
 
     @Transactional
     public PessoaJuridica alterar(Long id, @Valid PessoaJuridica pjAlterada) {
-        PessoaJuridica pjSalva = pjDAO.buscarPorIdOptional(id)
-                .orElseThrow(() -> new WebApplicationException("Vaga nao encontrada", 404));
+        PessoaJuridica pjSalva = pjRepository.findById(id)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Vaga nao encontrada"));
         return pjSalva.atualizarDados(pjAlterada);
     }
 
     public PessoaJuridica buscarPorId(Long id) {
-        return pjDAO.buscarPorIdOptional(id)
-                .orElseThrow(() -> new WebApplicationException("Empresa não encontrada", 404));
+        return pjRepository.findById(id)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Empresa não encontrada"));
     }
 
     public List<PessoaJuridica> buscarTodas() {
-        return pjDAO.buscarTodas();
+        return pjRepository.findAll();
+    }
+
+    @Transactional
+    public void remover(final Long id) {
+        PessoaJuridica pj = pjRepository.findById(id)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Vaga nao encontrada"));
+        pjRepository.delete(pj);
     }
 
     @Transactional
     public Avaliacao avaliarEmpresa(Long idEmpresa, Avaliacao avaliacao) {
-        PessoaJuridica pj = pjDAO.buscarPorIdOptional(idEmpresa)
-                .orElseThrow(() -> new WebApplicationException("Empresa não encontrada", 400));
+        PessoaJuridica pj = pjRepository.findById(idEmpresa)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Empresa não encontrada"));
         avaliacao.setEmpresa(pj);
         avaliacao.setTimestamp(LocalDateTime.now());
         pj.addAvaliacao(avaliacao);
-        pjDAO.salvar(pj);
+        pjRepository.save(pj);
         return avaliacao;
     }
-
 }
