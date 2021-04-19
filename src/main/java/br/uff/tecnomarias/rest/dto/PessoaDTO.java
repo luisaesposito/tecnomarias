@@ -10,8 +10,8 @@ import java.util.stream.Collectors;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "tipoPessoa", visible = true)
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = PessoaFisicaDTO.class, name = "PESSOA_FISICA"),
-        @JsonSubTypes.Type(value = PessoaJuridicaDTO.class, name = "PESSOA_JURIDICA")
+        @JsonSubTypes.Type(value = PessoaFisicaDTO.class, name = "PF"),
+        @JsonSubTypes.Type(value = PessoaJuridicaDTO.class, name = "PJ")
 })
 public abstract class PessoaDTO {
 

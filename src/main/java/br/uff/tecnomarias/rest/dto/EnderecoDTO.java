@@ -11,6 +11,9 @@ public class EnderecoDTO {
     public String bairro;
     public Integer municipioIBGE;
 
+    public EnderecoDTO() {
+    }
+
     public EnderecoDTO(Endereco endereco) {
         this.id = endereco.getId();
         this.logradouro = endereco.getLogradouro();

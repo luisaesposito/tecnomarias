@@ -2,7 +2,6 @@ package br.uff.tecnomarias.rest.dto;
 
 import br.uff.tecnomarias.domain.entity.PessoaJuridica;
 import br.uff.tecnomarias.domain.enums.PorteEmpresa;
-import br.uff.tecnomarias.domain.enums.TipoPessoa;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,7 +31,8 @@ public class PessoaJuridicaDTO extends PessoaDTO {
         if (pj.getAvaliacoes() != null && !pj.getAvaliacoes().isEmpty())
             this.avaliacoes = pj.getAvaliacoes().stream().map(av -> new AvaliacaoDTO(av)).collect(Collectors.toList());
         this.mediaAvaliacao = pj.getMediaAvaliacao();
-        this.endereco = new EnderecoDTO(pj.getEndereco());
+        if (pj.getEndereco() != null)
+            this.endereco = new EnderecoDTO(pj.getEndereco());
     }
 
     public PessoaJuridica toEntity() {
@@ -42,7 +42,8 @@ public class PessoaJuridicaDTO extends PessoaDTO {
         pj.setDescricao(this.descricao);
         pj.setPorteEmpresa(this.porteEmpresa);
         pj.setAreaAtuacao(this.areaAtuacao);
-        pj.setEndereco(this.endereco.toEntity());
+        if (this.endereco != null)
+            pj.setEndereco(this.endereco.toEntity());
         gerarPessoa(pj);
         return pj;
     }

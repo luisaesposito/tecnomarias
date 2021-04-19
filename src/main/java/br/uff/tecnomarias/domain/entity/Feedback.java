@@ -18,6 +18,7 @@ public class Feedback {
     private String comentario;
 
     @OneToOne
+    @JoinColumn(name = "pessoa_fisica_id")
     private PessoaFisica pessoa;
 
     public Feedback() {

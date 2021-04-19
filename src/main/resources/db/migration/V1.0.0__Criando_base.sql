@@ -27,8 +27,8 @@ CREATE TABLE public.feedback (
 CREATE TABLE public.links (
     id bigint NOT NULL,
     facebook character varying(255),
-    github character varying(255),
-    linkedin character varying(255),
+    git_hub character varying(255),
+    linked_in character varying(255),
     portfolio character varying(255)
 );
 
