@@ -1,0 +1,1 @@
+web: java -Dserver.port=$PORT -jar target/tecnomarias-0.0.1-SNAPSHOT.war
