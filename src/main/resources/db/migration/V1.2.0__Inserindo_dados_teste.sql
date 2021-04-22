@@ -9,7 +9,7 @@ INSERT INTO public.endereco (id, bairro, complemento, logradouro, municipio_ibge
 
 INSERT INTO public.pessoa_juridica(id, area_atuacao, cnpj, descricao, porte_empresa, site, id_endereco) VALUES
 (8000, 'e-commerce', '81898985000116', 'Vendemos artigos esportivos pela internet',
- 'EMRPESA_PEQUENO_PORTE', 'www.noaheclaraesportesltda.com.br', 1),
+ 'EMPRESA_PEQUENO_PORTE', 'www.noaheclaraesportesltda.com.br', 1),
 (8080, 'publicidade', '21747460000158', 'Vendemos artigos esportivos pela internet',
  'EMPRESA_MEDIO_PORTE', 'www.noaheclaraesportesltda.com.br', 2);
 
