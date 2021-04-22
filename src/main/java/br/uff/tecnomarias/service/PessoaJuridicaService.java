@@ -58,6 +58,7 @@ public class PessoaJuridicaService {
         avaliacao.setTimestamp(LocalDateTime.now());
         pj.addAvaliacao(avaliacao);
         pjRepository.save(pj);
-        return avaliacao;
+        pjRepository.flush();
+        return avaliacaoRepository.findTopByOrderByTimestampDesc();
     }
 }

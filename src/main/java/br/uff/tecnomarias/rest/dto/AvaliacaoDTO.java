@@ -32,7 +32,7 @@ public class AvaliacaoDTO {
         avaliacao.setTimestamp(this.timestamp);
         avaliacao.setNomeAvaliadora(this.nomeAvaliadora);
         PessoaJuridica empresa = new PessoaJuridica();
-        empresa.setId(this.id);
+        empresa.setId(this.idEmpresa);
         avaliacao.setEmpresa(empresa);
         return avaliacao;
     }

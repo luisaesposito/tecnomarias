@@ -1,5 +1,6 @@
 package br.uff.tecnomarias.rest.resource;
 
+import br.uff.tecnomarias.rest.dto.AvaliacaoDTO;
 import br.uff.tecnomarias.rest.dto.PessoaJuridicaDTO;
 import br.uff.tecnomarias.service.PessoaJuridicaService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -50,11 +51,9 @@ public class PessoaJuridicaResource {
         return "Vaga removida com sucesso.";
     }
 
-//    @POST
-//    @Path("{id}/avaliacao")
-//    public AvaliacaoDTO avaliarEmpresa(@PathParam("id") final Long id, AvaliacaoDTO avaliacaoDTO) {
-//        //TODO implementar auth
-//        AvaliacaoDTO resp = new AvaliacaoDTO(pjService.avaliarEmpresa(id, avaliacaoDTO.toEntity()));
-//        return Response.ok(resp).build();
-//    }
+    @PostMapping("{id}/avaliacao")
+    @ResponseBody
+    public AvaliacaoDTO avaliarEmpresa(@PathVariable("id") final Long id, @RequestBody AvaliacaoDTO avaliacaoDTO) {
+        return new AvaliacaoDTO(pjService.avaliarEmpresa(id, avaliacaoDTO.toEntity()));
+    }
 }
