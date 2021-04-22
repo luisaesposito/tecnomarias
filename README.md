@@ -9,7 +9,8 @@ O projeto possui um wrapper do Maven, portanto não é necessário ter a ferrame
 ./mvnw spring-boot:run
 ```
 
-URL base: `localhost:8080/tecnomarias`
+URL local:`localhost:8080/`\
+URL do Heroku: `http://tecnomarias.herokuapp.com/`
 
 ## Vaga
 
@@ -18,7 +19,7 @@ A recuperação de vagas é aberta e feita sem precisar de autenticação. É po
 
 ### Criar vaga
 
-`POST /api/vaga` cria uma nova vaga associada a uma PJ válida, pelo idEmpresa.
+`POST /api/v1/vaga` cria uma nova vaga associada a uma PJ válida, pelo idEmpresa.
 
 #### Exemplo 1
 
@@ -69,11 +70,11 @@ A recuperação de vagas é aberta e feita sem precisar de autenticação. É po
 
 ### Buscar vaga
 
-`GET /api/vaga/{id}` Retorna vaga pelo seu ID.
+`GET /api/v1/vaga/{id}` Retorna vaga pelo seu ID.
 
 #### Exemplo 1
 
-`GET /api/vaga/4431`
+`GET /api/v1/vaga/4431`
 
 #### Response
 
@@ -92,7 +93,7 @@ A recuperação de vagas é aberta e feita sem precisar de autenticação. É po
 
 #### Exemplo 2
 
-`GET /api/vaga/888888`
+`GET /api/v1/vaga/888888`
 
 #### Response
 
@@ -100,11 +101,11 @@ A recuperação de vagas é aberta e feita sem precisar de autenticação. É po
 
 ### Alterar vaga
 
-`PUT /api/vaga/{id}` altera a vaga com ID informado
+`PUT /api/v1/vaga/{id}` altera a vaga com ID informado
 
 #### Exemplo
 
-`PUT /api/vaga/4431`
+`PUT /api/v1/vaga/4431`
 
 #### Body
 
@@ -135,13 +136,13 @@ A recuperação de vagas é aberta e feita sem precisar de autenticação. É po
 
 ### Remover Vaga
 
-`DELETE /api/vaga/{id}`
+`DELETE /api/v1/vaga/{id}`
 
 Remove a vaga com ID informado.
 
 #### Exemplo
 
-`DELETE /api/vaga/4431`
+`DELETE /api/v1/vaga/4431`
 
 #### Response
 
@@ -150,13 +151,13 @@ Remove a vaga com ID informado.
 
 ### Count vagas
 
-`GET /api/vaga/count`
+`GET /api/v1/vaga/count`
 
 Retorna o número total de vagas.
 
 #### Exemplo
 
-`GET /api/vaga/count`
+`GET /api/v1/vaga/count`
 
 #### Response
 
@@ -164,7 +165,7 @@ Retorna o número total de vagas.
 
 ### Todas as vagas paginado (em breve)
 
-`GET /api/vaga?start={start}&pageSize={size}`
+`GET /api/v1/vaga?start={start}&pageSize={size}`
 
 | parametro |           descrição           |
 |-----------|:-----------------------------:|
@@ -176,11 +177,11 @@ Retorna todas as vagas com paginação.
 ###
 ### Todas as vagas de uma empresa
 
-`GET /api/vaga/empresa/{id}` Retorna vagas da empresa com id informado.
+`GET /api/v1/vaga/empresa/{id}` Retorna vagas da empresa com id informado.
 
 #### Exemplo
 
-`GET /api/vaga/empresa/2`
+`GET /api/v1/vaga/empresa/2`
 
 #### Response
 
@@ -211,7 +212,7 @@ Retorna todas as vagas com paginação.
 
 ### Filtrar vagas
 
-`GET /api/vaga/filtro?filtro={filtro}&valor={valor}`
+`GET /api/v1/vaga/filtro?filtro={filtro}&valor={valor}`
 
 | parametro |                       descrição                      |
 |-----------|:----------------------------------------------------:|
@@ -222,7 +223,7 @@ Retorna vagas de acordo com um determinado atributo.
 
 #### Exemplo
 
-`GET /api/vaga/filtro?filtro=areaAtuacao&valor=analise de dados`
+`GET /api/v1/vaga/filtro?filtro=areaAtuacao&valor=analise de dados`
 
 #### Response
 
@@ -251,7 +252,7 @@ Retorna vagas de acordo com um determinado atributo.
 
 ### Listar empresas
 
-`GET /api/pj` Retorna todas as organizações cadastradas.
+`GET /api/v1/pj` Retorna todas as organizações cadastradas.
 
 #### Response
 
@@ -278,11 +279,11 @@ Retorna vagas de acordo com um determinado atributo.
 
 ### Buscar empresa
 
-`GET /api/pj/{id}` Retorna uma organização pelo seu ID.
+`GET /api/v1/pj/{id}` Retorna uma organização pelo seu ID.
 
 #### Exemplo
 
-`GET /api/pj/2`
+`GET /api/v1/pj/2`
 
 #### Response
 
@@ -316,7 +317,7 @@ Retorna vagas de acordo com um determinado atributo.
 
 ### Criar empresa
 
-`POST /api/pj` cria uma nova PJ
+`POST /api/v1/pj` cria uma nova PJ
 
 #### Exemplo
 
@@ -355,15 +356,15 @@ Retorna vagas de acordo com um determinado atributo.
 
 ### Listar area de atuação
 
-`GET /api/pj/area_atuacao` Lista as areas de atuação cadastradas.
+`GET /api/v1/pj/area_atuacao` Lista as areas de atuação cadastradas.
 
 ### Avaliar empresa
 
-`POST /api/pj/{id}/avaliacao` Cria uma nova avaliacao para uma empresa. Somente usuaria logada pode enviar uma avaliação. Nome da avaliadora é opcional.
+`POST /api/v1/pj/{id}/avaliacao` Cria uma nova avaliacao para uma empresa. Somente usuaria logada pode enviar uma avaliação. Nome da avaliadora é opcional.
 
 #### Exemplo
 
-`POST /api/pj/2/avaliacao`
+`POST /api/v1/pj/2/avaliacao`
 
 #### Body
 
@@ -394,13 +395,13 @@ Retorna vagas de acordo com um determinado atributo.
 
 ### Buscar PF por id
 
-`GET /api/pf/{id}` Retorna informações de perfil de uma usuária.
+`GET /api/v1/pf/{id}` Retorna informações de perfil de uma usuária.
 
 Necessita autenticação, somente usuários logados podem acessar. (em breve)
 
 #### Exemplo
 
-`GET /api/pf/13`
+`GET /api/v1/pf/13`
 
 #### Response
 
@@ -423,7 +424,7 @@ Necessita autenticação, somente usuários logados podem acessar. (em breve)
 
 ### Salvar uma PF
 
-`POST /api/pf` cria uma nova PF, com a lista de links que serão exibidos no perfil
+`POST /api/v1/pf` cria uma nova PF, com a lista de links que serão exibidos no perfil
 
 #### Exemplo
 
@@ -464,7 +465,7 @@ Serviço para usuárias comentarem sobre a experiência na plataforma. Comentár
 
 ### Buscar feedbacks
 
-`GET /api/feedback` Endpoint usado pelo frontend para exibir os 3 comentários mais recentes de usuárias sobre a Tecnomarias.
+`GET /api/v1/feedback` Endpoint usado pelo frontend para exibir os 3 comentários mais recentes de usuárias sobre a Tecnomarias.
 
 #### Exemplo
 
@@ -494,7 +495,7 @@ Serviço para usuárias comentarem sobre a experiência na plataforma. Comentár
 
 ### Enviar feedback
 
-`POST api/feedback`  Salva um feedback enviado por uma usuária.
+`POST api/v1/feedback`  Salva um feedback enviado por uma usuária.
 
 ### body
 
@@ -517,22 +518,22 @@ Serviço para usuárias comentarem sobre a experiência na plataforma. Comentár
 
 ## Usuaria (em breve)
 
-`POST /user`
+`POST api/v1/user`
 
 Cria um novo usuário.
 
-`GET /user/{id}`
+`GET api/v1/user/{id}`
 
 Necessita autenticação. Retorna todas as informações de uma usuária.
 
-`POST /user/perfil?tipo={tipo}`
+`POST api/v1/user/perfil?tipo={tipo}`
 
 Necessita autenticação. Cria um perfil de usuário, do tipo PF ou PJ.
 
-`PUT /user/{id}`
+`PUT api/v1/user/{id}`
 
 Necessita autenticação. Altera as informações de uma usuária.
 
-`DELETE /user/{id}`
+`DELETE api/v1/user/{id}`
 
 Necessita autenticação. Remove uma usuária.
