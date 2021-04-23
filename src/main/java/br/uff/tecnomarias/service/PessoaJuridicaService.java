@@ -55,10 +55,17 @@ public class PessoaJuridicaService {
         PessoaJuridica pj = pjRepository.findById(idEmpresa)
                 .orElseThrow(() -> new EntidadeNaoEncontradaException("Empresa não encontrada"));
         avaliacao.setEmpresa(pj);
-        avaliacao.setTimestamp(LocalDateTime.now());
+        avaliacao.setData(LocalDateTime.now());
         pj.addAvaliacao(avaliacao);
         pjRepository.save(pj);
         pjRepository.flush();
-        return avaliacaoRepository.findTopByOrderByTimestampDesc();
+        return avaliacaoRepository.findTopByOrderByDataDesc();
+    }
+
+    @Transactional
+    public void removerAvaliacao(Long idAvaliacao) {
+        Avaliacao av = avaliacaoRepository.findById(idAvaliacao)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Avaliacao nao encontrada"));
+        avaliacaoRepository.delete(av);
     }
 }

@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Long> {
-    Avaliacao findTopByOrderByTimestampDesc();
+    Avaliacao findTopByOrderByDataDesc();
 }

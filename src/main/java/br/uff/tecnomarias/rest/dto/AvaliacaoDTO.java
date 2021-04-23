@@ -10,7 +10,7 @@ public class AvaliacaoDTO {
     public Long id;
     public String comentario;
     public Double nota;
-    public LocalDateTime timestamp;
+    public LocalDateTime data;
     public String nomeAvaliadora;
     public Long idEmpresa;
 
@@ -20,7 +20,7 @@ public class AvaliacaoDTO {
         this.id = avaliacao.getId();
         this.comentario = avaliacao.getComentario();
         this.nota = avaliacao.getNota();
-        this.timestamp = avaliacao.getTimestamp();
+        this.data = avaliacao.getData();
         this.nomeAvaliadora = avaliacao.getNomeAvaliadora();
         this.idEmpresa = avaliacao.getEmpresa().getId();
     }
@@ -29,7 +29,7 @@ public class AvaliacaoDTO {
         Avaliacao avaliacao = new Avaliacao();
         avaliacao.setComentario(this.comentario);
         avaliacao.setNota(this.nota);
-        avaliacao.setTimestamp(this.timestamp);
+        avaliacao.setData(this.data);
         avaliacao.setNomeAvaliadora(this.nomeAvaliadora);
         PessoaJuridica empresa = new PessoaJuridica();
         empresa.setId(this.idEmpresa);
