@@ -3,7 +3,6 @@ package br.uff.tecnomarias.domain.entity;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
@@ -21,7 +20,7 @@ public class Avaliacao {
     private Double nota;
 
     @NotNull(message = "Data de avaliacao é obrigatorio")
-    private LocalDateTime timestamp;
+    private LocalDateTime data;
 
     private String nomeAvaliadora;
 
@@ -56,12 +55,12 @@ public class Avaliacao {
         this.nota = nota;
     }
 
-    public LocalDateTime getTimestamp() {
-        return timestamp;
+    public LocalDateTime getData() {
+        return data;
     }
 
-    public void setTimestamp(LocalDateTime timestamp) {
-        this.timestamp = timestamp;
+    public void setData(LocalDateTime data) {
+        this.data = data;
     }
 
     public String getNomeAvaliadora() {

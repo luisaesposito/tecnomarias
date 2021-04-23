@@ -5,7 +5,7 @@ CREATE TABLE public.avaliacao (
     comentario character varying(500) NOT NULL,
     nome_avaliadora character varying(255),
     nota double precision NOT NULL,
-    "timestamp" bytea NOT NULL,
+    data TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
     id_empresa bigint
 );
 

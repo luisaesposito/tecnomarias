@@ -4,6 +4,7 @@ import br.uff.tecnomarias.domain.entity.PessoaJuridica;
 import br.uff.tecnomarias.domain.enums.PorteEmpresa;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class PessoaJuridicaDTO extends PessoaDTO {
@@ -28,7 +29,7 @@ public class PessoaJuridicaDTO extends PessoaDTO {
         this.descricao = pj.getDescricao();
         this.porteEmpresa = pj.getPorteEmpresa();
         this.areaAtuacao = pj.getAreaAtuacao();
-        if (pj.getAvaliacoes() != null && !pj.getAvaliacoes().isEmpty())
+        if (Objects.nonNull(pj.getAvaliacoes()))
             this.avaliacoes = pj.getAvaliacoes().stream().map(av -> new AvaliacaoDTO(av)).collect(Collectors.toList());
         this.mediaAvaliacao = pj.getMediaAvaliacao();
         if (pj.getEndereco() != null)

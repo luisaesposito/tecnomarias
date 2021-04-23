@@ -91,4 +91,16 @@ public class PessoaJuridicaResource {
     public AvaliacaoDTO avaliarEmpresa(@PathVariable("id") final Long id, @RequestBody AvaliacaoDTO avaliacaoDTO) {
         return new AvaliacaoDTO(pjService.avaliarEmpresa(id, avaliacaoDTO.toEntity()));
     }
+
+    @Operation(summary = "Remove uma avaliacao pelo seu id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Avaliacao removida com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Avaliacao nao encontrada", content = @Content)
+    })
+    @DeleteMapping("avaliacao/{id}")
+    @ResponseBody
+    public String removerAvaliacao(@PathVariable("id") Long id) {
+        pjService.removerAvaliacao(id);
+        return "Avaliação removida com sucesso.";
+    }
 }
