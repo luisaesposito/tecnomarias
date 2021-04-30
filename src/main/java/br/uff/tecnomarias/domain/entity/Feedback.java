@@ -2,8 +2,6 @@ package br.uff.tecnomarias.domain.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 
 @Entity
 public class Feedback {
@@ -16,10 +14,6 @@ public class Feedback {
     @NotBlank
     @Column(length = 500, nullable = false)
     private String comentario;
-
-    @OneToOne
-    @JoinColumn(name = "pessoa_fisica_id")
-    private PessoaFisica pessoa;
 
     public Feedback() {
     }
@@ -42,13 +36,5 @@ public class Feedback {
 
     public void setComentario(String comentario) {
         this.comentario = comentario;
-    }
-
-    public PessoaFisica getPessoa() {
-        return pessoa;
-    }
-
-    public void setPessoa(PessoaFisica pessoa) {
-        this.pessoa = pessoa;
     }
 }

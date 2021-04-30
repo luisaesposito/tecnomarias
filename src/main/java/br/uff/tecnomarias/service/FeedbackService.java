@@ -15,11 +15,6 @@ public class FeedbackService {
     @Autowired
     FeedbackRepository feedbackRepository;
 
-    @Transactional
-    public Feedback salvar(@Valid final Feedback feedback) {
-        return feedbackRepository.save(feedback);
-    }
-
     public List<Feedback> buscarRecentes() {
         return feedbackRepository.findTop3ByOrderByIdDesc();
     }

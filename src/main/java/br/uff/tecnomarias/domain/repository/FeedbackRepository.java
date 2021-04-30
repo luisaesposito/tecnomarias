@@ -11,4 +11,6 @@ public interface FeedbackRepository extends JpaRepository<Feedback, Long> {
 
     List<Feedback> findTop3ByOrderByIdDesc();
 
+    Feedback findTop1ByOrderByIdDesc();
+
 }

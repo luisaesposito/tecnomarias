@@ -1,4 +1,4 @@
-CREATE SEQUENCE hibernate_sequence START 1 INCREMENT 1;
+CREATE SEQUENCE hibernate_sequence START 20 INCREMENT 1;
 
 CREATE TABLE public.avaliacao (
     id bigint NOT NULL,
@@ -20,8 +20,7 @@ CREATE TABLE public.endereco (
 
 CREATE TABLE public.feedback (
     id bigint NOT NULL,
-    comentario character varying(500) NOT NULL,
-    pessoa_fisica_id bigint
+    comentario character varying(500) NOT NULL
 );
 
 CREATE TABLE public.links (
@@ -41,6 +40,7 @@ CREATE TABLE public.pessoa (
 
 CREATE TABLE public.pessoa_fisica (
     id bigint NOT NULL,
+    feedback_id bigint,
     links_id bigint
 );
 
@@ -104,25 +104,25 @@ ALTER TABLE ONLY public.vaga
     ADD CONSTRAINT vaga_pkey PRIMARY KEY (id);
 
 ALTER TABLE ONLY public.avaliacao
-    ADD CONSTRAINT fk_avaliacao_id_empresa FOREIGN KEY (id_empresa) REFERENCES public.pessoa(id);
-
-ALTER TABLE ONLY public.feedback
-    ADD CONSTRAINT fk_feedback_pessoa_id FOREIGN KEY (pessoa_fisica_id) REFERENCES public.pessoa(id);
+    ADD CONSTRAINT fk_avaliacao_pessoa_juridica_id FOREIGN KEY (id_empresa) REFERENCES public.pessoa_juridica(id);
 
 ALTER TABLE ONLY public.pessoa_fisica
-    ADD CONSTRAINT fk_pessoa_fisica_id FOREIGN KEY (id) REFERENCES public.pessoa(id);
+    ADD CONSTRAINT fk_pessoa_fisica_pessoa_id FOREIGN KEY (id) REFERENCES public.pessoa(id);
 
 ALTER TABLE ONLY public.pessoa_fisica
     ADD CONSTRAINT fk_pessoa_fisica_links_id FOREIGN KEY (links_id) REFERENCES public.links(id);
 
-ALTER TABLE ONLY public.pessoa_juridica
-    ADD CONSTRAINT fk_pessoa_juridica_id FOREIGN KEY (id) REFERENCES public.pessoa(id);
+ALTER TABLE ONLY public.pessoa_fisica
+    ADD CONSTRAINT fk_pessoa_fisica_feedback_id FOREIGN KEY (feedback_id) REFERENCES public.feedback(id);
 
 ALTER TABLE ONLY public.pessoa_juridica
-    ADD CONSTRAINT fk_pessoa_juridica_id_endereco FOREIGN KEY (id_endereco) REFERENCES public.endereco(id);
+    ADD CONSTRAINT fk_pessoa_juridica_pessoa_id FOREIGN KEY (id) REFERENCES public.pessoa(id);
+
+ALTER TABLE ONLY public.pessoa_juridica
+    ADD CONSTRAINT fk_pessoa_juridica_endereco_id FOREIGN KEY (id_endereco) REFERENCES public.endereco(id);
 
 ALTER TABLE ONLY public.telefone
-    ADD CONSTRAINT fk_telefone_id_pessoa FOREIGN KEY (id_pessoa) REFERENCES public.pessoa(id);
+    ADD CONSTRAINT fk_telefone_pessoa_id FOREIGN KEY (id_pessoa) REFERENCES public.pessoa(id);
 
 ALTER TABLE ONLY public.vaga
-    ADD CONSTRAINT fk_vaga_id_empresa FOREIGN KEY (id_empresa) REFERENCES public.pessoa(id);
+    ADD CONSTRAINT fk_vaga_empresa_id FOREIGN KEY (id_empresa) REFERENCES public.pessoa_juridica(id);

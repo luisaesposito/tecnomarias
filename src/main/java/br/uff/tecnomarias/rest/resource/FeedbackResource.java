@@ -23,17 +23,6 @@ public class FeedbackResource {
     @Autowired
     FeedbackService feedbackService;
 
-    @Operation(summary = "Cria um novo registro de feedback de usuaria")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Feedback criado com sucesso",
-                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = FeedbackDTO.class))})
-    })
-    @PostMapping
-    @ResponseBody
-    public FeedbackDTO salvar(FeedbackDTO feedbackDTO) {
-        return new FeedbackDTO(feedbackService.salvar(feedbackDTO.toEntity()));
-    }
-
     @Operation(summary = "Lista os 3 feedbacks mais recentes")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Lista de feedbacks",
