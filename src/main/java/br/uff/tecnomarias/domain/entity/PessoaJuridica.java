@@ -2,12 +2,15 @@ package br.uff.tecnomarias.domain.entity;
 
 import br.uff.tecnomarias.domain.enums.PorteEmpresa;
 import br.uff.tecnomarias.domain.enums.TipoPessoa;
+import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 @Entity
@@ -32,6 +35,7 @@ public class PessoaJuridica extends Pessoa {
     @OneToMany(mappedBy = "empresa", cascade = CascadeType.ALL)
     private List<Avaliacao> avaliacoes;
 
+    @Transient
     private Double mediaAvaliacao;
 
     @Valid
@@ -103,16 +107,15 @@ public class PessoaJuridica extends Pessoa {
     }
 
     public Double getMediaAvaliacao() {
-        return mediaAvaliacao;
+        if (this.avaliacoes == null || this.avaliacoes.isEmpty())
+            return Double.NaN;
+        BigDecimal media = BigDecimal.valueOf(this.getAvaliacoes().stream().mapToDouble(Avaliacao::getNota).average().getAsDouble())
+                .setScale(2, RoundingMode.FLOOR);
+        return media.doubleValue();
     }
 
-    public void setMediaAvaliacao() {
-        if (this.avaliacoes != null) {
-            this.mediaAvaliacao = this.getAvaliacoes().stream()
-                    .mapToDouble(Avaliacao::getNota).average().orElse(Double.NaN);
-        } else {
-            this.mediaAvaliacao = Double.NaN;
-        }
+    private void setMediaAvaliacao(Double mediaAvaliacao) {
+        this.mediaAvaliacao = mediaAvaliacao;
     }
 
     public void addAvaliacao(Avaliacao avaliacao) {

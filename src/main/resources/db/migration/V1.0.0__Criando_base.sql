@@ -49,7 +49,6 @@ CREATE TABLE public.pessoa_juridica (
     area_atuacao character varying(100),
     cnpj character varying(14),
     descricao character varying(255),
-    media_avaliacao double precision,
     porte_empresa character varying(255),
     site character varying(255),
     id_endereco bigint

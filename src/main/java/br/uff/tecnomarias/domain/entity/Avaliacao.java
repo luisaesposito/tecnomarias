@@ -3,6 +3,7 @@ package br.uff.tecnomarias.domain.entity;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Entity
@@ -17,6 +18,7 @@ public class Avaliacao {
     private String comentario;
 
     @NotNull(message = "Nota é obrigatório")
+    @Size(max = 5)
     private Double nota;
 
     @NotNull(message = "Data de avaliacao é obrigatorio")
