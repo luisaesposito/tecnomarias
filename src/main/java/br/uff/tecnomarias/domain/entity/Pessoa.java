@@ -1,6 +1,7 @@
 package br.uff.tecnomarias.domain.entity;
 
 import br.uff.tecnomarias.domain.enums.TipoPessoa;
+import br.uff.tecnomarias.domain.utils.EntityUtils;
 
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -33,9 +34,9 @@ public class Pessoa {
     protected Set<Telefone> telefoneSet = new HashSet<>();
 
     public void atualizarDados(@Valid Pessoa pessoa) {
-        setIfNotNull(this::setNome, pessoa.getNome());
-        setIfNotNull(this::setEmail, pessoa.getEmail());
-        setIfNotNull(this::setTipoPessoa, pessoa.getTipoPessoa());
+        EntityUtils.setIfNotNull(this::setNome, pessoa.getNome());
+        EntityUtils.setIfNotNull(this::setEmail, pessoa.getEmail());
+        EntityUtils.setIfNotNull(this::setTipoPessoa, pessoa.getTipoPessoa());
         if (pessoa.getTelefoneSet() != null) {
             this.getTelefoneSet().clear();
             if (!pessoa.getTelefoneSet().isEmpty())
@@ -83,9 +84,4 @@ public class Pessoa {
         this.telefoneSet = telefoneSet;
     }
 
-    public <T> void setIfNotNull(final Consumer<T> setter, final T value) {
-        if (value != null) {
-            setter.accept(value);
-        }
-    }
 }

@@ -1,6 +1,7 @@
 package br.uff.tecnomarias.domain.entity;
 
 import br.uff.tecnomarias.domain.enums.Cargo;
+import br.uff.tecnomarias.domain.utils.EntityUtils;
 
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -34,11 +35,11 @@ public class Vaga {
     }
 
     public Vaga atualizarDados(@Valid final Vaga vagaAtualizada) {
-        this.areaAtuacao = vagaAtualizada.getAreaAtuacao();
-        this.cargo = vagaAtualizada.getCargo();
-        this.descricao = vagaAtualizada.getDescricao();
-        this.valor = vagaAtualizada.getValor();
-        this.localidade = vagaAtualizada.getLocalidade();
+        EntityUtils.setIfNotNull(this::setAreaAtuacao, vagaAtualizada.getAreaAtuacao());
+        EntityUtils.setIfNotNull(this::setCargo, vagaAtualizada.getCargo());
+        EntityUtils.setIfNotNull(this::setDescricao, vagaAtualizada.getDescricao());
+        EntityUtils.setIfNotNull(this::setValor, vagaAtualizada.getValor());
+        EntityUtils.setIfNotNull(this::setLocalidade, vagaAtualizada.getLocalidade());
         return this;
     }
 

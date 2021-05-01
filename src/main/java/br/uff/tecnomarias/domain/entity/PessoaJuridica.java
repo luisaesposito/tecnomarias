@@ -2,6 +2,7 @@ package br.uff.tecnomarias.domain.entity;
 
 import br.uff.tecnomarias.domain.enums.PorteEmpresa;
 import br.uff.tecnomarias.domain.enums.TipoPessoa;
+import br.uff.tecnomarias.domain.utils.EntityUtils;
 
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -49,14 +50,15 @@ public class PessoaJuridica extends Pessoa {
         super.setTipoPessoa(TipoPessoa.PJ);
     }
 
-    public PessoaJuridica atualizarDados(@Valid final PessoaJuridica pjAtualizada) {
+    public PessoaJuridica atualizarDados(final PessoaJuridica pjAtualizada) {
         super.atualizarDados(pjAtualizada);
-        setIfNotNull(this::setCnpj, pjAtualizada.getCnpj());
-        setIfNotNull(this::setSite, pjAtualizada.getSite());
-        setIfNotNull(this::setAreaAtuacao, pjAtualizada.getAreaAtuacao());
-        setIfNotNull(this::setDescricao, pjAtualizada.getDescricao());
-        setIfNotNull(this::setPorteEmpresa, pjAtualizada.getPorteEmpresa());
-        setIfNotNull(this::setEndereco, pjAtualizada.getEndereco());
+        EntityUtils.setIfNotNull(this::setCnpj, pjAtualizada.getCnpj());
+        EntityUtils.setIfNotNull(this::setAreaAtuacao, pjAtualizada.getAreaAtuacao());
+        EntityUtils.setIfNotNull(this::setPorteEmpresa, pjAtualizada.getPorteEmpresa());
+        this.cnpj = pjAtualizada.getCnpj();
+        this.descricao = pjAtualizada.getDescricao();
+        if (pjAtualizada.getEndereco() != null)
+            this.endereco.atualizar(pjAtualizada.getEndereco());
         return this;
     }
 
