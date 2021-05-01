@@ -2,6 +2,7 @@ package br.uff.tecnomarias.service;
 
 import br.uff.tecnomarias.domain.entity.PessoaJuridica;
 import br.uff.tecnomarias.domain.entity.Vaga;
+import br.uff.tecnomarias.domain.enums.Cargo;
 import br.uff.tecnomarias.domain.repository.PessoaJuridicaRepository;
 import br.uff.tecnomarias.domain.repository.VagaRepository;
 import br.uff.tecnomarias.service.exception.BadRequestException;
@@ -55,7 +56,7 @@ public class VagaService {
         return vagaRepository.findByAreaAtuacao(areaAtuacao);
     }
 
-    public List<Vaga> buscarPorCargo(String cargo) {
+    public List<Vaga> buscarPorCargo(Cargo cargo) {
         return vagaRepository.findByCargo(cargo);
     }
 

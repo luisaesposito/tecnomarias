@@ -1,6 +1,7 @@
 package br.uff.tecnomarias.rest.resource;
 
 import br.uff.tecnomarias.domain.entity.Vaga;
+import br.uff.tecnomarias.domain.enums.Cargo;
 import br.uff.tecnomarias.rest.dto.VagaDTO;
 import br.uff.tecnomarias.service.VagaService;
 import br.uff.tecnomarias.service.exception.BadRequestException;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 @RestController
@@ -98,7 +100,7 @@ public class VagaResource {
                 vagas = vagaService.buscarPorAreaAtuacao(valor);
                 break;
             case "cargo":
-                vagas = vagaService.buscarPorCargo(valor);
+                vagas = vagaService.buscarPorCargo(Cargo.valueOf(valor.toUpperCase(Locale.ROOT)));
                 break;
             case "localidade":
                 vagas = vagaService.buscarPorLocalidade(valor);
