@@ -106,6 +106,9 @@ ALTER TABLE ONLY public.vaga
 ALTER TABLE ONLY public.avaliacao
     ADD CONSTRAINT fk_avaliacao_pessoa_juridica_id FOREIGN KEY (id_empresa) REFERENCES public.pessoa_juridica(id);
 
+-- ALTER TABLE ONLY public.feedback
+--     ADD CONSTRAINT fk_feedback_pf FOREIGN KEY (pessoa) REFERENCES public.pessoa_fisica(id);
+
 ALTER TABLE ONLY public.pessoa_fisica
     ADD CONSTRAINT fk_pessoa_fisica_pessoa_id FOREIGN KEY (id) REFERENCES public.pessoa(id);
 

@@ -15,6 +15,9 @@ public class Feedback {
     @Column(length = 500, nullable = false)
     private String comentario;
 
+    @OneToOne(mappedBy = "feedback")
+    private PessoaFisica pessoa;
+
     public Feedback() {
     }
 
@@ -36,5 +39,13 @@ public class Feedback {
 
     public void setComentario(String comentario) {
         this.comentario = comentario;
+    }
+
+    public PessoaFisica getPessoa() {
+        return pessoa;
+    }
+
+    public void setPessoa(PessoaFisica pessoa) {
+        this.pessoa = pessoa;
     }
 }

@@ -1,9 +1,7 @@
 package br.uff.tecnomarias.rest.resource;
 
 import br.uff.tecnomarias.domain.entity.PessoaFisica;
-import br.uff.tecnomarias.rest.dto.FeedbackDTO;
 import br.uff.tecnomarias.rest.dto.PessoaFisicaDTO;
-import br.uff.tecnomarias.service.FeedbackService;
 import br.uff.tecnomarias.service.PessoaFisicaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -84,17 +82,6 @@ public class PessoaFisicaResource {
     public String remover(@PathVariable Long id) {
         pfService.remover(id);
         return "Pessoa removida com sucesso.";
-    }
-
-    @Operation(summary = "Cria um novo registro de feedback de usuaria")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Feedback criado com sucesso",
-                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = FeedbackDTO.class))})
-    })
-    @PostMapping("{id}/feedback")
-    @ResponseBody
-    public FeedbackDTO salvar(@PathVariable("id") final Long id, @RequestBody FeedbackDTO feedbackDTO) {
-        return new FeedbackDTO(pfService.salvarFeedback(id, feedbackDTO.toEntity()));
     }
 
 }

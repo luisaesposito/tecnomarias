@@ -33,4 +33,20 @@ public class FeedbackResource {
     public List<FeedbackDTO> buscarRecentes() {
         return FeedbackDTO.toDTOList(feedbackService.buscarRecentes());
     }
+
+    @Operation(summary = "Cria um novo registro de feedback de usuaria")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Feedback criado com sucesso",
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = FeedbackDTO.class))})
+    })
+    @PostMapping("{idPessoa}")
+    @ResponseBody
+    public FeedbackDTO salvar(@PathVariable("idPessoa") final Long idPessoa, @RequestBody FeedbackDTO feedbackDTO) {
+        return new FeedbackDTO(feedbackService.salvarFeedback(idPessoa, feedbackDTO.toEntity()));
+    }
+
+    @DeleteMapping("{id}")
+    public void removerFeedback(@PathVariable("id") final Long id) {
+        feedbackService.remover(id);
+    }
 }
