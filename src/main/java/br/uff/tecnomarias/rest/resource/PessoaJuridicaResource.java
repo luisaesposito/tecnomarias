@@ -76,8 +76,9 @@ public class PessoaJuridicaResource {
     })
     @DeleteMapping("{id}")
     @ResponseBody
-    public void removerVaga(@PathVariable Long id) {
+    public String removerVaga(@PathVariable Long id) {
         pjService.remover(id);
+        return "Vaga removida com sucesso.";
     }
 
     @Operation(summary = "Adiciona uma avaliacao para uma empresa")
