@@ -1,7 +1,6 @@
 package br.uff.tecnomarias.domain.entity;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
 public class Links {

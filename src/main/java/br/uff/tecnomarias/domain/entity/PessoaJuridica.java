@@ -2,7 +2,6 @@ package br.uff.tecnomarias.domain.entity;
 
 import br.uff.tecnomarias.domain.enums.PorteEmpresa;
 import br.uff.tecnomarias.domain.enums.TipoPessoa;
-import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -11,7 +10,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity

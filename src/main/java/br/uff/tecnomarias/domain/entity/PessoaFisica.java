@@ -11,7 +11,7 @@ public class PessoaFisica extends Pessoa {
     @OneToOne(cascade = CascadeType.ALL)
     private Links links;
 
-    @OneToOne(cascade = CascadeType.REMOVE)
+    @OneToOne(cascade = CascadeType.ALL)
     private Feedback feedback;
 
     public PessoaFisica() {

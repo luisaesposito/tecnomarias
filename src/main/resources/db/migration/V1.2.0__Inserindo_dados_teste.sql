@@ -41,10 +41,10 @@ VALUES (8, 12),
        (11, 15);
 
 -- insere feedbacks
-INSERT INTO PUBLIC.feedback (id, comentario)
-VALUES (16, 'Otimo site, recomendo a todos'),
-       (17, 'O site não está perfeito, mas atendeu a minha necessidade'),
-       (18, 'Desejo todo o bem aos criadores do site por me proporcionarem a chance de obter um emprego');
+INSERT INTO PUBLIC.feedback (id, pessoa_fisica_id, comentario)
+VALUES (16, 8, 'Otimo site, recomendo a todos'),
+       (17, 9, 'O site não está perfeito, mas atendeu a minha necessidade'),
+       (18, 10, 'Desejo todo o bem aos criadores do site por me proporcionarem a chance de obter um emprego');
 --
 UPDATE PUBLIC.pessoa_fisica SET feedback_id = 16 WHERE id = 8;
 UPDATE PUBLIC.pessoa_fisica SET feedback_id = 17 WHERE id = 9;

@@ -3,9 +3,7 @@ package br.uff.tecnomarias.domain.entity;
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
@@ -82,7 +80,4 @@ public class Telefone {
         this.numero = numero;
     }
 
-    public String getNumeroCompleto() {
-        return ddd.concat(numero);
-    }
 }

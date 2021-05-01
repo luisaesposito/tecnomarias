@@ -1,7 +1,6 @@
 package br.uff.tecnomarias.domain.entity;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 
 @Entity
 public class Feedback {
@@ -11,11 +10,10 @@ public class Feedback {
     @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
-    @NotBlank
-    @Column(length = 500, nullable = false)
+    @Column(length = 500)
     private String comentario;
 
-    @OneToOne(mappedBy = "feedback")
+    @OneToOne(mappedBy = "feedback", fetch = FetchType.EAGER)
     private PessoaFisica pessoa;
 
     public Feedback() {

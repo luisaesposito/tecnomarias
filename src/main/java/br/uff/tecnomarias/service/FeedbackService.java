@@ -10,9 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import javax.validation.Valid;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class FeedbackService {
@@ -31,9 +29,11 @@ public class FeedbackService {
     public Feedback salvarFeedback(Long idAvaliadora, Feedback feedback) {
         PessoaFisica pf = pfRepository.findById(idAvaliadora)
                 .orElseThrow(() -> new EntidadeNaoEncontradaException("Pessoa não encontrada"));
+        if (pf.getFeedback() != null) throw new BadRequestException("Usuaria ja availou o site");
         feedback.setPessoa(pf);
-        feedbackRepository.save(feedback);
-        return feedback;
+        pf.setFeedback(feedback);
+        pfRepository.save(pf);
+        return pf.getFeedback();
     }
 
     @Transactional

@@ -1,6 +1,5 @@
 package br.uff.tecnomarias.service;
 
-import br.uff.tecnomarias.domain.entity.Feedback;
 import br.uff.tecnomarias.domain.entity.PessoaFisica;
 import br.uff.tecnomarias.domain.repository.FeedbackRepository;
 import br.uff.tecnomarias.domain.repository.PessoaFisicaRepository;

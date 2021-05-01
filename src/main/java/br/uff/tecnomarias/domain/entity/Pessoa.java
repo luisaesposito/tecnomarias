@@ -5,7 +5,8 @@ import br.uff.tecnomarias.domain.enums.TipoPessoa;
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.function.Consumer;
 
 @Entity
@@ -78,8 +79,8 @@ public class Pessoa {
         return telefoneSet;
     }
 
-    public void setTelefoneSet(Set<Telefone> telefoneList) {
-        this.telefoneSet = telefoneList;
+    public void setTelefoneSet(Set<Telefone> telefoneSet) {
+        this.telefoneSet = telefoneSet;
     }
 
     public <T> void setIfNotNull(final Consumer<T> setter, final T value) {

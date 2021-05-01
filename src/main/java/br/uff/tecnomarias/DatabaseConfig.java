@@ -1,15 +1,11 @@
 //package br.uff.tecnomarias;
 //
+//import com.zaxxer.hikari.HikariConfig;
+//import com.zaxxer.hikari.HikariDataSource;
 //import org.springframework.beans.factory.annotation.Value;
 //import org.springframework.context.annotation.Bean;
 //import org.springframework.context.annotation.Configuration;
-//import com.zaxxer.hikari.*;
 //
-//import javax.sql.DataSource;
-//
-//import com.zaxxer.hikari.*;
-//import org.springframework.beans.factory.annotation.Value;
-//import org.springframework.context.annotation.*;
 //import javax.sql.DataSource;
 //
 //@Configuration
