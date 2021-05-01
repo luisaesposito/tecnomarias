@@ -19,7 +19,7 @@ public class PessoaFisica extends Pessoa {
 
     public void atualizarDados(@Valid PessoaFisica pf) {
         super.atualizarDados(pf);
-        if (this.links != null)
+        if (pf.links != null)
             this.links.atualizarLinks(pf.getLinks());
     }
 

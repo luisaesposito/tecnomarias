@@ -6,6 +6,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
 public class Telefone {
@@ -27,10 +28,6 @@ public class Telefone {
     @NotBlank(message = "Número do telefone é obrigatório")
     private String numero;
 
-    @ManyToOne
-    @JoinColumn(name = "id_pessoa")
-    private Pessoa pessoa;
-
     public Telefone() { }
 
     public Telefone atualizar(@Valid Telefone telAtualizado) {
@@ -38,6 +35,19 @@ public class Telefone {
         this.ddd = telAtualizado.getDdd();
         this.numero = telAtualizado.getNumero();
         return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Telefone telefone = (Telefone) o;
+        return Objects.equals(ddi, telefone.ddi) && Objects.equals(ddd, telefone.ddd) && Objects.equals(numero, telefone.numero);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(ddi, ddd, numero);
     }
 
     public Long getId() {
@@ -74,13 +84,5 @@ public class Telefone {
 
     public String getNumeroCompleto() {
         return ddd.concat(numero);
-    }
-
-    public Pessoa getPessoa() {
-        return pessoa;
-    }
-
-    public void setPessoa(Pessoa pessoa) {
-        this.pessoa = pessoa;
     }
 }

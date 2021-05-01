@@ -27,9 +27,9 @@ public class VagaService {
     public Vaga salvar(@Valid Vaga vaga) {
         PessoaJuridica pj = pjRepository.findById(vaga.getEmpresa().getId())
                 .orElseThrow(() -> new BadRequestException("Empresa nao encontrada"));
-        vaga.setEmpresa(pj);
-        vagaRepository.save(vaga);
-        return vaga;
+        pj.addVaga(vaga);
+        pjRepository.save(pj);
+        return pj.getVagas().get(pj.getVagas().size()-1);
     }
 
     public Vaga buscarPorId(final Long id) {
@@ -74,6 +74,7 @@ public class VagaService {
     public void remover(final Long id) {
         Vaga vaga = vagaRepository.findById(id)
                 .orElseThrow(() -> new EntidadeNaoEncontradaException("Vaga nao encontrada"));
+        vaga.getEmpresa().removeVaga(vaga);
         vagaRepository.delete(vaga);
     }
 

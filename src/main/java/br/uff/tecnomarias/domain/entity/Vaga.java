@@ -13,8 +13,7 @@ public class Vaga {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "id_empresa")
+    @ManyToOne(fetch = FetchType.LAZY)
     private PessoaJuridica empresa;
 
     @NotBlank
@@ -41,6 +40,18 @@ public class Vaga {
         this.valor = vagaAtualizada.getValor();
         this.localidade = vagaAtualizada.getLocalidade();
         return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Vaga )) return false;
+        return id != null && id.equals(((Vaga) o).getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 
     public Long getId() {

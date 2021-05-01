@@ -11,6 +11,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -31,6 +32,9 @@ public class PessoaJuridica extends Pessoa {
 
     @NotBlank(message = "AreaAtuacao é obrigatório")
     private String areaAtuacao;
+
+    @OneToMany(mappedBy = "empresa", cascade = CascadeType.ALL)
+    private List<Vaga> vagas;
 
     @OneToMany(mappedBy = "empresa", cascade = CascadeType.ALL)
     private List<Avaliacao> avaliacoes;
@@ -108,7 +112,7 @@ public class PessoaJuridica extends Pessoa {
 
     public Double getMediaAvaliacao() {
         if (this.avaliacoes == null || this.avaliacoes.isEmpty())
-            return Double.NaN;
+            return null;
         BigDecimal media = BigDecimal.valueOf(this.getAvaliacoes().stream().mapToDouble(Avaliacao::getNota).average().getAsDouble())
                 .setScale(2, RoundingMode.FLOOR);
         return media.doubleValue();
@@ -128,5 +132,23 @@ public class PessoaJuridica extends Pessoa {
 
     public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
+    }
+
+    public List<Vaga> getVagas() {
+        return vagas;
+    }
+
+    public void setVagas(List<Vaga> vagas) {
+        this.vagas = vagas;
+    }
+
+    public void addVaga(Vaga vaga) {
+        vagas.add(vaga);
+        vaga.setEmpresa(this);
+    }
+
+    public void removeVaga(Vaga vaga) {
+        vagas.remove(vaga);
+        vaga.setEmpresa(null);
     }
 }

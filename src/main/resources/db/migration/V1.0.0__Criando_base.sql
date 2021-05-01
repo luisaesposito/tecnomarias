@@ -2,7 +2,7 @@ CREATE SEQUENCE hibernate_sequence START 20 INCREMENT 1;
 
 CREATE TABLE public.avaliacao (
     id bigint NOT NULL,
-    comentario character varying(500) NOT NULL,
+    comentario character varying(500),
     nome_avaliadora character varying(255),
     nota double precision NOT NULL,
     data TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -59,7 +59,7 @@ CREATE TABLE public.telefone (
     ddd character varying(2),
     ddi character varying(3),
     numero character varying(10),
-    id_pessoa bigint
+    pessoa_id bigint
 );
 
 CREATE TABLE public.vaga (
@@ -69,7 +69,7 @@ CREATE TABLE public.vaga (
     descricao character varying(255) NOT NULL,
     localidade character varying(100),
     valor double precision,
-    id_empresa bigint
+    empresa_id bigint
 );
 
 ALTER TABLE ONLY public.avaliacao
@@ -124,7 +124,7 @@ ALTER TABLE ONLY public.pessoa_juridica
     ADD CONSTRAINT fk_pessoa_juridica_endereco_id FOREIGN KEY (id_endereco) REFERENCES public.endereco(id);
 
 ALTER TABLE ONLY public.telefone
-    ADD CONSTRAINT fk_telefone_pessoa_id FOREIGN KEY (id_pessoa) REFERENCES public.pessoa(id);
+    ADD CONSTRAINT fk_telefone_pessoa_id FOREIGN KEY (pessoa_id) REFERENCES public.pessoa(id);
 
 ALTER TABLE ONLY public.vaga
-    ADD CONSTRAINT fk_vaga_empresa_id FOREIGN KEY (id_empresa) REFERENCES public.pessoa_juridica(id);
+    ADD CONSTRAINT fk_vaga_empresa_id FOREIGN KEY (empresa_id) REFERENCES public.pessoa_juridica(id);

@@ -14,7 +14,7 @@ VALUES (1, 'e-commerce', '81898985000116', 'Vendemos artigos esportivos pela int
         'EMPRESA_MEDIO_PORTE', 'www.acme.com.br', 4);
 
 -- insere vagas
-INSERT INTO public.vaga(id, id_empresa, area_atuacao, cargo, descricao, valor, localidade)
+INSERT INTO public.vaga(id, empresa_id, area_atuacao, cargo, descricao, valor, localidade)
 VALUES (5, 1, 'analise de dados', 'JUNIOR', 'analisar dados, modelagem', 3500, 'Rio de Janeiro'),
        (6, 1, 'analise de dados', 'ESTAGIARIA', 'analisar dados, modelagem', 2000, 'Rio de Janeiro'),
        (7, 2, 'desenvolvimento de software', 'SENIOR', 'desenvolver aplicações web em java', 5500, 'São Paulo');

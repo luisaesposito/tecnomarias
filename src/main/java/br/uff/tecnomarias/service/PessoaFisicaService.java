@@ -15,6 +15,8 @@ import java.util.List;
 @Service
 public class PessoaFisicaService {
 
+    private static final String NOT_FOUND_MSG = "Pessoa nao encontrada";
+
     @Autowired
     FeedbackRepository feedbackRepository;
 
@@ -29,14 +31,14 @@ public class PessoaFisicaService {
     @Transactional
     public PessoaFisica alterar(Long id, @Valid PessoaFisica pf) {
         PessoaFisica pfSalva = pfRepository.findById(id)
-                .orElseThrow(() -> new EntidadeNaoEncontradaException("Pessoa nao encontrada"));
+                .orElseThrow(() -> new EntidadeNaoEncontradaException(NOT_FOUND_MSG));
         pfSalva.atualizarDados(pf);
         return pfRepository.save(pfSalva);
     }
 
     public PessoaFisica buscarPorId(Long id) {
         return pfRepository.findById(id)
-                .orElseThrow(() -> new EntidadeNaoEncontradaException("Pessoa não encontrada"));
+                .orElseThrow(() -> new EntidadeNaoEncontradaException(NOT_FOUND_MSG));
     }
 
     public List<PessoaFisica> buscarTodas() {
@@ -46,7 +48,7 @@ public class PessoaFisicaService {
     @Transactional
     public void remover(final Long id) {
         PessoaFisica pf = pfRepository.findById(id)
-                .orElseThrow(() -> new EntidadeNaoEncontradaException("Pessoa nao encontrada"));
+                .orElseThrow(() -> new EntidadeNaoEncontradaException(NOT_FOUND_MSG));
         if (pf.getFeedback() != null)
             feedbackRepository.delete(pf.getFeedback());
         pfRepository.delete(pf);

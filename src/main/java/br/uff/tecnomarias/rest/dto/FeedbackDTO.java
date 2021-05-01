@@ -1,10 +1,12 @@
 package br.uff.tecnomarias.rest.dto;
 
 import br.uff.tecnomarias.domain.entity.Feedback;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class FeedbackDTO {
 
     public Long id;

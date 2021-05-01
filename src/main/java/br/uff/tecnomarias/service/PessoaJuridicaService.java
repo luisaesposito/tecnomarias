@@ -30,8 +30,9 @@ public class PessoaJuridicaService {
     @Transactional
     public PessoaJuridica alterar(Long id, @Valid PessoaJuridica pjAlterada) {
         PessoaJuridica pjSalva = pjRepository.findById(id)
-                .orElseThrow(() -> new EntidadeNaoEncontradaException("Vaga nao encontrada"));
-        return pjSalva.atualizarDados(pjAlterada);
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Empresa nao encontrada"));
+        pjSalva.atualizarDados(pjAlterada);
+        return pjRepository.save(pjSalva);
     }
 
     public PessoaJuridica buscarPorId(Long id) {
@@ -46,7 +47,7 @@ public class PessoaJuridicaService {
     @Transactional
     public void remover(final Long id) {
         PessoaJuridica pj = pjRepository.findById(id)
-                .orElseThrow(() -> new EntidadeNaoEncontradaException("Vaga nao encontrada"));
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Empresa nao encontrada"));
         pjRepository.delete(pj);
     }
 
