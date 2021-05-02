@@ -11,7 +11,7 @@ public class AvaliacaoDTO {
 
     public Long id;
     public String comentario;
-    public Double nota;
+    public int nota;
     public LocalDateTime data;
     public String nomeAvaliadora;
     public Long idEmpresa;
