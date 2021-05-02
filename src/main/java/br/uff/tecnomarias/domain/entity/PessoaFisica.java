@@ -11,11 +11,15 @@ public class PessoaFisica extends Pessoa {
     @OneToOne(cascade = CascadeType.ALL)
     private Links links;
 
-    public PessoaFisica() { }
+    @OneToOne(cascade = CascadeType.ALL)
+    private Feedback feedback;
+
+    public PessoaFisica() {
+    }
 
     public void atualizarDados(@Valid PessoaFisica pf) {
         super.atualizarDados(pf);
-        if (this.links != null)
+        if (pf.links != null)
             this.links.atualizarLinks(pf.getLinks());
     }
 
@@ -26,4 +30,13 @@ public class PessoaFisica extends Pessoa {
     public void setLinks(Links links) {
         this.links = links;
     }
+
+    public Feedback getFeedback() {
+        return feedback;
+    }
+
+    public void setFeedback(Feedback feedback) {
+        this.feedback = feedback;
+    }
+
 }

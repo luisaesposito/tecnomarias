@@ -2,12 +2,15 @@ package br.uff.tecnomarias.domain.entity;
 
 import br.uff.tecnomarias.domain.enums.PorteEmpresa;
 import br.uff.tecnomarias.domain.enums.TipoPessoa;
+import br.uff.tecnomarias.domain.utils.EntityUtils;
 
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 @Entity
@@ -30,8 +33,12 @@ public class PessoaJuridica extends Pessoa {
     private String areaAtuacao;
 
     @OneToMany(mappedBy = "empresa", cascade = CascadeType.ALL)
+    private List<Vaga> vagas;
+
+    @OneToMany(mappedBy = "empresa", cascade = CascadeType.ALL)
     private List<Avaliacao> avaliacoes;
 
+    @Transient
     private Double mediaAvaliacao;
 
     @Valid
@@ -43,14 +50,15 @@ public class PessoaJuridica extends Pessoa {
         super.setTipoPessoa(TipoPessoa.PJ);
     }
 
-    public PessoaJuridica atualizarDados(@Valid final PessoaJuridica pjAtualizada) {
+    public PessoaJuridica atualizarDados(final PessoaJuridica pjAtualizada) {
         super.atualizarDados(pjAtualizada);
-        setIfNotNull(this::setCnpj, pjAtualizada.getCnpj());
-        setIfNotNull(this::setSite, pjAtualizada.getSite());
-        setIfNotNull(this::setAreaAtuacao, pjAtualizada.getAreaAtuacao());
-        setIfNotNull(this::setDescricao, pjAtualizada.getDescricao());
-        setIfNotNull(this::setPorteEmpresa, pjAtualizada.getPorteEmpresa());
-        setIfNotNull(this::setEndereco, pjAtualizada.getEndereco());
+        EntityUtils.setIfNotNull(this::setCnpj, pjAtualizada.getCnpj());
+        EntityUtils.setIfNotNull(this::setAreaAtuacao, pjAtualizada.getAreaAtuacao());
+        EntityUtils.setIfNotNull(this::setPorteEmpresa, pjAtualizada.getPorteEmpresa());
+        this.cnpj = pjAtualizada.getCnpj();
+        this.descricao = pjAtualizada.getDescricao();
+        if (pjAtualizada.getEndereco() != null)
+            this.endereco.atualizar(pjAtualizada.getEndereco());
         return this;
     }
 
@@ -103,16 +111,15 @@ public class PessoaJuridica extends Pessoa {
     }
 
     public Double getMediaAvaliacao() {
-        return mediaAvaliacao;
+        if (this.avaliacoes == null || this.avaliacoes.isEmpty())
+            return null;
+        BigDecimal media = BigDecimal.valueOf(this.getAvaliacoes().stream().mapToDouble(Avaliacao::getNota).average().getAsDouble())
+                .setScale(2, RoundingMode.FLOOR);
+        return media.doubleValue();
     }
 
-    public void setMediaAvaliacao() {
-        if (this.avaliacoes != null) {
-            this.mediaAvaliacao = this.getAvaliacoes().stream()
-                    .mapToDouble(Avaliacao::getNota).average().orElse(Double.NaN);
-        } else {
-            this.mediaAvaliacao = Double.NaN;
-        }
+    private void setMediaAvaliacao(Double mediaAvaliacao) {
+        this.mediaAvaliacao = mediaAvaliacao;
     }
 
     public void addAvaliacao(Avaliacao avaliacao) {
@@ -125,5 +132,23 @@ public class PessoaJuridica extends Pessoa {
 
     public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
+    }
+
+    public List<Vaga> getVagas() {
+        return vagas;
+    }
+
+    public void setVagas(List<Vaga> vagas) {
+        this.vagas = vagas;
+    }
+
+    public void addVaga(Vaga vaga) {
+        vagas.add(vaga);
+        vaga.setEmpresa(this);
+    }
+
+    public void removeVaga(Vaga vaga) {
+        vagas.remove(vaga);
+        vaga.setEmpresa(null);
     }
 }

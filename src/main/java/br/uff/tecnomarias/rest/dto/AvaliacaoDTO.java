@@ -2,14 +2,16 @@ package br.uff.tecnomarias.rest.dto;
 
 import br.uff.tecnomarias.domain.entity.Avaliacao;
 import br.uff.tecnomarias.domain.entity.PessoaJuridica;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.time.LocalDateTime;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class AvaliacaoDTO {
 
     public Long id;
     public String comentario;
-    public Double nota;
+    public int nota;
     public LocalDateTime data;
     public String nomeAvaliadora;
     public Long idEmpresa;

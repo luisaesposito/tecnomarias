@@ -1,15 +1,16 @@
 package br.uff.tecnomarias.rest.dto;
 
-import br.uff.tecnomarias.domain.entity.Pessoa;
 import br.uff.tecnomarias.domain.entity.Telefone;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class TelefoneDTO {
 
     public Long id;
     public String ddi;
     public String ddd;
     public String numero;
-    public Long idPessoa;
+    public String numeroCompleto;
 
     public TelefoneDTO() { }
 
@@ -18,8 +19,7 @@ public class TelefoneDTO {
         this.ddi = telefone.getDdi();
         this.ddd = telefone.getDdd();
         this.numero = telefone.getNumero();
-        if (telefone.getPessoa() != null)
-            this.idPessoa = telefone.getPessoa().getId();
+        this.numeroCompleto = String.format("%s %s %s",telefone.getDdi(), telefone.getDdd(), telefone.getNumero());
     }
 
     public Telefone toEntity() {
@@ -27,9 +27,6 @@ public class TelefoneDTO {
         telefone.setDdi(this.ddi);
         telefone.setDdd(this.ddd);
         telefone.setNumero(this.numero);
-        Pessoa pessoa = new Pessoa();
-        pessoa.setId(this.id);
-        telefone.setPessoa(pessoa);
         return telefone;
     }
 }

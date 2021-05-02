@@ -1,12 +1,13 @@
 package br.uff.tecnomarias.domain.entity;
 
 import br.uff.tecnomarias.domain.enums.TipoPessoa;
+import br.uff.tecnomarias.domain.utils.EntityUtils;
 
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.function.Consumer;
 
 @Entity
@@ -28,14 +29,19 @@ public class Pessoa {
     @Enumerated(EnumType.STRING)
     protected TipoPessoa tipoPessoa;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pessoa")
-    protected List<Telefone> telefoneList = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "pessoa_id")
+    protected Set<Telefone> telefoneSet = new HashSet<>();
 
     public void atualizarDados(@Valid Pessoa pessoa) {
-        setIfNotNull(this::setNome, pessoa.getNome());
-        setIfNotNull(this::setEmail, pessoa.getEmail());
-        setIfNotNull(this::setTipoPessoa, pessoa.getTipoPessoa());
-        this.telefoneList = pessoa.telefoneList;
+        EntityUtils.setIfNotNull(this::setNome, pessoa.getNome());
+        EntityUtils.setIfNotNull(this::setEmail, pessoa.getEmail());
+        EntityUtils.setIfNotNull(this::setTipoPessoa, pessoa.getTipoPessoa());
+        if (pessoa.getTelefoneSet() != null) {
+            this.getTelefoneSet().clear();
+            if (!pessoa.getTelefoneSet().isEmpty())
+                telefoneSet.addAll(pessoa.getTelefoneSet());
+        }
     }
 
     public TipoPessoa getTipoPessoa() {
@@ -70,21 +76,12 @@ public class Pessoa {
         this.email = email;
     }
 
-    public List<Telefone> getTelefoneList() {
-        return telefoneList;
+    public Set<Telefone> getTelefoneSet() {
+        return telefoneSet;
     }
 
-    public void setTelefoneList(List<Telefone> telefoneList) {
-        this.telefoneList = telefoneList;
+    public void setTelefoneSet(Set<Telefone> telefoneSet) {
+        this.telefoneSet = telefoneSet;
     }
 
-    public void addTelefone(Telefone telefone) {
-        this.telefoneList.add(telefone);
-    }
-
-    public <T> void setIfNotNull(final Consumer<T> setter, final T value) {
-        if (value != null) {
-            setter.accept(value);
-        }
-    }
 }

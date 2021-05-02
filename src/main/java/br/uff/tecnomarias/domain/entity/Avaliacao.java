@@ -1,8 +1,10 @@
 package br.uff.tecnomarias.domain.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Entity
@@ -13,11 +15,11 @@ public class Avaliacao {
     @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
-    @NotBlank(message = "Comentario é obrigatório")
     private String comentario;
 
     @NotNull(message = "Nota é obrigatório")
-    private Double nota;
+    @Max(value = 5)
+    private int nota;
 
     @NotNull(message = "Data de avaliacao é obrigatorio")
     private LocalDateTime data;
@@ -47,11 +49,11 @@ public class Avaliacao {
         this.comentario = comentario;
     }
 
-    public Double getNota() {
+    public int getNota() {
         return nota;
     }
 
-    public void setNota(Double nota) {
+    public void setNota(int nota) {
         this.nota = nota;
     }
 

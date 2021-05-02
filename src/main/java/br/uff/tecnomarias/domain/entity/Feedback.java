@@ -1,9 +1,6 @@
 package br.uff.tecnomarias.domain.entity;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 
 @Entity
 public class Feedback {
@@ -13,12 +10,10 @@ public class Feedback {
     @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
-    @NotBlank
-    @Column(length = 500, nullable = false)
+    @Column(length = 500)
     private String comentario;
 
-    @OneToOne
-    @JoinColumn(name = "pessoa_fisica_id")
+    @OneToOne(mappedBy = "feedback", fetch = FetchType.EAGER)
     private PessoaFisica pessoa;
 
     public Feedback() {

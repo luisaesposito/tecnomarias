@@ -1,5 +1,7 @@
 package br.uff.tecnomarias.domain.entity;
 
+import br.uff.tecnomarias.domain.utils.EntityUtils;
+
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
@@ -28,9 +30,9 @@ public class Endereco {
 
     public Endereco() { }
 
-    public Endereco atualizar(@Valid Endereco enderecoAtualizado) {
-        this.logradouro = enderecoAtualizado.getLogradouro();
-        this.numero = enderecoAtualizado.getNumero();
+    public Endereco atualizar(Endereco enderecoAtualizado) {
+        EntityUtils.setIfNotNull(this::setLogradouro, enderecoAtualizado.getLogradouro());
+        EntityUtils.setIfNotNull(this::setNumero, enderecoAtualizado.getNumero());
         this.complemento = enderecoAtualizado.getComplemento();
         this.bairro = enderecoAtualizado.getBairro();
         this.municipioIBGE = enderecoAtualizado.getMunicipioIBGE();

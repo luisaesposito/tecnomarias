@@ -1,7 +1,9 @@
 package br.uff.tecnomarias.rest.dto;
 
 import br.uff.tecnomarias.domain.entity.Endereco;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class EnderecoDTO {
 
     public Long id;
