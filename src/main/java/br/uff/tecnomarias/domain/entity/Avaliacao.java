@@ -16,7 +16,6 @@ public class Avaliacao {
     @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
-    @NotBlank(message = "Comentario é obrigatório")
     private String comentario;
 
     @NotNull(message = "Nota é obrigatório")
