@@ -20,6 +20,8 @@ public interface VagaRepository extends JpaRepository<Vaga, Long> {
 
     List<Vaga> findByLocalidade(String localidade);
 
+    List<Vaga> findByAreaAtuacaoContainingIgnoreCase(String areaAtuacao);
+
     @Query(value = "SELECT DISTINCT area_atuacao FROM Vaga", nativeQuery = true)
     List<String> listAreaAtuacao();
 }
