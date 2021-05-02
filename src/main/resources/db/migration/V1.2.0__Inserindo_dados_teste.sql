@@ -53,6 +53,6 @@ UPDATE PUBLIC.pessoa_fisica SET feedback_id = 18 WHERE id = 10;
 -- insere avaliacoes
 INSERT INTO public.avaliacao(id, id_empresa, comentario, data, nome_avaliadora, nota)
 VALUES
-(19, 1, 'Ambiente muito saudável', '2021-04-28T00:24:25.153895', 'Graziela de Jesus', 5.0),
-(20, 1, 'Amo esse lugar', '2021-04-28T00:25:18.551456', 'Juliana', 4.0),
-(21, 1, 'Nenhum salário vale a pena quando a pressão é alta...', '2021-02-28T08:25:18.551456', NULL, 3.5);
+(19, 1, 'Ambiente muito saudável', '2021-04-28T00:24:25.153895', 'Graziela de Jesus', 5),
+(20, 1, 'Amo esse lugar', '2021-04-28T00:25:18.551456', 'Juliana', 4),
+(21, 1, 'Nenhum salário vale a pena quando a pressão é alta...', '2021-02-28T08:25:18.551456', NULL, 3);
