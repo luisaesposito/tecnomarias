@@ -11,7 +11,7 @@ public class FeedbackDTO {
 
     public Long id;
     public String comentario;
-    public Long idPessoa;
+    public Long idAvaliadora;
 
     public FeedbackDTO() {
     }
@@ -19,7 +19,7 @@ public class FeedbackDTO {
     public FeedbackDTO(Feedback feedback) {
         this.id = feedback.getId();
         this.comentario = feedback.getComentario();
-        this.idPessoa = feedback.getPessoa().getId();
+        this.idAvaliadora = feedback.getPessoa().getId();
     }
 
     public Feedback toEntity() {
