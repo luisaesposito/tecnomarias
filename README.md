@@ -2,13 +2,13 @@
 
 Aplicação Web que utiliza framework Sping-Boot 2.4 com JDK 11, banco PostgreSQL (utilizando Flyway para versionamento da base) e é hospedada no Heroku.
 
-Endereço da aplicação na nuvem: http://tecnomarias.herokuapp.com/api/v1
+Endereço da aplicação na nuvem: http://tecnomarias.herokuapp.com/
 
 ## Swagger UI
 
 A documentação da API foi feita com OpenAPI e disponibilizada pela UI do Swagger. 
 
-Você pode acessar a documentação e testar a API em http://tecnomarias.herokuapp.com/api/v1/doc.
+Você pode acessar a documentação e testar a API em http://tecnomarias-backend.herokuapp.com/api/v1/doc.
 
 ## Rodando a aplicação
 
@@ -24,4 +24,4 @@ Para rodar a aplicação localmente, na raíz do projeto usar comando:
 ./mvnw spring-boot:run
 ```
 
-URL local: localhost:8080/api/v1
+<b>URL local:</b> localhost:8080/api/v1
