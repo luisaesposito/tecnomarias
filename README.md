@@ -24,4 +24,4 @@ Para rodar a aplicação localmente, na raíz do projeto usar comando:
 ./mvnw spring-boot:run
 ```
 
-URL local: localhost:8080/api/v1
+<b>URL local:</b> localhost:8080/api/v1
