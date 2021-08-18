@@ -52,7 +52,7 @@ public class VagaService {
     }
 
     public List<Vaga> buscarPorAreaAtuacao(String areaAtuacao) {
-        return vagaRepository.findByAreaAtuacao(areaAtuacao);
+        return vagaRepository.findByAreaAtuacaoContainingIgnoreCase(areaAtuacao);
     }
 
     public List<Vaga> buscarPorCargo(Cargo cargo) {
