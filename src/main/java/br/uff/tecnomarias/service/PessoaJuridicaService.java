@@ -12,15 +12,21 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class PessoaJuridicaService {
 
-    @Autowired
-    PessoaJuridicaRepository pjRepository;
+    private final PessoaJuridicaRepository pjRepository;
+    private final AvaliacaoRepository avaliacaoRepository;
 
-    @Autowired
-    AvaliacaoRepository avaliacaoRepository;
+    public PessoaJuridicaService(PessoaJuridicaRepository pjRepository,
+                                 AvaliacaoRepository avaliacaoRepository) {
+        Objects.requireNonNull(pjRepository);
+        Objects.requireNonNull(avaliacaoRepository);
+        this.pjRepository = pjRepository;
+        this.avaliacaoRepository = avaliacaoRepository;
+    }
 
     @Transactional
     public PessoaJuridica salvar(@Valid PessoaJuridica pj) {
