@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("pj")
+@RequestMapping("empresa")
 @Tag(name = "Pessoa Juridica")
 @CrossOrigin
 public class PessoaJuridicaResource {
