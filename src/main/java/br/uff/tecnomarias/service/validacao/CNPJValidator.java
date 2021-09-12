@@ -32,9 +32,11 @@ public class CNPJValidator implements ConstraintValidator<CNPJ, CharSequence> {
         if (value == null) {
             return true;
         } else if (DIGITS_ONLY.matcher(value).matches()) {
-            return this.withoutSeparatorMod11Validator1.isValid(value, context) && this.withoutSeparatorMod11Validator2.isValid(value, context);
+            return this.withoutSeparatorMod11Validator1.isValid(value, context)
+                    && this.withoutSeparatorMod11Validator2.isValid(value, context);
         } else {
-            return this.withSeparatorMod11Validator1.isValid(value, context) && this.withSeparatorMod11Validator2.isValid(value, context);
+            return this.withSeparatorMod11Validator1.isValid(value, context)
+                    && this.withSeparatorMod11Validator2.isValid(value, context);
         }
     }
 }
