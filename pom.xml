@@ -18,7 +18,6 @@
         <java.version>11</java.version>
         <jacoco.version>0.8.7</jacoco.version>
         <rest-assured.version>4.3.0</rest-assured.version>
-        <hamcrest.version>2.2</hamcrest.version>
         <groovy.version>3.0.7</groovy.version>
     </properties>
     <dependencies>
@@ -76,11 +75,6 @@
             <artifactId>rest-assured</artifactId>
             <version>${rest-assured.version}</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest</artifactId>
-            <version>${hamcrest.version}</version>
         </dependency>
     </dependencies>
 
