@@ -1,56 +1,112 @@
 package br.uff.tecnomarias.service.validacao;
 
-import org.hibernate.validator.internal.constraintvalidators.hv.Mod11CheckValidator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.Spy;
 
-import javax.validation.ConstraintValidatorContext;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class CNPJValidatorTest {
 
-    static CNPJValidator validator;
-
-    @Mock
-    ConstraintValidatorContext context;
-
-    @Spy
-    Mod11CheckValidator modValidator;
+    private static Validator validator;
 
     @BeforeAll
-    static void setup() {
-        validator = new CNPJValidator();
+    static void setUp() {
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        validator = factory.getValidator();
     }
 
     @Test
     void cnpj_nulo_valido() {
-        Assertions.assertTrue(validator.isValid(null, context));
+        Set<ConstraintViolation<MockEmpresa>> violations = validator.validate(new MockEmpresa(null));
+        Assertions.assertTrue(violations.isEmpty());
     }
 
     @Test
-    void cnpj_apenas_digitos_valido() {
-        String cnpj = "10259354000109";
-        boolean valid = validator.isValid(cnpj, context);
-        Assertions.assertTrue(valid);
-    }
-
-    @Test
-    void cnpj_apenas_digitos_invalido() {
-        CharSequence cnpj = "10259354000209";
-        Assertions.assertFalse(validator.isValid(cnpj, context));
+    void cnpj_sem_pontuacao_valido() {
+        Set<ConstraintViolation<MockEmpresa>> violations = validator.validate(new MockEmpresa("07755311000100"));
+        Assertions.assertTrue(violations.isEmpty());
     }
 
     @Test
     void cnpj_com_pontuacao_valido() {
-        CharSequence cnpj = "10.259.354/0001-09";
-        Assertions.assertTrue(validator.isValid(cnpj, context));
+        Set<ConstraintViolation<MockEmpresa>> violations = validator.validate(new MockEmpresa("07.755.311/0001-00"));
+        Assertions.assertTrue(violations.isEmpty());
     }
 
     @Test
-    void cnpj_com_pontuacao_invalido() {
-        CharSequence cnpj = "10.259.354/0002-09";
-        Assertions.assertFalse(validator.isValid(cnpj, context));
+    void cnpj_sem_pontuacao_check_1_2_fail_invalido() {
+        Set<ConstraintViolation<MockEmpresa>> violations = validator.validate(new MockEmpresa("91509901000160"));
+        List<String> msgs = violations.stream().map(ConstraintViolation::getMessage).collect(Collectors.toList());
+
+        Assertions.assertFalse(violations.isEmpty());
+        Assertions.assertEquals(1, violations.size());
+        Assertions.assertEquals("CNPJ inválido", msgs.get(0));
+    }
+
+    @Test
+    void cnpj_sem_pontuacao_check_1_fail_invalido() {
+        Set<ConstraintViolation<MockEmpresa>> violations = validator.validate(new MockEmpresa("07755311000200"));
+        List<String> msgs = violations.stream().map(ConstraintViolation::getMessage).collect(Collectors.toList());
+
+        Assertions.assertFalse(violations.isEmpty());
+        Assertions.assertEquals(1, violations.size());
+        Assertions.assertEquals("CNPJ inválido", msgs.get(0));
+    }
+
+    @Test
+    void cnpj_sem_pontuacao_check_2_fail_invalido() {
+        Set<ConstraintViolation<MockEmpresa>> violations = validator.validate(new MockEmpresa("07755311000102"));
+        List<String> msgs = violations.stream().map(ConstraintViolation::getMessage).collect(Collectors.toList());
+
+        Assertions.assertFalse(violations.isEmpty());
+        Assertions.assertEquals(1, violations.size());
+        Assertions.assertEquals("CNPJ inválido", msgs.get(0));
+    }
+
+    @Test
+    void cnpj_com_pontuacao_check_1_2_fail_invalido() {
+        Set<ConstraintViolation<MockEmpresa>> violations = validator.validate(new MockEmpresa("91.509.901/0001-60"));
+        List<String> msgs = violations.stream().map(ConstraintViolation::getMessage).collect(Collectors.toList());
+
+        Assertions.assertFalse(violations.isEmpty());
+        Assertions.assertEquals(1, violations.size());
+        Assertions.assertEquals("CNPJ inválido", msgs.get(0));
+    }
+
+    @Test
+    void cnpj_com_pontuacao_check_1_fail_invalido() {
+        Set<ConstraintViolation<MockEmpresa>> violations = validator.validate(new MockEmpresa("10.259.354/0002-09"));
+        List<String> msgs = violations.stream().map(ConstraintViolation::getMessage).collect(Collectors.toList());
+
+        Assertions.assertFalse(violations.isEmpty());
+        Assertions.assertEquals(1, violations.size());
+        Assertions.assertEquals("CNPJ inválido", msgs.get(0));
+    }
+
+    @Test
+    void cnpj_com_pontuacao_check_2_fail_invalido() {
+        Set<ConstraintViolation<MockEmpresa>> violations = validator.validate(new MockEmpresa("07.755.311/0001-02"));
+        List<String> msgs = violations.stream().map(ConstraintViolation::getMessage).collect(Collectors.toList());
+
+        Assertions.assertFalse(violations.isEmpty());
+        Assertions.assertEquals(1, violations.size());
+        Assertions.assertEquals("CNPJ inválido", msgs.get(0));
+    }
+
+    private static class MockEmpresa {
+        @CNPJ
+        private String cnpj;
+
+        public MockEmpresa(String cnpj) {
+            this.cnpj = cnpj;
+        }
     }
 }
+

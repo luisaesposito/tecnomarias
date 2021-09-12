@@ -1,7 +1,6 @@
 package br.uff.tecnomarias.service.validacao;
 
 import org.hibernate.validator.constraints.Mod11Check.ProcessingDirection;
-import org.hibernate.validator.constraints.br.CNPJ;
 import org.hibernate.validator.internal.constraintvalidators.hv.Mod11CheckValidator;
 
 import javax.validation.ConstraintValidator;
