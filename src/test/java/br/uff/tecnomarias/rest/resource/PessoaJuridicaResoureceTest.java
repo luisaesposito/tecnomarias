@@ -1,12 +1,16 @@
 package br.uff.tecnomarias.rest.resource;
 
+import br.uff.tecnomarias.rest.dto.PessoaJuridicaDTO;
+import io.restassured.http.ContentType;
+import io.restassured.response.Response;
 import org.apache.http.HttpStatus;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 
-import static io.restassured.RestAssured.*;
-import static io.restassured.matcher.RestAssuredMatchers.*;
+import static io.restassured.RestAssured.given;
+import static io.restassured.RestAssured.when;
 import static org.hamcrest.Matchers.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -14,15 +18,137 @@ public class PessoaJuridicaResoureceTest {
 
     @LocalServerPort
     private Integer port;
+    private static final String BASE_PATH = "http://localhost:%s/api/v1/empresa/";
+
+    private static final Long ID_EMPRESA_SALVA = 1L;
+    private static final Long ID_EMPRESA_PARA_REMOVER = 2L;
 
     @Test
+    @DisplayName("TM-1 : Criar perfil empresa com sucesso")
     void deveSalvarEmpresaComSucesso() {
         String json = "{\"nome\":\"nova empresa\",\"tipoPessoa\":\"PJ\",\"email\":\"teste@email.com\",\"cnpj\":\"84072258000193\",\"porteEmpresa\":\"MICROEMPRESA\",\"areaAtuacao\":\"area\"}";
-        given().contentType("application/json")
+        given().contentType(ContentType.JSON)
                 .body(json)
-                .when().post("http://localhost:"+port+"/api/v1/empresa")
-                .then().statusCode(200).log().all()
+                .when()
+                .post(String.format(BASE_PATH, port))
+                .then()
+                .statusCode(HttpStatus.SC_CREATED)
                 .body("id", notNullValue());
+    }
+
+    @Test
+    @DisplayName("TM-2 : Criar perfil empresa falha por requisição inválida")
+    void deveRetornarErroBadRequestSalvarComBodyInvalido() {
+        String json = "{\"nome\":\"nova empresa\",\"tipoPessoa\":\"PJ\",\"email\":\"teste@email.com\",\"cnpj\":\"   \",\"porteEmpresa\":\"MICROEMPRESA\",\"areaAtuacao\":\"area\"}";
+        given().contentType(ContentType.JSON)
+                .body(json)
+                .when()
+                .post(String.format(BASE_PATH, port))
+                .then()
+                .statusCode(HttpStatus.SC_BAD_REQUEST);
+    }
+
+    @Test
+    @DisplayName("TM-7 : Visualizar perfil empresa com sucesso ")
+    void deveBuscarPorIDComSucesso() {
+        given()
+                .pathParam("id", ID_EMPRESA_SALVA)
+                .when()
+                .get(String.format(BASE_PATH, port)+"{id}")
+                .then().statusCode(HttpStatus.SC_OK);
+    }
+
+    @Test
+    @DisplayName("TM-8 : Visualizar perfil empresa falha por id não encontrado")
+    void deveRetornarNotFoundBuscarPorIDNaoCadastrado() {
+        given().pathParam("id", 999).get(String.format(BASE_PATH, port)+"{id}").then().statusCode(HttpStatus.SC_NOT_FOUND);
+    }
+
+    @Test
+    void deveRetornarListaDeEmpresas() {
+        when()
+                .get(String.format(BASE_PATH, port))
+                .then()
+                .statusCode(200)
+                .body("size()", greaterThan(0));
+    }
+
+    @Test
+    @DisplayName("TM-3 : Editar perfil empresa com sucesso")
+    void deveAtualizarEmpresaComSucesso() {
+        PessoaJuridicaDTO dto = given().pathParam("id", ID_EMPRESA_SALVA)
+                .get(String.format(BASE_PATH, port)+"{id}")
+                .then().statusCode(HttpStatus.SC_OK).extract().as(PessoaJuridicaDTO.class);
+
+        dto.descricao = "nova descricao";
+
+        given()
+                .contentType(ContentType.JSON)
+                .body(dto)
+                .pathParam("id", ID_EMPRESA_SALVA)
+                .when()
+                .put(String.format(BASE_PATH, port)+"{id}")
+                .then()
+                .statusCode(HttpStatus.SC_OK)
+                .body("id", is(ID_EMPRESA_SALVA),
+                        "descricao", is("nova descricao"));
+    }
+
+    @Test
+    @DisplayName("TM-9 : Editar perfil empresa falha por requisição inválida")
+    void deveRetornarBadRequestAtualizarComBodyInvalido() {
+        PessoaJuridicaDTO dto = given().pathParam("id", ID_EMPRESA_SALVA)
+                .get(String.format(BASE_PATH, port)+"{id}")
+                .then().statusCode(HttpStatus.SC_OK).extract().as(PessoaJuridicaDTO.class);
+
+        dto.cnpj = "   ";
+
+        given()
+                .contentType(ContentType.JSON)
+                .body(dto)
+                .pathParam("id", ID_EMPRESA_SALVA)
+                .when()
+                .put(String.format(BASE_PATH, port)+"{id}")
+                .then()
+                .statusCode(HttpStatus.SC_BAD_REQUEST);
+    }
+
+    @Test
+    @DisplayName("TM-4 : Editar perfil empresa falha por id não encontrado")
+    void deveRetornarNotFoundAtualizarEmpresaNaoCadastrada() {
+        Response response = given().pathParam("id", ID_EMPRESA_SALVA)
+                .get(String.format(BASE_PATH, port)+"{id}")
+                .then().statusCode(200).extract().response();
+        String json = response.getBody().asString();
+        given()
+                .contentType(ContentType.JSON)
+                .body(json)
+                .pathParam("id", "999")
+                .when()
+                .put(String.format(BASE_PATH, port)+"{id}")
+                .then()
+                .statusCode(HttpStatus.SC_NOT_FOUND);
+    }
+
+    @Test
+    @DisplayName("TM-5 : Remover perfil empresa com sucesso")
+    void deveRemoverEmpresa() {
+        given()
+                .pathParam("id", ID_EMPRESA_PARA_REMOVER)
+                .when()
+                .delete(String.format(BASE_PATH, port)+"{id}")
+                .then().statusCode(HttpStatus.SC_OK)
+                .body(is("Avaliação removida com sucesso."));
+    }
+
+    @Test
+    @DisplayName("TM-6 : Remover perfil empresa falha por id não encontrado")
+    void deveRetornarNotFoundRemoverEmpresaNaoCadastrada() {
+        given()
+                .pathParam("id", 999)
+                .when()
+                .delete(String.format(BASE_PATH, port)+"{id}")
+                .then().statusCode(HttpStatus.SC_NOT_FOUND);
     }
 
 }
