@@ -29,7 +29,7 @@ public class FeedbackService {
     public Feedback salvarFeedback(Long idAvaliadora, Feedback feedback) {
         PessoaFisica pf = pfRepository.findById(idAvaliadora)
                 .orElseThrow(() -> new EntidadeNaoEncontradaException("Pessoa não encontrada"));
-        if (pf.getFeedback() != null) throw new BadRequestException("Usuaria ja availou o site");
+        if (pf.getFeedback() != null) throw new BadRequestException("Usuaria ja avaliou o site");
         feedback.setPessoa(pf);
         pf.setFeedback(feedback);
         pfRepository.save(pf);
