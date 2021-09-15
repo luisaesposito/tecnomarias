@@ -61,7 +61,7 @@ public class FeedbackServiceTest {
     @Test
     void deveRetornarFeedback() {
         PessoaFisica pessoaFisica = montarPF(false);
-        Feedback feed = new Feedback();
+        Feedback feed = montarFeedback(true);
         Mockito.when(pfRepo.findById(Mockito.anyLong())).thenReturn(Optional.of(pessoaFisica));
         Feedback save = feedbackService.salvarFeedback(1L, feed);
         Assertions.assertEquals(feed, save);
@@ -78,15 +78,16 @@ public class FeedbackServiceTest {
 
     @Test
     void deveRetornarSucessoFeedbackRemovido() {
-        Feedback feed = new Feedback();
+        Feedback feed = montarFeedback(true);
         Mockito.when(feedbackRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(feed));
         boolean remove =  feedbackService.remover(1L);
         Assertions.assertEquals(remove, true);
     }
 
-    private static Feedback montarFeedback() {
+    private static Feedback montarFeedback(boolean pessoa) {
         Feedback fb = new Feedback();
         fb.setComentario("Empresa muito boa!");
+        if (pessoa) fb.setPessoa(montarPF(false));
         return fb;
     }
 
@@ -94,7 +95,7 @@ public class FeedbackServiceTest {
         PessoaFisica pf = new PessoaFisica();
         pf.setNome("Renan Henrique");
         pf.setEmail("renan@email.com");
-        if (feedback) pf.setFeedback(montarFeedback());
+        if (feedback) pf.setFeedback(montarFeedback(false));
         return pf;
     }
 }
