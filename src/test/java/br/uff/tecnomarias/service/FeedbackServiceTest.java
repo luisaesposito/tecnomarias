@@ -33,11 +33,6 @@ public class FeedbackServiceTest {
     @InjectMocks
     FeedbackService feedbackService;
 
-    @Test
-    void deveRetornar3Ultimos() {
-        List<Feedback> search = feedbackService.buscarRecentes();
-        Assertions.assertEquals(3, search.size());
-    }
 
     @Test
     void deveRetornarErroUsuariaInexistente() {
@@ -50,7 +45,8 @@ public class FeedbackServiceTest {
 
     @Test
     void deveRetornarErroFeedbackExistente() {
-        PessoaFisica pessoaFisica = montarPF(true);
+        PessoaFisica pessoaFisica = montarPF();
+        pessoaFisica.setFeedback(montarFeedback());
         Mockito.when(pfRepo.findById(Mockito.anyLong())).thenReturn(Optional.of(pessoaFisica));
         Exception ex = Assertions.assertThrows(BadRequestException.class, () -> {
             feedbackService.salvarFeedback(1L, new Feedback());
@@ -59,9 +55,10 @@ public class FeedbackServiceTest {
     }
 
     @Test
-    void deveRetornarFeedback() {
-        PessoaFisica pessoaFisica = montarPF(false);
-        Feedback feed = montarFeedback(true);
+    void deveRetornarFeedbackCriado() {
+        PessoaFisica pessoaFisica = montarPF();
+        Feedback feed = montarFeedback();
+        feed.setPessoa(pessoaFisica);
         Mockito.when(pfRepo.findById(Mockito.anyLong())).thenReturn(Optional.of(pessoaFisica));
         Feedback save = feedbackService.salvarFeedback(1L, feed);
         Assertions.assertEquals(feed, save);
@@ -78,24 +75,23 @@ public class FeedbackServiceTest {
 
     @Test
     void deveRetornarSucessoFeedbackRemovido() {
-        Feedback feed = montarFeedback(true);
+        Feedback feed = montarFeedback();
+        feed.setPessoa(montarPF());
         Mockito.when(feedbackRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(feed));
         boolean remove =  feedbackService.remover(1L);
-        Assertions.assertEquals(remove, true);
+        Assertions.assertEquals(true, remove);
     }
 
-    private static Feedback montarFeedback(boolean pessoa) {
+    private static Feedback montarFeedback() {
         Feedback fb = new Feedback();
         fb.setComentario("Empresa muito boa!");
-        if (pessoa) fb.setPessoa(montarPF(false));
         return fb;
     }
 
-    private static PessoaFisica montarPF(boolean feedback) {
+    private static PessoaFisica montarPF() {
         PessoaFisica pf = new PessoaFisica();
         pf.setNome("Renan Henrique");
         pf.setEmail("renan@email.com");
-        if (feedback) pf.setFeedback(montarFeedback(false));
         return pf;
     }
 }
