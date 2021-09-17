@@ -5,6 +5,7 @@ import br.uff.tecnomarias.domain.utils.EntityUtils;
 
 import javax.persistence.*;
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
@@ -19,10 +20,10 @@ public class Pessoa {
     @Column(name = "id", updatable = false, nullable = false)
     protected Long id;
 
-    @NotNull(message = "nome é obrigatório")
+    @NotBlank(message = "nome é obrigatório")
     protected String nome;
 
-    @NotNull(message = "email é obrigatório")
+    @NotBlank(message = "email é obrigatório")
     protected String email;
 
     @NotNull(message = "tipo pessoa é obrigatório")
