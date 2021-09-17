@@ -65,12 +65,14 @@ public class PessoaJuridicaResoureceTest {
     }
 
     @Test
+    @DisplayName("TM-61: Buscar todos perfis empresa retorna todas as empresas com sucesso")
     void deveRetornarListaDeEmpresas() {
         when()
                 .get(String.format(BASE_PATH, port))
                 .then()
                 .statusCode(200)
-                .body("size()", greaterThan(0));
+                .body("size()", greaterThanOrEqualTo(2),
+                        "id", hasItems(ID_EMPRESA_SALVA.intValue(), 30));
     }
 
     @Test
@@ -85,12 +87,12 @@ public class PessoaJuridicaResoureceTest {
         given()
                 .contentType(ContentType.JSON)
                 .body(dto)
-                .pathParam("id", ID_EMPRESA_SALVA)
+                .pathParam("id", Long.valueOf(ID_EMPRESA_SALVA))
                 .when()
                 .put(String.format(BASE_PATH, port)+"{id}")
                 .then()
                 .statusCode(HttpStatus.SC_OK)
-                .body("id", is(ID_EMPRESA_SALVA),
+                .body("id", equalTo(ID_EMPRESA_SALVA.intValue()),
                         "descricao", is("nova descricao"));
     }
 
@@ -138,7 +140,7 @@ public class PessoaJuridicaResoureceTest {
                 .when()
                 .delete(String.format(BASE_PATH, port)+"{id}")
                 .then().statusCode(HttpStatus.SC_OK)
-                .body(is("Avaliação removida com sucesso."));
+                .body(is("Empresa removida com sucesso."));
     }
 
     @Test
@@ -150,5 +152,4 @@ public class PessoaJuridicaResoureceTest {
                 .delete(String.format(BASE_PATH, port)+"{id}")
                 .then().statusCode(HttpStatus.SC_NOT_FOUND);
     }
-
 }

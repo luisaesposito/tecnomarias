@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 
 import static io.restassured.RestAssured.given;
+import static io.restassured.RestAssured.when;
 import static org.hamcrest.Matchers.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -148,12 +149,21 @@ public class PessoaFisicaResourceTest {
 
     @Test
     @DisplayName("TM-17: Visualizar perfil pessoa física falha por id não encontrado")
-    void DeveRetornarNotFoundBuscarUsuariaNaoCadastrada() {
+    void deveRetornarNotFoundBuscarUsuariaNaoCadastrada() {
         given()
                 .pathParam("id", 999)
                 .when()
                 .get(String.format(BASE_PATH, port)+"{id}")
                 .then().statusCode(HttpStatus.SC_NOT_FOUND);
+    }
+
+    @Test
+    @DisplayName("TM-63: Buscar todos perfis pessoa fisica retorna todas as pessoas fisicas com sucesso")
+    void deveRetornarTodosPerfisUsuaria() {
+        when()
+                .get(String.format(BASE_PATH, port))
+                .then().statusCode(HttpStatus.SC_OK)
+                .body("id", hasItems(8, 9, 10));
     }
 
 }

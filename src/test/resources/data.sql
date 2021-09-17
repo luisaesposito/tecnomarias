@@ -3,7 +3,8 @@
 -- insere PJs
 INSERT INTO pessoa(id, tipo_pessoa, email, nome)
 VALUES (1, 'PJ', 'contato@ncsports.com.br', 'Noah e Clara Esportes Ltda'),
-       (2, 'PJ', 'rh@acme.com.br', 'ACME Co');
+       (2, 'PJ', 'rh@acme.com.br', 'ACME Co'),
+       (30, 'PJ', 'contato@primeup.com.br', 'PrimeUP');
 
 INSERT INTO endereco (id, bairro, complemento, logradouro, municipio_ibge, numero)
 VALUES (3, 'Santa Rosa', null, 'Rua dos Bobos', 3303302, '0'),
@@ -13,12 +14,13 @@ INSERT INTO pessoa_juridica(id, area_atuacao, cnpj, descricao, porte_empresa, si
 VALUES (1, 'e-commerce', '81898985000116', 'Vendemos artigos esportivos pela internet',
         'EMPRESA_PEQUENO_PORTE', 'www.ncsports.com.br', 3),
        (2, 'publicidade', '21747460000158', 'Agencia de publicidade e propaganda',
-        'EMPRESA_MEDIO_PORTE', 'www.acme.com.br', 4);
+        'EMPRESA_MEDIO_PORTE', 'www.acme.com.br', 4),
+       (30, 'TI', '32377406000184', 'PrimeUP Consultoria', 'EMPRESA_MEDIO_PORTE', 'www.primeup.com.br', null);
 
 -- insere vagas
 INSERT INTO vaga(id, empresa_id, area_atuacao, cargo, descricao, valor, localidade)
-VALUES (5, 1, 'analise de dados', 'JUNIOR', 'analisar dados, modelagem', 3500, 'Rio de Janeiro'),
-       (6, 1, 'analise de dados', 'ESTAGIARIA', 'analisar dados, modelagem', 2000, 'Rio de Janeiro'),
+VALUES (5, 1, 'analise de dados', 'JUNIOR', 'analise dados, modelagem', 3500, 'Rio de Janeiro'),
+       (6, 1, 'analise de dados', 'ESTAGIARIA', 'analise dados, modelagem', 2000, 'Rio de Janeiro'),
        (7, 2, 'desenvolvimento de software', 'PLENO', 'desenvolver aplicações web em java', 5500, 'São Paulo');
 
 -- insere PFs

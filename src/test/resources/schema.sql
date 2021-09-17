@@ -1,4 +1,4 @@
-CREATE SEQUENCE hibernate_sequence START 20 INCREMENT 1;
+CREATE SEQUENCE hibernate_sequence START 200 INCREMENT 1;
 
 CREATE TABLE avaliacao (
     id bigint NOT NULL,

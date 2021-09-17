@@ -73,6 +73,7 @@ public class FeedbackResourceTest {
     }
 
     @Test
+    @DisplayName("TM-80: Buscar os três feedbacks mais recentes")
     void deveListar3Feedbacks() {
         when()
                 .get(String.format(BASE_PATH, port))
