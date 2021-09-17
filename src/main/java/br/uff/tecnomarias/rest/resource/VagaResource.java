@@ -13,6 +13,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -36,8 +38,9 @@ public class VagaResource {
     })
     @PostMapping
     @ResponseBody
-    public VagaDTO criarVaga(@RequestBody VagaDTO vagaDTO) {
-        return new VagaDTO(vagaService.salvar(vagaDTO.toEntity()));
+    public ResponseEntity<VagaDTO> criarVaga(@RequestBody VagaDTO vagaDTO) {
+        VagaDTO vaga = new VagaDTO(vagaService.salvar(vagaDTO.toEntity()));
+        return new ResponseEntity<>(vaga, HttpStatus.CREATED);
     }
 
     @Operation(summary = "Lista todas as vagas")

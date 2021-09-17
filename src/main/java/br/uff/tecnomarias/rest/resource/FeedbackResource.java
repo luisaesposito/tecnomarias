@@ -10,6 +10,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -41,8 +43,9 @@ public class FeedbackResource {
     })
     @PostMapping("{idPessoa}")
     @ResponseBody
-    public FeedbackDTO salvar(@PathVariable("idPessoa") final Long idPessoa, @RequestBody FeedbackDTO feedbackDTO) {
-        return new FeedbackDTO(feedbackService.salvarFeedback(idPessoa, feedbackDTO.toEntity()));
+    public ResponseEntity<FeedbackDTO> salvar(@PathVariable("idPessoa") final Long idPessoa, @RequestBody FeedbackDTO feedbackDTO) {
+        FeedbackDTO feedback = new FeedbackDTO(feedbackService.salvarFeedback(idPessoa, feedbackDTO.toEntity()));
+        return new ResponseEntity<>(feedback, HttpStatus.CREATED);
     }
 
     @DeleteMapping("{id}")
