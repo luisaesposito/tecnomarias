@@ -22,7 +22,7 @@ public class VagaResourceTest {
     private static final Long ID_VAGA_SALVA = 5L;
     private static final Long ID_VAGA_PARA_ALTERAR = 6L;
     private static final Long ID_VAGA_PARA_REMOVER = 7L;
-    private static final String AREA_ATUACAO_SALVA = "TI";
+    private static final String AREA_ATUACAO_SALVA = "analise";
 
     @Test
     @DisplayName("TM-39: Criar vaga com sucesso")
@@ -252,16 +252,16 @@ public class VagaResourceTest {
     }
 
     @Test
-    @DisplayName("TM-72: Buscar vagas pelo atributo cargo retorna vazio")
-    void deveRetornarListaVaziaCargoNaoEncontrado() {
+    @DisplayName("TM-72: Buscar vagas pelo atributo cargo retorna erro")
+    void deveRetornarBadRequestCargoNaoEncontrado() {
         given()
                 .queryParam("filtro", "cargo")
                 .queryParam("valor", "nope")
                 .when()
                 .get(String.format(BASE_PATH, port)+"filtro")
                 .then()
-                .statusCode(HttpStatus.SC_OK)
-                .body("size()", is(0));
+                .statusCode(HttpStatus.SC_BAD_REQUEST)
+                .body("message", is("Cargo invalido"));
     }
 
     @Test
