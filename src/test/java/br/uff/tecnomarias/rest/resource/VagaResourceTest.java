@@ -80,7 +80,7 @@ public class VagaResourceTest {
         VagaDTO dto = given().pathParam("id", ID_VAGA_PARA_ALTERAR).when()
                 .get(String.format(BASE_PATH, port)+"{id}").then().extract().as(VagaDTO.class);
 
-        dto.valor = dto.valor + 500.2;
+        dto.setValor(dto.getValor() + 500.2);
 
         given()
                 .contentType(ContentType.JSON)
@@ -115,7 +115,7 @@ public class VagaResourceTest {
         VagaDTO dto = given().pathParam("id", ID_VAGA_PARA_ALTERAR).when()
                 .get(String.format(BASE_PATH, port)+"{id}").then().extract().as(VagaDTO.class);
 
-        dto.areaAtuacao = null;
+        dto.setAreaAtuacao(null);
 
         given()
                 .contentType(ContentType.JSON)

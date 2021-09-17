@@ -82,7 +82,7 @@ public class PessoaJuridicaResoureceTest {
                 .get(String.format(BASE_PATH, port)+"{id}")
                 .then().statusCode(HttpStatus.SC_OK).extract().as(PessoaJuridicaDTO.class);
 
-        dto.descricao = "nova descricao";
+        dto.setDescricao("nova descricao");
 
         given()
                 .contentType(ContentType.JSON)
@@ -103,7 +103,7 @@ public class PessoaJuridicaResoureceTest {
                 .get(String.format(BASE_PATH, port)+"{id}")
                 .then().statusCode(HttpStatus.SC_OK).extract().as(PessoaJuridicaDTO.class);
 
-        dto.cnpj = "   ";
+        dto.setCnpj("   ");
 
         given()
                 .contentType(ContentType.JSON)

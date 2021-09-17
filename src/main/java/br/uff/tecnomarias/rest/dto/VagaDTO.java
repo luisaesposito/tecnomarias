@@ -11,13 +11,13 @@ import java.util.stream.Collectors;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class VagaDTO {
 
-    public Long id;
-    public Long idEmpresa;
-    public String areaAtuacao;
-    public Cargo cargo;
-    public String descricao;
-    public Double valor;
-    public String localidade;
+    private Long id;
+    private Long idEmpresa;
+    private String areaAtuacao;
+    private Cargo cargo;
+    private String descricao;
+    private Double valor;
+    private String localidade;
 
     public VagaDTO() {}
 
@@ -46,5 +46,61 @@ public class VagaDTO {
 
     public static List<VagaDTO> toDTOList(List<Vaga> vagas) {
         return vagas.stream().map(VagaDTO::new).collect(Collectors.toList());
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getIdEmpresa() {
+        return idEmpresa;
+    }
+
+    public void setIdEmpresa(Long idEmpresa) {
+        this.idEmpresa = idEmpresa;
+    }
+
+    public String getAreaAtuacao() {
+        return areaAtuacao;
+    }
+
+    public void setAreaAtuacao(String areaAtuacao) {
+        this.areaAtuacao = areaAtuacao;
+    }
+
+    public Cargo getCargo() {
+        return cargo;
+    }
+
+    public void setCargo(Cargo cargo) {
+        this.cargo = cargo;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public Double getValor() {
+        return valor;
+    }
+
+    public void setValor(Double valor) {
+        this.valor = valor;
+    }
+
+    public String getLocalidade() {
+        return localidade;
+    }
+
+    public void setLocalidade(String localidade) {
+        this.localidade = localidade;
     }
 }

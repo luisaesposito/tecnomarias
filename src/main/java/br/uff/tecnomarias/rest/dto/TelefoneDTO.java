@@ -6,11 +6,11 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class TelefoneDTO {
 
-    public Long id;
-    public String ddi;
-    public String ddd;
-    public String numero;
-    public String numeroCompleto;
+    private Long id;
+    private String ddi;
+    private String ddd;
+    private String numero;
+    private String numeroCompleto;
 
     public TelefoneDTO() { }
 
@@ -28,5 +28,45 @@ public class TelefoneDTO {
         telefone.setDdd(this.ddd);
         telefone.setNumero(this.numero);
         return telefone;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getDdi() {
+        return ddi;
+    }
+
+    public void setDdi(String ddi) {
+        this.ddi = ddi;
+    }
+
+    public String getDdd() {
+        return ddd;
+    }
+
+    public void setDdd(String ddd) {
+        this.ddd = ddd;
+    }
+
+    public String getNumero() {
+        return numero;
+    }
+
+    public void setNumero(String numero) {
+        this.numero = numero;
+    }
+
+    public String getNumeroCompleto() {
+        return numeroCompleto;
+    }
+
+    public void setNumeroCompleto(String numeroCompleto) {
+        this.numeroCompleto = numeroCompleto;
     }
 }

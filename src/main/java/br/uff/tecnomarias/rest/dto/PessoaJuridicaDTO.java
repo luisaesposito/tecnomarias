@@ -11,14 +11,14 @@ import java.util.stream.Collectors;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PessoaJuridicaDTO extends PessoaDTO {
 
-    public String cnpj;
-    public String site;
-    public String descricao;
-    public PorteEmpresa porteEmpresa;
-    public String areaAtuacao;
-    public List<AvaliacaoDTO> avaliacoes;
-    public Double mediaAvaliacao;
-    public EnderecoDTO endereco;
+    private String cnpj;
+    private String site;
+    private String descricao;
+    private PorteEmpresa porteEmpresa;
+    private String areaAtuacao;
+    private List<AvaliacaoDTO> avaliacoes;
+    private Double mediaAvaliacao;
+    private EnderecoDTO endereco;
 
     public PessoaJuridicaDTO() {
         super();
@@ -55,4 +55,67 @@ public class PessoaJuridicaDTO extends PessoaDTO {
         return pjList.stream().map(pj -> new PessoaJuridicaDTO(pj)).collect(Collectors.toList());
     }
 
+    public String getCnpj() {
+        return cnpj;
+    }
+
+    public void setCnpj(String cnpj) {
+        this.cnpj = cnpj;
+    }
+
+    public String getSite() {
+        return site;
+    }
+
+    public void setSite(String site) {
+        this.site = site;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public PorteEmpresa getPorteEmpresa() {
+        return porteEmpresa;
+    }
+
+    public void setPorteEmpresa(PorteEmpresa porteEmpresa) {
+        this.porteEmpresa = porteEmpresa;
+    }
+
+    public String getAreaAtuacao() {
+        return areaAtuacao;
+    }
+
+    public void setAreaAtuacao(String areaAtuacao) {
+        this.areaAtuacao = areaAtuacao;
+    }
+
+    public List<AvaliacaoDTO> getAvaliacoes() {
+        return avaliacoes;
+    }
+
+    public void setAvaliacoes(List<AvaliacaoDTO> avaliacoes) {
+        this.avaliacoes = avaliacoes;
+    }
+
+    public Double getMediaAvaliacao() {
+        return mediaAvaliacao;
+    }
+
+    public void setMediaAvaliacao(Double mediaAvaliacao) {
+        this.mediaAvaliacao = mediaAvaliacao;
+    }
+
+    public EnderecoDTO getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(EnderecoDTO endereco) {
+        this.endereco = endereco;
+    }
 }

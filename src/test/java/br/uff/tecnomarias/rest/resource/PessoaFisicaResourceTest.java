@@ -68,8 +68,8 @@ public class PessoaFisicaResourceTest {
 
         Links links = new Links();
         links.setGitHub("git_hub.com/ramos");
-        dto.links = links;
-        dto.nome = "Novo nome";
+        dto.setLinks(links);
+        dto.setNome("Novo nome");
 
         given().contentType(ContentType.JSON)
                 .body(dto)
@@ -103,7 +103,7 @@ public class PessoaFisicaResourceTest {
         PessoaFisicaDTO dto = given().pathParam("id", ID_USUARIA_SALVA)
                 .get(String.format(BASE_PATH, port)+"{id}").then().extract().as(PessoaFisicaDTO.class);
 
-        dto.nome = null;
+        dto.setNome(null);
 
         given().contentType(ContentType.JSON)
                 .body(dto)
