@@ -14,7 +14,7 @@ import static io.restassured.RestAssured.when;
 import static org.hamcrest.Matchers.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class PessoaFisicaResourceTest {
+class PessoaFisicaResourceTest {
 
     @LocalServerPort
     private Integer port;
@@ -109,8 +109,10 @@ public class PessoaFisicaResourceTest {
                 .body(dto)
                 .pathParam("id", ID_USUARIA_SALVA)
                 .when()
+                .log().all()
                 .put(String.format(BASE_PATH, port)+"{id}")
                 .then()
+                .log().all()
                 .statusCode(HttpStatus.SC_BAD_REQUEST);
     }
 

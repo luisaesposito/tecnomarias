@@ -14,7 +14,7 @@ import static io.restassured.RestAssured.when;
 import static org.hamcrest.Matchers.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class PessoaJuridicaResoureceTest {
+class PessoaJuridicaResourceTest {
 
     @LocalServerPort
     private Integer port;
@@ -54,14 +54,14 @@ public class PessoaJuridicaResoureceTest {
         given()
                 .pathParam("id", ID_EMPRESA_SALVA)
                 .when()
-                .get(String.format(BASE_PATH, port)+"{id}")
+                .get(String.format(BASE_PATH, port) + "{id}")
                 .then().statusCode(HttpStatus.SC_OK);
     }
 
     @Test
     @DisplayName("TM-8 : Visualizar perfil empresa falha por id não encontrado")
     void deveRetornarNotFoundBuscarPorIDNaoCadastrado() {
-        given().pathParam("id", 999).get(String.format(BASE_PATH, port)+"{id}").then().statusCode(HttpStatus.SC_NOT_FOUND);
+        given().pathParam("id", 999).get(String.format(BASE_PATH, port) + "{id}").then().statusCode(HttpStatus.SC_NOT_FOUND);
     }
 
     @Test
@@ -79,7 +79,7 @@ public class PessoaJuridicaResoureceTest {
     @DisplayName("TM-3 : Editar perfil empresa com sucesso")
     void deveAtualizarEmpresaComSucesso() {
         PessoaJuridicaDTO dto = given().pathParam("id", ID_EMPRESA_SALVA)
-                .get(String.format(BASE_PATH, port)+"{id}")
+                .get(String.format(BASE_PATH, port) + "{id}")
                 .then().statusCode(HttpStatus.SC_OK).extract().as(PessoaJuridicaDTO.class);
 
         dto.setDescricao("nova descricao");
@@ -89,7 +89,7 @@ public class PessoaJuridicaResoureceTest {
                 .body(dto)
                 .pathParam("id", Long.valueOf(ID_EMPRESA_SALVA))
                 .when()
-                .put(String.format(BASE_PATH, port)+"{id}")
+                .put(String.format(BASE_PATH, port) + "{id}")
                 .then()
                 .statusCode(HttpStatus.SC_OK)
                 .body("id", equalTo(ID_EMPRESA_SALVA.intValue()),
@@ -100,7 +100,7 @@ public class PessoaJuridicaResoureceTest {
     @DisplayName("TM-9 : Editar perfil empresa falha por requisição inválida")
     void deveRetornarBadRequestAtualizarComBodyInvalido() {
         PessoaJuridicaDTO dto = given().pathParam("id", ID_EMPRESA_SALVA)
-                .get(String.format(BASE_PATH, port)+"{id}")
+                .get(String.format(BASE_PATH, port) + "{id}")
                 .then().statusCode(HttpStatus.SC_OK).extract().as(PessoaJuridicaDTO.class);
 
         dto.setCnpj("   ");
@@ -110,7 +110,7 @@ public class PessoaJuridicaResoureceTest {
                 .body(dto)
                 .pathParam("id", ID_EMPRESA_SALVA)
                 .when()
-                .put(String.format(BASE_PATH, port)+"{id}")
+                .put(String.format(BASE_PATH, port) + "{id}")
                 .then()
                 .statusCode(HttpStatus.SC_BAD_REQUEST);
     }
@@ -119,7 +119,7 @@ public class PessoaJuridicaResoureceTest {
     @DisplayName("TM-4 : Editar perfil empresa falha por id não encontrado")
     void deveRetornarNotFoundAtualizarEmpresaNaoCadastrada() {
         Response response = given().pathParam("id", ID_EMPRESA_SALVA)
-                .get(String.format(BASE_PATH, port)+"{id}")
+                .get(String.format(BASE_PATH, port) + "{id}")
                 .then().statusCode(200).extract().response();
         String json = response.getBody().asString();
         given()
@@ -127,7 +127,7 @@ public class PessoaJuridicaResoureceTest {
                 .body(json)
                 .pathParam("id", "999")
                 .when()
-                .put(String.format(BASE_PATH, port)+"{id}")
+                .put(String.format(BASE_PATH, port) + "{id}")
                 .then()
                 .statusCode(HttpStatus.SC_NOT_FOUND);
     }
@@ -138,7 +138,7 @@ public class PessoaJuridicaResoureceTest {
         given()
                 .pathParam("id", ID_EMPRESA_PARA_REMOVER)
                 .when()
-                .delete(String.format(BASE_PATH, port)+"{id}")
+                .delete(String.format(BASE_PATH, port) + "{id}")
                 .then().statusCode(HttpStatus.SC_OK)
                 .body(is("Empresa removida com sucesso."));
     }
@@ -149,7 +149,7 @@ public class PessoaJuridicaResoureceTest {
         given()
                 .pathParam("id", 999)
                 .when()
-                .delete(String.format(BASE_PATH, port)+"{id}")
+                .delete(String.format(BASE_PATH, port) + "{id}")
                 .then().statusCode(HttpStatus.SC_NOT_FOUND);
     }
 }

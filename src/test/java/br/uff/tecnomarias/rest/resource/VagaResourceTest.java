@@ -13,7 +13,7 @@ import static io.restassured.RestAssured.when;
 import static org.hamcrest.Matchers.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class VagaResourceTest {
+class VagaResourceTest {
 
     @LocalServerPort
     private Integer port;
@@ -62,7 +62,7 @@ public class VagaResourceTest {
     }
 
     @Test
-    @DisplayName("")
+    @DisplayName("TM-60 Criar vaga falha por id não encontrado")
     void deveRetornarBadRequestSalvarVagaParaEmpresaNaoCadastrada() {
         String json = "{\"idEmpresa\":\"999\",\"areaAtuacao\":\"arquitetura\",\"cargo\":\"JUNIOR\",\"descricao\":\"descricao da vaga\",\"valor\":3500,\"localidade\":\"Rio de Janeiro\"}";
         given()
@@ -78,7 +78,7 @@ public class VagaResourceTest {
     @DisplayName("TM-41: Editar vaga com sucesso")
     void deveAtualizarVagaComSucesso() {
         VagaDTO dto = given().pathParam("id", ID_VAGA_PARA_ALTERAR).when()
-                .get(String.format(BASE_PATH, port)+"{id}").then().extract().as(VagaDTO.class);
+                .get(String.format(BASE_PATH, port) + "{id}").then().extract().as(VagaDTO.class);
 
         dto.setValor(dto.getValor() + 500.2);
 
@@ -87,7 +87,7 @@ public class VagaResourceTest {
                 .body(dto)
                 .pathParam("id", ID_VAGA_PARA_ALTERAR)
                 .when()
-                .put(String.format(BASE_PATH, port)+"{id}")
+                .put(String.format(BASE_PATH, port) + "{id}")
                 .then()
                 .statusCode(HttpStatus.SC_OK)
                 .body("valor", is(2500.2f));
@@ -97,14 +97,14 @@ public class VagaResourceTest {
     @DisplayName("TM-42: Editar vaga falha por id não encontrado")
     void deveRetornarNotFoundAtualizarVagaNaoCadastrada() {
         VagaDTO dto = given().pathParam("id", ID_VAGA_PARA_ALTERAR).when()
-                .get(String.format(BASE_PATH, port)+"{id}").then().extract().as(VagaDTO.class);
+                .get(String.format(BASE_PATH, port) + "{id}").then().extract().as(VagaDTO.class);
 
         given()
                 .contentType(ContentType.JSON)
                 .body(dto)
                 .pathParam("id", 999)
                 .when()
-                .put(String.format(BASE_PATH, port)+"{id}")
+                .put(String.format(BASE_PATH, port) + "{id}")
                 .then()
                 .statusCode(HttpStatus.SC_NOT_FOUND);
     }
@@ -113,7 +113,7 @@ public class VagaResourceTest {
     @DisplayName("TM-43: Editar vaga falha por requisição inválida")
     void deveRetornarBadRequestAtulizarVagaBodyCampoInvalido() {
         VagaDTO dto = given().pathParam("id", ID_VAGA_PARA_ALTERAR).when()
-                .get(String.format(BASE_PATH, port)+"{id}").then().extract().as(VagaDTO.class);
+                .get(String.format(BASE_PATH, port) + "{id}").then().extract().as(VagaDTO.class);
 
         dto.setAreaAtuacao(null);
 
@@ -122,7 +122,7 @@ public class VagaResourceTest {
                 .body(dto)
                 .pathParam("id", ID_VAGA_PARA_ALTERAR)
                 .when()
-                .put(String.format(BASE_PATH, port)+"{id}")
+                .put(String.format(BASE_PATH, port) + "{id}")
                 .then()
                 .statusCode(HttpStatus.SC_BAD_REQUEST);
     }
@@ -134,7 +134,7 @@ public class VagaResourceTest {
                 .contentType(ContentType.JSON)
                 .pathParam("id", ID_VAGA_PARA_REMOVER)
                 .when()
-                .delete(String.format(BASE_PATH, port)+"{id}")
+                .delete(String.format(BASE_PATH, port) + "{id}")
                 .then()
                 .statusCode(HttpStatus.SC_OK);
     }
@@ -146,7 +146,7 @@ public class VagaResourceTest {
                 .contentType(ContentType.JSON)
                 .pathParam("id", 999)
                 .when()
-                .delete(String.format(BASE_PATH, port)+"{id}")
+                .delete(String.format(BASE_PATH, port) + "{id}")
                 .then()
                 .statusCode(HttpStatus.SC_NOT_FOUND);
     }
@@ -157,7 +157,7 @@ public class VagaResourceTest {
         given()
                 .pathParam("id", ID_VAGA_SALVA)
                 .when()
-                .get(String.format(BASE_PATH, port)+"{id}")
+                .get(String.format(BASE_PATH, port) + "{id}")
                 .then()
                 .statusCode(HttpStatus.SC_OK)
                 .body("id", is(ID_VAGA_SALVA.intValue()),
@@ -172,7 +172,7 @@ public class VagaResourceTest {
         given()
                 .pathParam("id", 999)
                 .when()
-                .get(String.format(BASE_PATH, port)+"{id}")
+                .get(String.format(BASE_PATH, port) + "{id}")
                 .then()
                 .statusCode(HttpStatus.SC_NOT_FOUND);
     }
@@ -194,10 +194,10 @@ public class VagaResourceTest {
         given()
                 .pathParam("id", 1)
                 .when()
-                .get(String.format(BASE_PATH, port)+"empresa/{id}")
+                .get(String.format(BASE_PATH, port) + "empresa/{id}")
                 .then()
                 .statusCode(HttpStatus.SC_OK)
-                .body("size()", is(0));
+                .body("size()", is(2));
     }
 
     @Test
@@ -206,8 +206,9 @@ public class VagaResourceTest {
         given()
                 .pathParam("id", 999)
                 .when()
-                .get(String.format(BASE_PATH, port)+"empresa/{id}")
+                .get(String.format(BASE_PATH, port) + "empresa/{id}")
                 .then()
+                .log().all()
                 .statusCode(HttpStatus.SC_BAD_REQUEST)
                 .body("message", is("Empresa nao encontrada"));
     }
@@ -219,7 +220,7 @@ public class VagaResourceTest {
                 .queryParam("filtro", "areaAtuacao")
                 .queryParam("valor", AREA_ATUACAO_SALVA)
                 .when()
-                .get(String.format(BASE_PATH, port)+"filtro")
+                .get(String.format(BASE_PATH, port) + "filtro")
                 .then()
                 .statusCode(HttpStatus.SC_OK)
                 .body("size()", greaterThanOrEqualTo(2));
@@ -232,7 +233,7 @@ public class VagaResourceTest {
                 .queryParam("filtro", "areaAtuacao")
                 .queryParam("valor", "nope")
                 .when()
-                .get(String.format(BASE_PATH, port)+"filtro")
+                .get(String.format(BASE_PATH, port) + "filtro")
                 .then()
                 .statusCode(HttpStatus.SC_OK)
                 .body("size()", is(0));
@@ -245,8 +246,9 @@ public class VagaResourceTest {
                 .queryParam("filtro", "cargo")
                 .queryParam("valor", "PLENO")
                 .when()
-                .get(String.format(BASE_PATH, port)+"filtro")
+                .get(String.format(BASE_PATH, port) + "filtro")
                 .then()
+                .log().all()
                 .statusCode(HttpStatus.SC_OK)
                 .body("size()", is(1));
     }
@@ -258,7 +260,7 @@ public class VagaResourceTest {
                 .queryParam("filtro", "cargo")
                 .queryParam("valor", "nope")
                 .when()
-                .get(String.format(BASE_PATH, port)+"filtro")
+                .get(String.format(BASE_PATH, port) + "filtro")
                 .then()
                 .statusCode(HttpStatus.SC_BAD_REQUEST)
                 .body("message", is("Cargo invalido"));
@@ -271,7 +273,7 @@ public class VagaResourceTest {
                 .queryParam("filtro", "localidade")
                 .queryParam("valor", "Rio de Janeiro")
                 .when()
-                .get(String.format(BASE_PATH, port)+"filtro")
+                .get(String.format(BASE_PATH, port) + "filtro")
                 .then()
                 .statusCode(HttpStatus.SC_OK)
                 .body("size()", greaterThanOrEqualTo(2));
@@ -284,7 +286,7 @@ public class VagaResourceTest {
                 .queryParam("filtro", "localidade")
                 .queryParam("valor", "nope")
                 .when()
-                .get(String.format(BASE_PATH, port)+"filtro")
+                .get(String.format(BASE_PATH, port) + "filtro")
                 .then()
                 .statusCode(HttpStatus.SC_OK)
                 .body("size()", is(0));
@@ -294,10 +296,10 @@ public class VagaResourceTest {
     @DisplayName("TM-78: Buscar áreas de atuação das vagas")
     void deveRetornarTodasAreasAtuacao() {
         when()
-                .get(String.format(BASE_PATH, port)+"area_atuacao")
+                .get(String.format(BASE_PATH, port) + "area_atuacao")
                 .then()
                 .statusCode(HttpStatus.SC_OK)
-                .body("size()", is(2));
+                .body("listaAreaAtuacao.size()", is(2));
     }
 
     @Test
@@ -307,7 +309,7 @@ public class VagaResourceTest {
                 .queryParam("filtro", "nope")
                 .queryParam("valor", "nope")
                 .when()
-                .get(String.format(BASE_PATH, port)+"filtro")
+                .get(String.format(BASE_PATH, port) + "filtro")
                 .then()
                 .statusCode(HttpStatus.SC_BAD_REQUEST)
                 .body("message", is("Filtro invalido"));
