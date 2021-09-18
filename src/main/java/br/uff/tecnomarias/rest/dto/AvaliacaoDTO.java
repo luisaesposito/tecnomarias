@@ -9,12 +9,12 @@ import java.time.LocalDateTime;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AvaliacaoDTO {
 
-    public Long id;
-    public String comentario;
-    public int nota;
-    public LocalDateTime data;
-    public String nomeAvaliadora;
-    public Long idEmpresa;
+    private Long id;
+    private String comentario;
+    private int nota;
+    private LocalDateTime data;
+    private String nomeAvaliadora;
+    private Long idEmpresa;
 
     public AvaliacaoDTO() { }
 
@@ -28,14 +28,62 @@ public class AvaliacaoDTO {
     }
 
     public Avaliacao toEntity() {
-        Avaliacao avaliacao = new Avaliacao();
+        var avaliacao = new Avaliacao();
         avaliacao.setComentario(this.comentario);
         avaliacao.setNota(this.nota);
         avaliacao.setData(this.data);
         avaliacao.setNomeAvaliadora(this.nomeAvaliadora);
-        PessoaJuridica empresa = new PessoaJuridica();
+        var empresa = new PessoaJuridica();
         empresa.setId(this.idEmpresa);
         avaliacao.setEmpresa(empresa);
         return avaliacao;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getComentario() {
+        return comentario;
+    }
+
+    public void setComentario(String comentario) {
+        this.comentario = comentario;
+    }
+
+    public int getNota() {
+        return nota;
+    }
+
+    public void setNota(int nota) {
+        this.nota = nota;
+    }
+
+    public LocalDateTime getData() {
+        return data;
+    }
+
+    public void setData(LocalDateTime data) {
+        this.data = data;
+    }
+
+    public String getNomeAvaliadora() {
+        return nomeAvaliadora;
+    }
+
+    public void setNomeAvaliadora(String nomeAvaliadora) {
+        this.nomeAvaliadora = nomeAvaliadora;
+    }
+
+    public Long getIdEmpresa() {
+        return idEmpresa;
+    }
+
+    public void setIdEmpresa(Long idEmpresa) {
+        this.idEmpresa = idEmpresa;
     }
 }

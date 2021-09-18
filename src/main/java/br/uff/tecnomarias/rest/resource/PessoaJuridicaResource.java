@@ -11,6 +11,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,8 +33,9 @@ public class PessoaJuridicaResource {
     })
     @PostMapping
     @ResponseBody
-    public PessoaJuridicaDTO salvarPJ(@RequestBody PessoaJuridicaDTO pjDTO) {
-        return new PessoaJuridicaDTO(pjService.salvar(pjDTO.toEntity()));
+    public ResponseEntity<PessoaJuridicaDTO >salvarPJ(@RequestBody PessoaJuridicaDTO pjDTO) {
+        var pjCriada = new PessoaJuridicaDTO(pjService.salvar(pjDTO.toEntity()));
+        return new ResponseEntity<>(pjCriada, HttpStatus.CREATED);
     }
 
     @Operation(summary = "Busca uma empresa pelo seu id")
@@ -78,7 +81,7 @@ public class PessoaJuridicaResource {
     @ResponseBody
     public String removerVaga(@PathVariable Long id) {
         pjService.remover(id);
-        return "Vaga removida com sucesso.";
+        return "Empresa removida com sucesso.";
     }
 
     @Operation(summary = "Adiciona uma avaliacao para uma empresa")

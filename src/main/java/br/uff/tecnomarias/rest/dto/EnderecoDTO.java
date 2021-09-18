@@ -6,12 +6,12 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class EnderecoDTO {
 
-    public Long id;
-    public String logradouro;
-    public String numero;
-    public String complemento;
-    public String bairro;
-    public Integer municipioIBGE;
+    private Long id;
+    private String logradouro;
+    private String numero;
+    private String complemento;
+    private String bairro;
+    private Integer municipioIBGE;
 
     public EnderecoDTO() {
     }
@@ -26,12 +26,60 @@ public class EnderecoDTO {
     }
 
     public Endereco toEntity() {
-        Endereco endereco = new Endereco();
+        var endereco = new Endereco();
         endereco.setLogradouro(this.logradouro);
         endereco.setNumero(this.numero);
         endereco.setComplemento(this.complemento);
         endereco.setBairro(this.bairro);
         endereco.setMunicipioIBGE(this.municipioIBGE);
         return endereco;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getLogradouro() {
+        return logradouro;
+    }
+
+    public void setLogradouro(String logradouro) {
+        this.logradouro = logradouro;
+    }
+
+    public String getNumero() {
+        return numero;
+    }
+
+    public void setNumero(String numero) {
+        this.numero = numero;
+    }
+
+    public String getComplemento() {
+        return complemento;
+    }
+
+    public void setComplemento(String complemento) {
+        this.complemento = complemento;
+    }
+
+    public String getBairro() {
+        return bairro;
+    }
+
+    public void setBairro(String bairro) {
+        this.bairro = bairro;
+    }
+
+    public Integer getMunicipioIBGE() {
+        return municipioIBGE;
+    }
+
+    public void setMunicipioIBGE(Integer municipioIBGE) {
+        this.municipioIBGE = municipioIBGE;
     }
 }

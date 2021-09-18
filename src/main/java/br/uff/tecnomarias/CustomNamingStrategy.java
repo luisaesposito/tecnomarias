@@ -11,53 +11,43 @@ public class CustomNamingStrategy
     public static final CustomNamingStrategy INSTANCE =
             new CustomNamingStrategy();
 
-    public static final String CAMEL_CASE_REGEX = "([a-z]+)([A-Z]+)";
+    public static final String CAMEL_CASE_REGEX = "([a-z])([A-Z])";
 
-    public static final String SNAKE_CASE_PATTERN = "$1\\_$2";
+    public static final String SNAKE_CASE_PATTERN = "$1_$2";
 
     @Override
     public Identifier toPhysicalCatalogName(
-            Identifier name,
+            Identifier identifier,
             JdbcEnvironment context) {
-        return formatIdentifier(
-                super.toPhysicalCatalogName(name, context)
-        );
+        return formatIdentifier(identifier);
     }
 
     @Override
     public Identifier toPhysicalSchemaName(
-            Identifier name,
+            Identifier identifier,
             JdbcEnvironment context) {
-        return formatIdentifier(
-                super.toPhysicalSchemaName(name, context)
-        );
+        return formatIdentifier(identifier);
     }
 
     @Override
     public Identifier toPhysicalTableName(
-            Identifier name,
+            Identifier identifier,
             JdbcEnvironment context) {
-        return formatIdentifier(
-                super.toPhysicalTableName(name, context)
-        );
+        return formatIdentifier(identifier);
     }
 
     @Override
     public Identifier toPhysicalSequenceName(
-            Identifier name,
+            Identifier identifier,
             JdbcEnvironment context) {
-        return formatIdentifier(
-                super.toPhysicalSequenceName(name, context)
-        );
+        return formatIdentifier(identifier);
     }
 
     @Override
     public Identifier toPhysicalColumnName(
-            Identifier name,
+            Identifier identifier,
             JdbcEnvironment context) {
-        return formatIdentifier(
-                super.toPhysicalColumnName(name, context)
-        );
+        return formatIdentifier(identifier);
     }
 
     private Identifier formatIdentifier(

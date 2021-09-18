@@ -17,15 +17,15 @@ import java.util.stream.Collectors;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public abstract class PessoaDTO {
 
-    public Long id;
-    public TipoPessoa tipoPessoa;
-    public String nome;
-    public String email;
-    public Set<TelefoneDTO> telefoneList;
+    private Long id;
+    private TipoPessoa tipoPessoa;
+    private String nome;
+    private String email;
+    private Set<TelefoneDTO> telefoneList;
 
-    public PessoaDTO() { }
+    protected PessoaDTO() { }
 
-    public PessoaDTO(Pessoa pessoa) {
+    protected PessoaDTO(Pessoa pessoa) {
         this.id = pessoa.getId();
         this.nome = pessoa.getNome();
         this.email = pessoa.getEmail();
@@ -39,5 +39,45 @@ public abstract class PessoaDTO {
         pessoa.setTipoPessoa(this.tipoPessoa);
         if (this.telefoneList != null && !this.telefoneList.isEmpty())
             pessoa.setTelefoneSet(this.telefoneList.stream().map(TelefoneDTO::toEntity).collect(Collectors.toSet()));
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public TipoPessoa getTipoPessoa() {
+        return tipoPessoa;
+    }
+
+    public void setTipoPessoa(TipoPessoa tipoPessoa) {
+        this.tipoPessoa = tipoPessoa;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Set<TelefoneDTO> getTelefoneList() {
+        return telefoneList;
+    }
+
+    public void setTelefoneList(Set<TelefoneDTO> telefoneList) {
+        this.telefoneList = telefoneList;
     }
 }

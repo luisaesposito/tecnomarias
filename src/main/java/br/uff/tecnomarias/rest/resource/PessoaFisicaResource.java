@@ -11,12 +11,14 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("pf")
+@RequestMapping("usuaria")
 @Tag(name = "Pessoa Fisica")
 @CrossOrigin
 public class PessoaFisicaResource {
@@ -31,8 +33,9 @@ public class PessoaFisicaResource {
     })
     @PostMapping
     @ResponseBody
-    public PessoaFisicaDTO criarPF(@RequestBody PessoaFisicaDTO pf) {
-        return new PessoaFisicaDTO(pfService.salvar(pf.toEntity()));
+    public ResponseEntity<PessoaFisicaDTO> criarPF(@RequestBody PessoaFisicaDTO pf) {
+        var pfCriada = new PessoaFisicaDTO(pfService.salvar(pf.toEntity()));
+        return new ResponseEntity<>(pfCriada, HttpStatus.CREATED);
     }
 
     @Operation(summary = "Lista todas as PFs cadastradas")

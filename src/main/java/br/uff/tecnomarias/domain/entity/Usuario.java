@@ -24,6 +24,7 @@ public class Usuario{
     Pessoa pessoa;
 
     public Usuario() {
+        //Deserialization
     }
 
     public Long getId() {
