@@ -25,7 +25,7 @@ public class FeedbackResourceTest {
 
     @Test
     @DisplayName("TM-55: Criar feedback falha por requisição inválida")
-    void deveSalvarFeedbackComSucesso() {
+    void deveRetornarBadRequestSalvarFeedbackCampoInvalido() {
         String json = "{\"comentario\":\"bom site\"}";
         given().contentType(ContentType.JSON)
                 .body(json)
