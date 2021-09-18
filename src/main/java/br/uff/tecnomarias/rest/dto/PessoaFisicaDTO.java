@@ -4,6 +4,7 @@ import br.uff.tecnomarias.domain.entity.Links;
 import br.uff.tecnomarias.domain.entity.PessoaFisica;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,6 +12,7 @@ import java.util.stream.Collectors;
 public class PessoaFisicaDTO extends PessoaDTO {
 
     private Links links;
+    private LocalDate dataCadastro;
 
     public PessoaFisicaDTO() {
         super();
@@ -19,6 +21,7 @@ public class PessoaFisicaDTO extends PessoaDTO {
     public PessoaFisicaDTO(PessoaFisica pf) {
         super(pf);
         this.links = pf.getLinks();
+        this.dataCadastro = pf.getDataCadastro();
     }
 
     public PessoaFisica toEntity() {

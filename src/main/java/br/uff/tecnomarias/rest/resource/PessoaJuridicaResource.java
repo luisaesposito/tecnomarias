@@ -91,8 +91,9 @@ public class PessoaJuridicaResource {
     })
     @PostMapping("{id}/avaliacao")
     @ResponseBody
-    public AvaliacaoDTO avaliarEmpresa(@PathVariable("id") final Long id, @RequestBody AvaliacaoDTO avaliacaoDTO) {
-        return new AvaliacaoDTO(pjService.avaliarEmpresa(id, avaliacaoDTO.toEntity()));
+    public ResponseEntity<AvaliacaoDTO> avaliarEmpresa(@PathVariable("id") final Long id, @RequestBody AvaliacaoDTO avaliacaoDTO) {
+        AvaliacaoDTO avaliacao = new AvaliacaoDTO(pjService.avaliarEmpresa(id, avaliacaoDTO.toEntity()));
+        return new ResponseEntity<>(avaliacao, HttpStatus.CREATED);
     }
 
     @Operation(summary = "Remove uma avaliacao pelo seu id")

@@ -22,7 +22,11 @@ public class Avaliacao {
     @NotNull(message = "Data de avaliacao é obrigatorio")
     private LocalDateTime data;
 
-    private String nomeAvaliadora;
+    @OneToOne
+    @JoinColumn(name = "avaliadora_id")
+    private PessoaFisica avaliadora;
+
+    private Boolean anonima = true;
 
     @ManyToOne
     @JoinColumn(name = "id_empresa")
@@ -64,12 +68,20 @@ public class Avaliacao {
         this.data = data;
     }
 
-    public String getNomeAvaliadora() {
-        return nomeAvaliadora;
+    public PessoaFisica getAvaliadora() {
+        return avaliadora;
     }
 
-    public void setNomeAvaliadora(String avaliadora) {
-        this.nomeAvaliadora = avaliadora;
+    public void setAvaliadora(PessoaFisica avaliadora) {
+        this.avaliadora = avaliadora;
+    }
+
+    public Boolean getAnonima() {
+        return anonima;
+    }
+
+    public void setAnonima(Boolean anonima) {
+        this.anonima = anonima;
     }
 
     public PessoaJuridica getEmpresa() {
