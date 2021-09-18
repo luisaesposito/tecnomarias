@@ -14,7 +14,7 @@ import static io.restassured.RestAssured.when;
 import static org.hamcrest.Matchers.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class PessoaJuridicaResoureceTest {
+public class PessoaJuridicaResourceTest {
 
     @LocalServerPort
     private Integer port;
