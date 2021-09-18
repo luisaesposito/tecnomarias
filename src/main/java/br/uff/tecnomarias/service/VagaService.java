@@ -5,8 +5,7 @@ import br.uff.tecnomarias.domain.entity.Vaga;
 import br.uff.tecnomarias.domain.enums.Cargo;
 import br.uff.tecnomarias.domain.repository.PessoaJuridicaRepository;
 import br.uff.tecnomarias.domain.repository.VagaRepository;
-import br.uff.tecnomarias.service.exception.BadRequestException;
-import br.uff.tecnomarias.service.exception.EntidadeNaoEncontradaException;
+import br.uff.tecnomarias.service.exception.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +24,7 @@ public class VagaService {
 
     @Transactional
     public Vaga salvar(@Valid Vaga vaga) {
+        validarVaga(vaga);
         PessoaJuridica pj = pjRepository.findById(vaga.getEmpresa().getId())
                 .orElseThrow(() -> new BadRequestException("Empresa nao encontrada"));
         pj.addVaga(vaga);
@@ -65,6 +65,7 @@ public class VagaService {
 
     @Transactional
     public Vaga alterar(final Long id, @Valid final Vaga vagaAlterada) {
+        validarVaga(vagaAlterada);
         Vaga vagaSalva = vagaRepository.findById(id)
                 .orElseThrow(() -> new EntidadeNaoEncontradaException("Vaga nao encontrada"));
         return vagaRepository.save(vagaSalva.atualizarDados(vagaAlterada));
@@ -80,6 +81,15 @@ public class VagaService {
 
     public List<String> listarAreaAtuacao() {
         return vagaRepository.listAreaAtuacao();
+    }
+
+    private void validarVaga(Vaga vg) {
+        if (vg.getAreaAtuacao() == null || vg.getAreaAtuacao().isBlank())
+            throw new VagaInvalidaException("Área Atuação é obrigatório");
+        if (vg.getDescricao() == null|| vg.getDescricao().isBlank())
+            throw new VagaInvalidaException("Descrição é obrigatório");
+        if (vg.getCargo() == null)
+            throw new VagaInvalidaException("Cargo é obrigatório");
     }
 
 }

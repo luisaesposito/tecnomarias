@@ -1,13 +1,13 @@
 package br.uff.tecnomarias.service;
 
-import br.uff.tecnomarias.domain.entity.Avaliacao;
-import br.uff.tecnomarias.domain.entity.Pessoa;
-import br.uff.tecnomarias.domain.entity.PessoaJuridica;
+import br.uff.tecnomarias.domain.entity.*;
 import br.uff.tecnomarias.domain.enums.PorteEmpresa;
 import br.uff.tecnomarias.domain.repository.AvaliacaoRepository;
 import br.uff.tecnomarias.domain.repository.PessoaJuridicaRepository;
 import br.uff.tecnomarias.service.PessoaJuridicaService;
 import br.uff.tecnomarias.service.exception.EntidadeNaoEncontradaException;
+import br.uff.tecnomarias.service.exception.PessoaInvalidaException;
+import br.uff.tecnomarias.service.exception.PessoaJuridicaInvalidaException;
 import org.junit.AfterClass;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -17,6 +17,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -40,78 +42,235 @@ public class PessoaJuridicaServiceTest {
     @InjectMocks
     private PessoaJuridicaService pjService;
 
-    private static ValidatorFactory factory;
-    private static Validator validator;
-
-    @BeforeAll
-    static void setUp() {
-        factory = Validation.buildDefaultValidatorFactory();
-        validator = factory.getValidator();
-    }
-
-    @AfterClass
-    public static void close() {
-        factory.close();
-    }
-
     @Test
-    void deveRetornarErroPJInvalidoComCNPJInvalido(){
+    void deveLancarErroSalvarPJNomeVazio() {
         PessoaJuridica pjAlterada = montarPJ();
-        pjAlterada.setCnpj("59799043");
-        Set<ConstraintViolation<PessoaJuridica>> violations = validator.validate(pjAlterada);
-        Assertions.assertTrue(violations.size() == 1);
+        pjAlterada.setNome(null);
+        Exception ex = Assertions.assertThrows(PessoaInvalidaException.class, () -> {
+            pjService.salvar(pjAlterada);
+        });
+        Assertions.assertEquals("Nome é obrigatório", ex.getMessage());
     }
 
     @Test
-    void deveRetornarErroPJInvalidoSemCNPJ(){
+    void deveLancarErroSalvarPJNomeEmBranco() {
+        PessoaJuridica pjAlterada = montarPJ();
+        pjAlterada.setNome("");
+        Exception ex = Assertions.assertThrows(PessoaInvalidaException.class, () -> {
+            pjService.salvar(pjAlterada);
+        });
+        Assertions.assertEquals("Nome é obrigatório", ex.getMessage());
+    }
+
+    @Test
+    void deveLancarErroSalvarPJEmailVazio() {
+        PessoaJuridica pjAlterada = montarPJ();
+        pjAlterada.setEmail(null);
+        Exception ex = Assertions.assertThrows(PessoaInvalidaException.class, () -> {
+            pjService.salvar(pjAlterada);
+        });
+        Assertions.assertEquals("Email é obrigatório", ex.getMessage());
+    }
+
+    @Test
+    void deveLancarErroSalvarPJEmailEmBranco() {
+        PessoaJuridica pjAlterada = montarPJ();
+        pjAlterada.setEmail("");
+        Exception ex = Assertions.assertThrows(PessoaInvalidaException.class, () -> {
+            pjService.salvar(pjAlterada);
+        });
+        Assertions.assertEquals("Email é obrigatório", ex.getMessage());
+    }
+
+    @Test
+    void deveLancarErroSalvarPJTipoPessoaVazio() {
+        PessoaJuridica pjAlterada = montarPJ();
+        pjAlterada.setTipoPessoa(null);
+        Exception ex = Assertions.assertThrows(PessoaInvalidaException.class, () -> {
+            pjService.salvar(pjAlterada);
+        });
+        Assertions.assertEquals("TipoPessoa é obrigatório", ex.getMessage());
+    }
+
+    @Test
+    void deveLancarErroSalvarPJCPNJInvalido() {
+        PessoaJuridica pjAlterada = montarPJ();
+        pjAlterada.setCnpj("12345");
+        Exception ex = Assertions.assertThrows(PessoaJuridicaInvalidaException.class, () -> {
+            pjService.salvar(pjAlterada);
+        });
+        Assertions.assertEquals("CNPJ deve ter 14 caracteres", ex.getMessage());
+    }
+
+    @Test
+    void deveLancarErroSalvarPJCPNJVazio() {
         PessoaJuridica pjAlterada = montarPJ();
         pjAlterada.setCnpj(null);
-        Set<ConstraintViolation<PessoaJuridica>> violations = validator.validate(pjAlterada);
-        Assertions.assertTrue(violations.size() == 1);
+        Exception ex = Assertions.assertThrows(PessoaJuridicaInvalidaException.class, () -> {
+            pjService.salvar(pjAlterada);
+        });
+        Assertions.assertEquals("CNPJ é obrigatório", ex.getMessage());
     }
 
     @Test
-    void deveRetornarErroPJInvalidoSemPorteEmpresa(){
+    void deveLancarErroSalvarPJCPNJEmBranco() {
+        PessoaJuridica pjAlterada = montarPJ();
+        pjAlterada.setCnpj("");
+        Exception ex = Assertions.assertThrows(PessoaJuridicaInvalidaException.class, () -> {
+            pjService.salvar(pjAlterada);
+        });
+        Assertions.assertEquals("CNPJ é obrigatório", ex.getMessage());
+    }
+
+    @Test
+    void deveLancarErroSalvarPJPorteEmpresaVazio() {
         PessoaJuridica pjAlterada = montarPJ();
         pjAlterada.setPorteEmpresa(null);
-        Set<ConstraintViolation<PessoaJuridica>> violations = validator.validate(pjAlterada);
-        Assertions.assertTrue(violations.size() == 1);
+        Exception ex = Assertions.assertThrows(PessoaJuridicaInvalidaException.class, () -> {
+            pjService.salvar(pjAlterada);
+        });
+        Assertions.assertEquals("PorteEmpresa é obrigatório", ex.getMessage());
     }
 
     @Test
-    void deveRetornarErroPJInvalidoSemAreaAtuacao(){
+    void deveLancarErroSalvarPJAreaAtuacaoVazio() {
         PessoaJuridica pjAlterada = montarPJ();
         pjAlterada.setAreaAtuacao(null);
-        Set<ConstraintViolation<PessoaJuridica>> violations = validator.validate(pjAlterada);
-        Assertions.assertTrue(violations.size() == 1);
+        Exception ex = Assertions.assertThrows(PessoaJuridicaInvalidaException.class, () -> {
+            pjService.salvar(pjAlterada);
+        });
+        Assertions.assertEquals("AreaAtuacao é obrigatório", ex.getMessage());
+    }
+
+    @Test
+    void deveLancarErroSalvarPJAreaAtuacaoEmBranco() {
+        PessoaJuridica pjAlterada = montarPJ();
+        pjAlterada.setAreaAtuacao("");
+        Exception ex = Assertions.assertThrows(PessoaJuridicaInvalidaException.class, () -> {
+            pjService.salvar(pjAlterada);
+        });
+        Assertions.assertEquals("AreaAtuacao é obrigatório", ex.getMessage());
+    }
+
+    @Test
+    void deveLancarErroAlterarPJCPNJInvalido() {
+        PessoaJuridica pjAlterada = montarPJ();
+        pjAlterada.setCnpj("12345");
+        Exception ex = Assertions.assertThrows(PessoaJuridicaInvalidaException.class, () -> {
+            pjService.alterar(1L, pjAlterada);
+        });
+        Assertions.assertEquals("CNPJ deve ter 14 caracteres", ex.getMessage());
+    }
+
+    @Test
+    void deveLancarErroAlterarPJNomeVazio() {
+        PessoaJuridica pjAlterada = montarPJ();
+        pjAlterada.setNome(null);
+        Exception ex = Assertions.assertThrows(PessoaInvalidaException.class, () -> {
+            pjService.alterar(1L, pjAlterada);
+        });
+        Assertions.assertEquals("Nome é obrigatório", ex.getMessage());
+    }
+
+    @Test
+    void deveLancarErroAlterarPJNomeEmBranco() {
+        PessoaJuridica pjAlterada = montarPJ();
+        pjAlterada.setNome("");
+        Exception ex = Assertions.assertThrows(PessoaInvalidaException.class, () -> {
+            pjService.alterar(1L, pjAlterada);
+        });
+        Assertions.assertEquals("Nome é obrigatório", ex.getMessage());
+    }
+
+    @Test
+    void deveLancarErroAlterarPJEmailVazio() {
+        PessoaJuridica pjAlterada = montarPJ();
+        pjAlterada.setEmail(null);
+        Exception ex = Assertions.assertThrows(PessoaInvalidaException.class, () -> {
+            pjService.alterar(1L, pjAlterada);
+        });
+        Assertions.assertEquals("Email é obrigatório", ex.getMessage());
+    }
+
+    @Test
+    void deveLancarErroAlterarPJEmailEmBranco() {
+        PessoaJuridica pjAlterada = montarPJ();
+        pjAlterada.setEmail("");
+        Exception ex = Assertions.assertThrows(PessoaInvalidaException.class, () -> {
+            pjService.alterar(1L, pjAlterada);
+        });
+        Assertions.assertEquals("Email é obrigatório", ex.getMessage());
+    }
+
+    @Test
+    void deveLancarErroAlterarPJTipoPessoaVazio() {
+        PessoaJuridica pjAlterada = montarPJ();
+        pjAlterada.setTipoPessoa(null);
+        Exception ex = Assertions.assertThrows(PessoaInvalidaException.class, () -> {
+            pjService.alterar(1L, pjAlterada);
+        });
+        Assertions.assertEquals("TipoPessoa é obrigatório", ex.getMessage());
+    }
+
+    @Test
+    void deveLancarErroAlterarPJCNPJVazio() {
+        PessoaJuridica pjAlterada = montarPJ();
+        pjAlterada.setCnpj(null);
+        Exception ex = Assertions.assertThrows(PessoaJuridicaInvalidaException.class, () -> {
+            pjService.alterar(1L, pjAlterada);
+        });
+        Assertions.assertEquals("CNPJ é obrigatório", ex.getMessage());
+    }
+
+    @Test
+    void deveLancarErroAlterarPJCNPJEmBranco() {
+        PessoaJuridica pjAlterada = montarPJ();
+        pjAlterada.setCnpj("");
+        Exception ex = Assertions.assertThrows(PessoaJuridicaInvalidaException.class, () -> {
+            pjService.alterar(1L, pjAlterada);
+        });
+        Assertions.assertEquals("CNPJ é obrigatório", ex.getMessage());
+    }
+
+    @Test
+    void deveLancarErroAlterarPJPorteEmpresaVazio() {
+        PessoaJuridica pjAlterada = montarPJ();
+        pjAlterada.setPorteEmpresa(null);
+        Exception ex = Assertions.assertThrows(PessoaJuridicaInvalidaException.class, () -> {
+            pjService.alterar(1L, pjAlterada);
+        });
+        Assertions.assertEquals("PorteEmpresa é obrigatório", ex.getMessage());
+    }
+
+    @Test
+    void deveLancarErroAlterarPJPAreaAtuacaoVazio() {
+        PessoaJuridica pjAlterada = montarPJ();
+        pjAlterada.setAreaAtuacao(null);
+        Exception ex = Assertions.assertThrows(PessoaJuridicaInvalidaException.class, () -> {
+            pjService.alterar(1L, pjAlterada);
+        });
+        Assertions.assertEquals("AreaAtuacao é obrigatório", ex.getMessage());
+    }
+
+    @Test
+    void deveLancarErroAlterarPJPAreaAtuacaoEmBranco() {
+        PessoaJuridica pjAlterada = montarPJ();
+        pjAlterada.setAreaAtuacao("");
+        Exception ex = Assertions.assertThrows(PessoaJuridicaInvalidaException.class, () -> {
+            pjService.alterar(1L, pjAlterada);
+        });
+        Assertions.assertEquals("AreaAtuacao é obrigatório", ex.getMessage());
     }
 
     @Test
     void deveLancarErroAlterarPJInexistente() {
         PessoaJuridica pjAlterada = montarPJ();
         Mockito.when(pjRepositoryMock.findById(Mockito.anyLong())).thenReturn(Optional.empty());
-
         Exception ex = Assertions.assertThrows(EntidadeNaoEncontradaException.class, () -> {
             pjService.alterar(1L, pjAlterada);
         });
-
         Assertions.assertEquals("Empresa nao encontrada", ex.getMessage());
     }
-
-//    @Test
-//    void deveRetornarPJAvaliado() {
-//        Avaliacao avaliacao = montarAvaliacao();
-//        PessoaJuridica pj = montarPJ();
-//        PessoaJuridica pjAlterada = montarPJ();
-//        Avaliacao avaliacaoAlterada = montarAvaliacao();
-//        avaliacaoAlterada.setEmpresa(pj);
-//        pjAlterada.setAvaliacoes(List.of(avaliacao));
-//        Mockito.when(pjRepositoryMock.findById(Mockito.anyLong())).thenReturn(Optional.of(pj));
-//        Mockito.when(avaliacaoRepositoryMock.findTopByOrderByDataDesc()).thenReturn(avaliacaoAlterada);
-//        Mockito.when(pjRepositoryMock.save(pj)).thenReturn(pjAlterada);
-//        Avaliacao save = pjService.avaliarEmpresa(1L, avaliacao);
-//        Assertions.assertEquals(avaliacao, save);
-//    }
 
     @Test
     void deveLancarErroBuscarPJInexistente() {
@@ -150,6 +309,59 @@ public class PessoaJuridicaServiceTest {
         });
         Assertions.assertEquals("Avaliacao nao encontrada", ex.getMessage());
     }
+
+    @Test
+    void deveRetornarTodosPJ(){
+        List<PessoaJuridica> pj = new ArrayList<PessoaJuridica>();
+        pj.add(montarPJ());
+        Mockito.when(pjRepositoryMock.findAll()).thenReturn(pj);
+        List<PessoaJuridica> busca = pjService.buscarTodas();
+        Assertions.assertIterableEquals(pj, busca);
+    }
+
+    @Test
+    void deveRetornarPJ(){
+        PessoaJuridica pj = montarPJ();
+        Mockito.when(pjRepositoryMock.findById(Mockito.anyLong())).thenReturn(Optional.of(pj));
+        PessoaJuridica busca = pjService.buscarPorId(1L);
+        Assertions.assertSame(pj, busca);
+    }
+
+    @Test
+    void deveRemoverPJ() {
+        PessoaJuridica pj = montarPJ();
+        Mockito.when(pjRepositoryMock.findById(Mockito.anyLong())).thenReturn(Optional.of(pj));
+        pjService.remover(1L);
+        Mockito.verify(pjRepositoryMock).delete(pj);
+    }
+
+    @Test
+    void deveRemoverAvaliacao() {
+        Avaliacao av = montarAvaliacao();
+        Mockito.when(avaliacaoRepositoryMock.findById(Mockito.anyLong())).thenReturn(Optional.of(av));
+        pjService.removerAvaliacao(1L);
+        Mockito.verify(avaliacaoRepositoryMock).delete(av);
+    }
+
+    @Test
+    void deveRetornarPJAlterada() {
+        PessoaJuridica pj = montarPJ();
+        Mockito.when(pjRepositoryMock.findById(Mockito.anyLong())).thenReturn(Optional.of(pj));
+        pjService.alterar(1L, pj);
+        Mockito.verify(pjRepositoryMock).save(pj);
+    }
+
+    @Test
+    void deveRetornarPJAvaliado() {
+        PessoaJuridica pj = montarPJ();
+        List<Avaliacao> avs = new ArrayList<Avaliacao>();
+        pj.setAvaliacoes(avs);
+        Avaliacao av = montarAvaliacao();
+        Mockito.when(pjRepositoryMock.findById(Mockito.anyLong())).thenReturn(Optional.of(pj));
+        pjService.avaliarEmpresa(1L, av);
+        Mockito.verify(pjRepositoryMock).save(pj);
+    }
+
 
     private static PessoaJuridica montarPJ() {
         PessoaJuridica pj = new PessoaJuridica();

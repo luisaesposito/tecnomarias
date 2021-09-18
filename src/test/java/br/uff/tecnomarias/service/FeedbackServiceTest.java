@@ -1,9 +1,6 @@
 package br.uff.tecnomarias.service;
 
-import br.uff.tecnomarias.domain.entity.Feedback;
-import br.uff.tecnomarias.domain.entity.Pessoa;
-import br.uff.tecnomarias.domain.entity.PessoaFisica;
-import br.uff.tecnomarias.domain.entity.PessoaJuridica;
+import br.uff.tecnomarias.domain.entity.*;
 import br.uff.tecnomarias.domain.enums.PorteEmpresa;
 import br.uff.tecnomarias.domain.repository.FeedbackRepository;
 import br.uff.tecnomarias.domain.repository.PessoaFisicaRepository;
@@ -18,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,13 +23,13 @@ import java.util.Optional;
 public class FeedbackServiceTest {
 
     @Mock
-    PessoaFisicaRepository pfRepo;
+    private PessoaFisicaRepository pfRepo;
 
     @Mock
-    FeedbackRepository feedbackRepository;
+    private FeedbackRepository feedbackRepository;
 
     @InjectMocks
-    FeedbackService feedbackService;
+    private FeedbackService feedbackService;
 
 
     @Test
@@ -80,6 +78,17 @@ public class FeedbackServiceTest {
         Mockito.when(feedbackRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(feed));
         boolean remove =  feedbackService.remover(1L);
         Assertions.assertEquals(true, remove);
+    }
+
+    @Test
+    void deveRetornarFeedbacksRecentes(){
+        List<Feedback> fb = new ArrayList<Feedback>();
+        fb.add(montarFeedback());
+        fb.add(montarFeedback());
+        fb.add(montarFeedback());
+        Mockito.when(feedbackRepository.findTop3ByOrderByIdDesc()).thenReturn(fb);
+        List<Feedback> busca = feedbackService.buscarRecentes();
+        Assertions.assertIterableEquals(fb, busca);
     }
 
     private static Feedback montarFeedback() {
