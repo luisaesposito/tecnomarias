@@ -61,18 +61,6 @@ class VagaResourceTest {
                 .statusCode(HttpStatus.SC_BAD_REQUEST);
     }
 
-    @Test
-    @DisplayName("TM-60 Criar vaga falha por id não encontrado")
-    void deveRetornarBadRequestSalvarVagaParaEmpresaNaoCadastrada() {
-        String json = "{\"idEmpresa\":\"999\",\"areaAtuacao\":\"arquitetura\",\"cargo\":\"JUNIOR\",\"descricao\":\"descricao da vaga\",\"valor\":3500,\"localidade\":\"Rio de Janeiro\"}";
-        given()
-                .contentType(ContentType.JSON)
-                .body(json)
-                .when()
-                .post(String.format(BASE_PATH, port))
-                .then()
-                .statusCode(HttpStatus.SC_BAD_REQUEST);
-    }
 
     @Test
     @DisplayName("TM-41: Editar vaga com sucesso")
@@ -175,6 +163,19 @@ class VagaResourceTest {
                 .get(String.format(BASE_PATH, port) + "{id}")
                 .then()
                 .statusCode(HttpStatus.SC_NOT_FOUND);
+    }
+
+    @Test
+    @DisplayName("TM-60 Criar vaga falha por id não encontrado")
+    void deveRetornarBadRequestSalvarVagaParaEmpresaNaoCadastrada() {
+        String json = "{\"idEmpresa\":\"999\",\"areaAtuacao\":\"arquitetura\",\"cargo\":\"JUNIOR\",\"descricao\":\"descricao da vaga\",\"valor\":3500,\"localidade\":\"Rio de Janeiro\"}";
+        given()
+                .contentType(ContentType.JSON)
+                .body(json)
+                .when()
+                .post(String.format(BASE_PATH, port))
+                .then()
+                .statusCode(HttpStatus.SC_BAD_REQUEST);
     }
 
     @Test
@@ -286,11 +287,23 @@ class VagaResourceTest {
                 .queryParam("filtro", "localidade")
                 .queryParam("valor", "nope")
                 .when()
+                .log().all()
                 .get(String.format(BASE_PATH, port) + "filtro")
                 .then()
                 .statusCode(HttpStatus.SC_OK)
                 .body("size()", is(0));
     }
+
+    @Test
+    @DisplayName("TM-75: Buscar quantidade de vagas cadastradas com sucesso")
+    void deveRetornarQuantidadeVagasCadastrada() {
+        when()
+                .get(String.format(BASE_PATH, port) + "count")
+                .then()
+                .statusCode(HttpStatus.SC_OK)
+                .body(is(String.valueOf(3)));
+    }
+
 
     @Test
     @DisplayName("TM-78: Buscar áreas de atuação das vagas")

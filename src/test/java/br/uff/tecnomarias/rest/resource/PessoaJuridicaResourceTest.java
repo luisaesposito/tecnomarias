@@ -27,7 +27,8 @@ class PessoaJuridicaResourceTest {
     @DisplayName("TM-1 : Criar perfil empresa com sucesso")
     void deveSalvarEmpresaComSucesso() {
         String json = "{\"nome\":\"nova empresa\",\"tipoPessoa\":\"PJ\",\"email\":\"teste@email.com\",\"cnpj\":\"84072258000193\",\"porteEmpresa\":\"MICROEMPRESA\",\"areaAtuacao\":\"area\"}";
-        given().contentType(ContentType.JSON)
+        given()
+                .contentType(ContentType.JSON)
                 .body(json)
                 .when()
                 .post(String.format(BASE_PATH, port))
@@ -40,39 +41,13 @@ class PessoaJuridicaResourceTest {
     @DisplayName("TM-2 : Criar perfil empresa falha por requisição inválida")
     void deveRetornarErroBadRequestSalvarComBodyInvalido() {
         String json = "{\"nome\":\"nova empresa\",\"tipoPessoa\":\"PJ\",\"email\":\"teste@email.com\",\"cnpj\":\"   \",\"porteEmpresa\":\"MICROEMPRESA\",\"areaAtuacao\":\"area\"}";
-        given().contentType(ContentType.JSON)
+        given()
+                .contentType(ContentType.JSON)
                 .body(json)
                 .when()
                 .post(String.format(BASE_PATH, port))
                 .then()
                 .statusCode(HttpStatus.SC_BAD_REQUEST);
-    }
-
-    @Test
-    @DisplayName("TM-7 : Visualizar perfil empresa com sucesso ")
-    void deveBuscarPorIDComSucesso() {
-        given()
-                .pathParam("id", ID_EMPRESA_SALVA)
-                .when()
-                .get(String.format(BASE_PATH, port) + "{id}")
-                .then().statusCode(HttpStatus.SC_OK);
-    }
-
-    @Test
-    @DisplayName("TM-8 : Visualizar perfil empresa falha por id não encontrado")
-    void deveRetornarNotFoundBuscarPorIDNaoCadastrado() {
-        given().pathParam("id", 999).get(String.format(BASE_PATH, port) + "{id}").then().statusCode(HttpStatus.SC_NOT_FOUND);
-    }
-
-    @Test
-    @DisplayName("TM-61: Buscar todos perfis empresa retorna todas as empresas com sucesso")
-    void deveRetornarListaDeEmpresas() {
-        when()
-                .get(String.format(BASE_PATH, port))
-                .then()
-                .statusCode(200)
-                .body("size()", greaterThanOrEqualTo(2),
-                        "id", hasItems(ID_EMPRESA_SALVA.intValue(), 30));
     }
 
     @Test
@@ -94,25 +69,6 @@ class PessoaJuridicaResourceTest {
                 .statusCode(HttpStatus.SC_OK)
                 .body("id", equalTo(ID_EMPRESA_SALVA.intValue()),
                         "descricao", is("nova descricao"));
-    }
-
-    @Test
-    @DisplayName("TM-9 : Editar perfil empresa falha por requisição inválida")
-    void deveRetornarBadRequestAtualizarComBodyInvalido() {
-        PessoaJuridicaDTO dto = given().pathParam("id", ID_EMPRESA_SALVA)
-                .get(String.format(BASE_PATH, port) + "{id}")
-                .then().statusCode(HttpStatus.SC_OK).extract().as(PessoaJuridicaDTO.class);
-
-        dto.setCnpj("   ");
-
-        given()
-                .contentType(ContentType.JSON)
-                .body(dto)
-                .pathParam("id", ID_EMPRESA_SALVA)
-                .when()
-                .put(String.format(BASE_PATH, port) + "{id}")
-                .then()
-                .statusCode(HttpStatus.SC_BAD_REQUEST);
     }
 
     @Test
@@ -151,5 +107,122 @@ class PessoaJuridicaResourceTest {
                 .when()
                 .delete(String.format(BASE_PATH, port) + "{id}")
                 .then().statusCode(HttpStatus.SC_NOT_FOUND);
+    }
+
+    @Test
+    @DisplayName("TM-7 : Visualizar perfil empresa com sucesso ")
+    void deveBuscarPorIDComSucesso() {
+        given()
+                .pathParam("id", ID_EMPRESA_SALVA)
+                .when()
+                .get(String.format(BASE_PATH, port) + "{id}")
+                .then().statusCode(HttpStatus.SC_OK);
+    }
+
+    @Test
+    @DisplayName("TM-8 : Visualizar perfil empresa falha por id não encontrado")
+    void deveRetornarNotFoundBuscarPorIDNaoCadastrado() {
+        given()
+                .pathParam("id", 999)
+                .get(String.format(BASE_PATH, port) + "{id}")
+                .then()
+                .statusCode(HttpStatus.SC_NOT_FOUND);
+    }
+
+    @Test
+    @DisplayName("TM-9 : Editar perfil empresa falha por requisição inválida")
+    void deveRetornarBadRequestAtualizarComBodyInvalido() {
+        PessoaJuridicaDTO dto = given().pathParam("id", ID_EMPRESA_SALVA)
+                .get(String.format(BASE_PATH, port) + "{id}")
+                .then().statusCode(HttpStatus.SC_OK).extract().as(PessoaJuridicaDTO.class);
+
+        dto.setCnpj("   ");
+
+        given()
+                .contentType(ContentType.JSON)
+                .body(dto)
+                .pathParam("id", ID_EMPRESA_SALVA)
+                .when()
+                .put(String.format(BASE_PATH, port) + "{id}")
+                .then()
+                .statusCode(HttpStatus.SC_BAD_REQUEST);
+    }
+
+    @Test
+    @DisplayName("TM-50 : Criar avaliação de empresa com sucesso")
+    void deveSalvarAvaliacaoComSucesso() {
+        String json = "{\"comentario\": \"Adorei a empresa\", \"nota\": 5,  \"nomeAvaliadora\": \"Samantha Costa\"}";
+        given()
+                .contentType(ContentType.JSON)
+                .body(json)
+                .pathParam("id", Long.valueOf(ID_EMPRESA_SALVA))
+                .when()
+                .post(String.format(BASE_PATH, port) + "{id}/avaliacao")
+                .then()
+                .statusCode(HttpStatus.SC_OK)
+                .body("id", notNullValue(),
+                        "idEmpresa", equalTo(ID_EMPRESA_SALVA.intValue()));
+    }
+
+    @Test
+    @DisplayName("TM-51 : Criar avaliação de empresa falha por requisição inválida")
+    void deveRetornarBadRequestSalvarAvaliacaoComBodyInvalido() {
+        String json = "{\"comentario\": \"Adorei a empresa\", \"nota\": ,  \"nomeAvaliadora\": \"Samantha Costa\"}";
+        given()
+                .contentType(ContentType.JSON)
+                .body(json)
+                .pathParam("id", ID_EMPRESA_SALVA)
+                .when()
+                .post(String.format(BASE_PATH, port) + "{id}/avaliacao")
+                .then()
+                .statusCode(HttpStatus.SC_BAD_REQUEST);
+    }
+
+    @Test
+    @DisplayName("TM-52 : Remover avaliação de empresa com sucesso")
+    void deveRemoverAvaliacaoComSucesso() {
+        given()
+                .pathParam("id", 19)
+                .when()
+                .delete(String.format(BASE_PATH, port) + "avaliacao/{id}")
+                .then()
+                .statusCode(HttpStatus.SC_OK)
+                .body(is("Avaliação removida com sucesso."));
+    }
+
+    @Test
+    @DisplayName("TM-53 : Remover avaliação de empresa falha por id não encontrado")
+    void deveRetornarBadRequestRemoverAvaliacaoComBodyInvalido() {
+        given()
+                .pathParam("id", 999)
+                .when()
+                .delete(String.format(BASE_PATH, port) + "avaliacao/{id}")
+                .then()
+                .statusCode(HttpStatus.SC_NOT_FOUND);
+    }
+
+    @Test
+    @DisplayName("TM-58 : Criar avaliação de empresa falha por id não encontrado")
+    void deveRetornarNotFoundSalvarAvaliacaoComEmpresaNaoCadastrada() {
+        String json = "{\"comentario\": \"Adorei a empresa\", \"nota\": 5,  \"nomeAvaliadora\": \"Samantha Costa\"}";
+        given()
+                .contentType(ContentType.JSON)
+                .body(json)
+                .pathParam("id", 999)
+                .when()
+                .post(String.format(BASE_PATH, port) + "{id}/avaliacao")
+                .then()
+                .statusCode(HttpStatus.SC_NOT_FOUND);
+    }
+
+    @Test
+    @DisplayName("TM-61: Buscar todos perfis empresa retorna todas as empresas com sucesso")
+    void deveRetornarListaDeEmpresas() {
+        when()
+                .get(String.format(BASE_PATH, port))
+                .then()
+                .statusCode(200)
+                .body("size()", greaterThanOrEqualTo(2),
+                        "id", hasItems(ID_EMPRESA_SALVA.intValue(), 30));
     }
 }
