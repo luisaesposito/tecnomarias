@@ -74,10 +74,12 @@ public class FeedbackServiceTest {
     @Test
     void deveRetornarSucessoFeedbackRemovido() {
         Feedback feed = montarFeedback();
-        feed.setPessoa(montarPF());
+        PessoaFisica pf = montarPF();
+        feed.setPessoa(pf);
         Mockito.when(feedbackRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(feed));
-        boolean remove =  feedbackService.remover(1L);
-        Assertions.assertEquals(true, remove);
+        feedbackService.remover(1L);
+        Mockito.verify(pfRepo).save(pf);
+        Mockito.verify(feedbackRepository).delete(feed);
     }
 
     @Test

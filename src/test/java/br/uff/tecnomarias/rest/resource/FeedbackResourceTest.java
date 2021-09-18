@@ -40,7 +40,7 @@ class FeedbackResourceTest {
 
     @Test
     @DisplayName("TM-55: Criar feedback falha por requisição inválida")
-    void deveRetornarBadRequestSalvarFeedbacCampoInvalido() {
+    void deveRetornarBadRequestSalvarFeedbackCampoInvalido() {
         String json = "{\"comentario\":\"       \"}";
         given().contentType(ContentType.JSON)
                 .body(json)
@@ -82,7 +82,7 @@ class FeedbackResourceTest {
                 .post(String.format(BASE_PATH, port)+"{idPessoa}")
                 .then()
                 .statusCode(HttpStatus.SC_BAD_REQUEST)
-                .body("message", is("Usuaria ja availou o site"));
+                .body("message", is("Usuaria ja avaliou o site"));
     }
 
     @Test

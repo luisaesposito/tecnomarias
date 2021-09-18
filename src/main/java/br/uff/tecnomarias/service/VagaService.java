@@ -69,7 +69,7 @@ public class VagaService {
     @Transactional
     public Vaga alterar(final Long id, @Valid final Vaga vagaAlterada) {
         validarVaga(vagaAlterada);
-        Vaga vagaSalva = vagaRepository.findById(id)
+        var vagaSalva = vagaRepository.findById(id)
                 .orElseThrow(() -> new EntidadeNaoEncontradaException(VAGA_NOT_FOUND));
         return vagaRepository.save(vagaSalva.atualizarDados(vagaAlterada));
     }

@@ -37,14 +37,13 @@ public class FeedbackService {
     }
 
     @Transactional
-    public boolean remover(Long id) {
+    public void remover(Long id) {
         var feedback = feedbackRepository.findById(id)
                 .orElseThrow(() -> new EntidadeNaoEncontradaException("Feedback nao encontrado"));
         PessoaFisica pf = feedback.getPessoa();
         pf.setFeedback(null);
         pfRepository.save(pf);
         feedbackRepository.delete(feedback);
-        return true;
     }
 
 }
