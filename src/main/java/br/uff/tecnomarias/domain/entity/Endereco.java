@@ -3,7 +3,6 @@ package br.uff.tecnomarias.domain.entity;
 import br.uff.tecnomarias.domain.utils.EntityUtils;
 
 import javax.persistence.*;
-import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -28,7 +27,9 @@ public class Endereco {
     @NotNull(message = "Codigo IBGE do municipio é obrigatorio")
     private Integer municipioIBGE;
 
-    public Endereco() { }
+    public Endereco() {
+        //Deserialization
+    }
 
     public Endereco atualizar(Endereco enderecoAtualizado) {
         EntityUtils.setIfNotNull(this::setLogradouro, enderecoAtualizado.getLogradouro());

@@ -14,7 +14,7 @@ import static io.restassured.RestAssured.when;
 import static org.hamcrest.Matchers.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class PessoaFisicaResourceTest {
+class PessoaFisicaResourceTest {
 
     @LocalServerPort
     private Integer port;
@@ -68,8 +68,8 @@ public class PessoaFisicaResourceTest {
 
         Links links = new Links();
         links.setGitHub("git_hub.com/ramos");
-        dto.links = links;
-        dto.nome = "Novo nome";
+        dto.setLinks(links);
+        dto.setNome("Novo nome");
 
         given().contentType(ContentType.JSON)
                 .body(dto)
@@ -103,14 +103,16 @@ public class PessoaFisicaResourceTest {
         PessoaFisicaDTO dto = given().pathParam("id", ID_USUARIA_SALVA)
                 .get(String.format(BASE_PATH, port)+"{id}").then().extract().as(PessoaFisicaDTO.class);
 
-        dto.nome = null;
+        dto.setNome(null);
 
         given().contentType(ContentType.JSON)
                 .body(dto)
                 .pathParam("id", ID_USUARIA_SALVA)
                 .when()
+                .log().all()
                 .put(String.format(BASE_PATH, port)+"{id}")
                 .then()
+                .log().all()
                 .statusCode(HttpStatus.SC_BAD_REQUEST);
     }
 

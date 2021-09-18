@@ -32,6 +32,7 @@ public class Vaga {
     private String localidade;
 
     public Vaga() {
+        //Deserialization
     }
 
     public Vaga atualizarDados(@Valid final Vaga vagaAtualizada) {

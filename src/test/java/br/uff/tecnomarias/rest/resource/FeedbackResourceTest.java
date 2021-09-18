@@ -13,7 +13,7 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.is;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class FeedbackResourceTest {
+class FeedbackResourceTest {
 
     @LocalServerPort
     private Integer port;
@@ -24,7 +24,7 @@ public class FeedbackResourceTest {
     private static final Long ID_FEEDBACK_PARA_REMOVER = 17L;
 
     @Test
-    @DisplayName("TM-55: Criar feedback falha por requisição inválida")
+    @DisplayName("TM-54 : Criar feedback com sucesso")
     void deveSalvarFeedbackComSucesso() {
         String json = "{\"comentario\":\"bom site\"}";
         given().contentType(ContentType.JSON)
@@ -36,6 +36,19 @@ public class FeedbackResourceTest {
                 .statusCode(HttpStatus.SC_CREATED)
                 .body("id", notNullValue(),
                         "comentario", is("bom site"));
+    }
+
+    @Test
+    @DisplayName("TM-55: Criar feedback falha por requisição inválida")
+    void deveRetornarBadRequestSalvarFeedbacCampoInvalido() {
+        String json = "{\"comentario\":\"       \"}";
+        given().contentType(ContentType.JSON)
+                .body(json)
+                .pathParam("idPessoa", ID_USUARIA_SEM_FEEDBACK)
+                .when()
+                .post(String.format(BASE_PATH, port)+"{idPessoa}")
+                .then()
+                .statusCode(HttpStatus.SC_BAD_REQUEST);
     }
 
     @Test

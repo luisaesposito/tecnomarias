@@ -15,6 +15,7 @@ public class Links {
     private String facebook;
 
     public Links() {
+        //Deserialization
     }
 
     public Links atualizarLinks(final Links links) {

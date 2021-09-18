@@ -9,9 +9,9 @@ import java.util.stream.Collectors;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class FeedbackDTO {
 
-    public Long id;
-    public String comentario;
-    public Long idAvaliadora;
+    private Long id;
+    private String comentario;
+    private Long idAvaliadora;
 
     public FeedbackDTO() {
     }
@@ -23,11 +23,34 @@ public class FeedbackDTO {
     }
 
     public Feedback toEntity() {
-        Feedback feedback = new Feedback(this.comentario);
-        return feedback;
+        return new Feedback(this.comentario);
     }
 
     public static List<FeedbackDTO> toDTOList(List<Feedback> feedbacks) {
         return feedbacks.stream().map(FeedbackDTO::new).collect(Collectors.toList());
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getComentario() {
+        return comentario;
+    }
+
+    public void setComentario(String comentario) {
+        this.comentario = comentario;
+    }
+
+    public Long getIdAvaliadora() {
+        return idAvaliadora;
+    }
+
+    public void setIdAvaliadora(Long idAvaliadora) {
+        this.idAvaliadora = idAvaliadora;
     }
 }

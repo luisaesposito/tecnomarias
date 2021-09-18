@@ -38,7 +38,7 @@ public class FeedbackService {
 
     @Transactional
     public void remover(Long id) {
-        Feedback feedback = feedbackRepository.findById(id)
+        var feedback = feedbackRepository.findById(id)
                 .orElseThrow(() -> new EntidadeNaoEncontradaException("Feedback nao encontrado"));
         PessoaFisica pf = feedback.getPessoa();
         pf.setFeedback(null);

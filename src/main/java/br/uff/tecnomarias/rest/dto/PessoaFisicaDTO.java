@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PessoaFisicaDTO extends PessoaDTO {
 
-    public Links links;
+    private Links links;
 
     public PessoaFisicaDTO() {
         super();
@@ -22,7 +22,7 @@ public class PessoaFisicaDTO extends PessoaDTO {
     }
 
     public PessoaFisica toEntity() {
-        PessoaFisica pf = new PessoaFisica();
+        var pf = new PessoaFisica();
         pf.setLinks(this.links);
         gerarPessoa(pf);
         return pf;
@@ -30,5 +30,13 @@ public class PessoaFisicaDTO extends PessoaDTO {
 
     public static List<PessoaFisicaDTO> toDTOList(List<PessoaFisica> pfList) {
         return pfList.stream().map(PessoaFisicaDTO::new).collect(Collectors.toList());
+    }
+
+    public Links getLinks() {
+        return links;
+    }
+
+    public void setLinks(Links links) {
+        this.links = links;
     }
 }
