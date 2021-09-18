@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 
+import java.time.LocalDate;
+
 import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.when;
 import static org.hamcrest.Matchers.*;
@@ -35,7 +37,10 @@ class PessoaFisicaResourceTest {
                 .post(String.format(BASE_PATH, port))
                 .then()
                 .statusCode(HttpStatus.SC_CREATED)
-                .body("id", notNullValue());
+                .body("id", notNullValue(),
+                        "dataCadastro", is(LocalDate.now().toString()),
+                        "links.gitHub", is("ana"),
+                        "links.portfolio", is("portfolio.com/ana"));
     }
 
     @Test
