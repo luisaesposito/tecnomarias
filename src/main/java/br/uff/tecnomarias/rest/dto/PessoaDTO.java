@@ -23,9 +23,9 @@ public abstract class PessoaDTO {
     private String email;
     private Set<TelefoneDTO> telefoneList;
 
-    public PessoaDTO() { }
+    protected PessoaDTO() { }
 
-    public PessoaDTO(Pessoa pessoa) {
+    protected PessoaDTO(Pessoa pessoa) {
         this.id = pessoa.getId();
         this.nome = pessoa.getNome();
         this.email = pessoa.getEmail();

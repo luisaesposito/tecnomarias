@@ -26,7 +26,9 @@ public class Telefone {
     @NotBlank(message = "Número do telefone é obrigatório")
     private String numero;
 
-    public Telefone() { }
+    public Telefone() {
+        //Deserialization
+    }
 
     public Telefone atualizar(@Valid Telefone telAtualizado) {
         this.ddi = telAtualizado.getDdi();
@@ -39,7 +41,7 @@ public class Telefone {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Telefone telefone = (Telefone) o;
+        var telefone = (Telefone) o;
         return Objects.equals(ddi, telefone.ddi) && Objects.equals(ddd, telefone.ddd) && Objects.equals(numero, telefone.numero);
     }
 

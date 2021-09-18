@@ -23,8 +23,7 @@ public class FeedbackDTO {
     }
 
     public Feedback toEntity() {
-        Feedback feedback = new Feedback(this.comentario);
-        return feedback;
+        return new Feedback(this.comentario);
     }
 
     public static List<FeedbackDTO> toDTOList(List<Feedback> feedbacks) {

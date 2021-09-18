@@ -32,14 +32,14 @@ public class PessoaJuridicaDTO extends PessoaDTO {
         this.porteEmpresa = pj.getPorteEmpresa();
         this.areaAtuacao = pj.getAreaAtuacao();
         if (Objects.nonNull(pj.getAvaliacoes()))
-            this.avaliacoes = pj.getAvaliacoes().stream().map(av -> new AvaliacaoDTO(av)).collect(Collectors.toList());
+            this.avaliacoes = pj.getAvaliacoes().stream().map(AvaliacaoDTO::new).collect(Collectors.toList());
         this.mediaAvaliacao = pj.getMediaAvaliacao();
         if (pj.getEndereco() != null)
             this.endereco = new EnderecoDTO(pj.getEndereco());
     }
 
     public PessoaJuridica toEntity() {
-        PessoaJuridica pj = new PessoaJuridica();
+        var pj = new PessoaJuridica();
         pj.setCnpj(this.cnpj);
         pj.setSite(this.site);
         pj.setDescricao(this.descricao);
@@ -52,7 +52,7 @@ public class PessoaJuridicaDTO extends PessoaDTO {
     }
 
     public static List<PessoaJuridicaDTO> toDTOList(List<PessoaJuridica> pjList) {
-        return pjList.stream().map(pj -> new PessoaJuridicaDTO(pj)).collect(Collectors.toList());
+        return pjList.stream().map(PessoaJuridicaDTO::new).collect(Collectors.toList());
     }
 
     public String getCnpj() {

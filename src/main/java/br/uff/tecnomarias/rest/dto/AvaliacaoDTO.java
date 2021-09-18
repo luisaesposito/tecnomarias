@@ -28,12 +28,12 @@ public class AvaliacaoDTO {
     }
 
     public Avaliacao toEntity() {
-        Avaliacao avaliacao = new Avaliacao();
+        var avaliacao = new Avaliacao();
         avaliacao.setComentario(this.comentario);
         avaliacao.setNota(this.nota);
         avaliacao.setData(this.data);
         avaliacao.setNomeAvaliadora(this.nomeAvaliadora);
-        PessoaJuridica empresa = new PessoaJuridica();
+        var empresa = new PessoaJuridica();
         empresa.setId(this.idEmpresa);
         avaliacao.setEmpresa(empresa);
         return avaliacao;

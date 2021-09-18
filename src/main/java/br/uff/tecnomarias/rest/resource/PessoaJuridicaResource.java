@@ -34,7 +34,7 @@ public class PessoaJuridicaResource {
     @PostMapping
     @ResponseBody
     public ResponseEntity<PessoaJuridicaDTO >salvarPJ(@RequestBody PessoaJuridicaDTO pjDTO) {
-        PessoaJuridicaDTO pjCriada = new PessoaJuridicaDTO(pjService.salvar(pjDTO.toEntity()));
+        var pjCriada = new PessoaJuridicaDTO(pjService.salvar(pjDTO.toEntity()));
         return new ResponseEntity<>(pjCriada, HttpStatus.CREATED);
     }
 
@@ -81,7 +81,7 @@ public class PessoaJuridicaResource {
     @ResponseBody
     public String removerVaga(@PathVariable Long id) {
         pjService.remover(id);
-        return "Vaga removida com sucesso.";
+        return "Empresa removida com sucesso.";
     }
 
     @Operation(summary = "Adiciona uma avaliacao para uma empresa")

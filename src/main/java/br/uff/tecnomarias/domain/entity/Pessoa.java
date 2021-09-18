@@ -9,7 +9,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.function.Consumer;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)

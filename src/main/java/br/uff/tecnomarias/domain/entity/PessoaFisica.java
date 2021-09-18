@@ -15,6 +15,7 @@ public class PessoaFisica extends Pessoa {
     private Feedback feedback;
 
     public PessoaFisica() {
+        //Deserialization
     }
 
     public void atualizarDados(@Valid PessoaFisica pf) {

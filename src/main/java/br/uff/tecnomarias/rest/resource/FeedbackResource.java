@@ -44,7 +44,7 @@ public class FeedbackResource {
     @PostMapping("{idPessoa}")
     @ResponseBody
     public ResponseEntity<FeedbackDTO> salvar(@PathVariable("idPessoa") final Long idPessoa, @RequestBody FeedbackDTO feedbackDTO) {
-        FeedbackDTO feedback = new FeedbackDTO(feedbackService.salvarFeedback(idPessoa, feedbackDTO.toEntity()));
+        var feedback = new FeedbackDTO(feedbackService.salvarFeedback(idPessoa, feedbackDTO.toEntity()));
         return new ResponseEntity<>(feedback, HttpStatus.CREATED);
     }
 

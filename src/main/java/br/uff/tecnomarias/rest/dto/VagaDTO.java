@@ -32,8 +32,8 @@ public class VagaDTO {
     }
 
     public Vaga toEntity() {
-        Vaga vaga = new Vaga();
-        PessoaJuridica empresa = new PessoaJuridica();
+        var vaga = new Vaga();
+        var empresa = new PessoaJuridica();
         empresa.setId(this.idEmpresa);
         vaga.setEmpresa(empresa);
         vaga.setAreaAtuacao(this.areaAtuacao);

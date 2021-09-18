@@ -26,7 +26,7 @@ public class EnderecoDTO {
     }
 
     public Endereco toEntity() {
-        Endereco endereco = new Endereco();
+        var endereco = new Endereco();
         endereco.setLogradouro(this.logradouro);
         endereco.setNumero(this.numero);
         endereco.setComplemento(this.complemento);

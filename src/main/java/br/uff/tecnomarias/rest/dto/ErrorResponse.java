@@ -41,7 +41,7 @@ public class ErrorResponse {
         }
 
         public ErrorResponse build() {
-            ErrorResponse response = new ErrorResponse();
+            var response = new ErrorResponse();
             response.status = this.status;
             response.error = this.error;
             response.message = this.message;

@@ -39,7 +39,7 @@ public class VagaResource {
     @PostMapping
     @ResponseBody
     public ResponseEntity<VagaDTO> criarVaga(@RequestBody VagaDTO vagaDTO) {
-        VagaDTO vaga = new VagaDTO(vagaService.salvar(vagaDTO.toEntity()));
+        var vaga = new VagaDTO(vagaService.salvar(vagaDTO.toEntity()));
         return new ResponseEntity<>(vaga, HttpStatus.CREATED);
     }
 
@@ -51,7 +51,7 @@ public class VagaResource {
     @GetMapping
     @ResponseBody
     public List<VagaDTO> buscarTodas() {
-        List<Vaga> vagas = vagaService.buscarTodas();//start, pageSize);
+        List<Vaga> vagas = vagaService.buscarTodas();
         return VagaDTO.toDTOList(vagas);
     }
 
@@ -103,6 +103,7 @@ public class VagaResource {
                 vagas = vagaService.buscarPorAreaAtuacao(valor);
                 break;
             case "cargo":
+                if (!Cargo.isValid(valor)) throw new BadRequestException("Cargo invalido");
                 vagas = vagaService.buscarPorCargo(Cargo.valueOf(valor.toUpperCase(Locale.ROOT)));
                 break;
             case "localidade":

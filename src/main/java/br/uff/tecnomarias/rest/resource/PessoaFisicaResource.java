@@ -1,6 +1,5 @@
 package br.uff.tecnomarias.rest.resource;
 
-import br.uff.tecnomarias.domain.entity.Pessoa;
 import br.uff.tecnomarias.domain.entity.PessoaFisica;
 import br.uff.tecnomarias.rest.dto.PessoaFisicaDTO;
 import br.uff.tecnomarias.service.PessoaFisicaService;
@@ -35,7 +34,7 @@ public class PessoaFisicaResource {
     @PostMapping
     @ResponseBody
     public ResponseEntity<PessoaFisicaDTO> criarPF(@RequestBody PessoaFisicaDTO pf) {
-        PessoaFisicaDTO pfCriada = new PessoaFisicaDTO(pfService.salvar(pf.toEntity()));
+        var pfCriada = new PessoaFisicaDTO(pfService.salvar(pf.toEntity()));
         return new ResponseEntity<>(pfCriada, HttpStatus.CREATED);
     }
 

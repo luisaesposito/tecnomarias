@@ -23,7 +23,7 @@ public class TelefoneDTO {
     }
 
     public Telefone toEntity() {
-        Telefone telefone = new Telefone();
+        var telefone = new Telefone();
         telefone.setDdi(this.ddi);
         telefone.setDdd(this.ddd);
         telefone.setNumero(this.numero);

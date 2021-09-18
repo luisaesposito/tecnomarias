@@ -22,7 +22,7 @@ public class PessoaFisicaDTO extends PessoaDTO {
     }
 
     public PessoaFisica toEntity() {
-        PessoaFisica pf = new PessoaFisica();
+        var pf = new PessoaFisica();
         pf.setLinks(this.links);
         gerarPessoa(pf);
         return pf;
