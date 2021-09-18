@@ -216,6 +216,20 @@ class PessoaJuridicaResourceTest {
     }
 
     @Test
+    void deveRetornarBadRequestUsuariaCadastradaMenos3MesesAvaliar() {
+        String json = "{\"comentario\": \"bom\", \"nota\": 3\"idAvaliadora\": 50}";
+        given()
+                .contentType(ContentType.JSON)
+                .body(json)
+                .pathParam("id", 50)
+                .when()
+                .post(String.format(BASE_PATH, port) + "{id}/avaliacao")
+                .then()
+                .statusCode(HttpStatus.SC_BAD_REQUEST)
+                .body("message", is("Usuária deve ser cadastrada há 3 meses para avaliar"));
+    }
+
+    @Test
     @DisplayName("TM-61: Buscar todos perfis empresa retorna todas as empresas com sucesso")
     void deveRetornarListaDeEmpresas() {
         when()
