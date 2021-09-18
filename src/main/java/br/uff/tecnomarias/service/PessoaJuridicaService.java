@@ -8,6 +8,8 @@ import br.uff.tecnomarias.domain.repository.PessoaFisicaRepository;
 import br.uff.tecnomarias.domain.repository.PessoaJuridicaRepository;
 import br.uff.tecnomarias.service.exception.BadRequestException;
 import br.uff.tecnomarias.service.exception.EntidadeNaoEncontradaException;
+import br.uff.tecnomarias.service.exception.PessoaInvalidaException;
+import br.uff.tecnomarias.service.exception.PessoaJuridicaInvalidaException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -37,11 +39,13 @@ public class PessoaJuridicaService {
 
     @Transactional
     public PessoaJuridica salvar(@Valid PessoaJuridica pj) {
-        return pjRepository.save(pj);
+        validarPJ(pj);
+        return pjRepository.saveAndFlush(pj);
     }
 
     @Transactional
     public PessoaJuridica alterar(Long id, @Valid PessoaJuridica pjAlterada) {
+        validarPJ(pjAlterada);
         PessoaJuridica pjSalva = pjRepository.findById(id)
                 .orElseThrow(() -> new EntidadeNaoEncontradaException("Empresa nao encontrada"));
         pjSalva.atualizarDados(pjAlterada);
@@ -90,5 +94,27 @@ public class PessoaJuridicaService {
         Avaliacao av = avaliacaoRepository.findById(idAvaliacao)
                 .orElseThrow(() -> new EntidadeNaoEncontradaException("Avaliacao nao encontrada"));
         avaliacaoRepository.delete(av);
+    }
+
+    private void validarPJ(PessoaJuridica pj) {
+        validarPessoa(pj);
+        if (pj.getCnpj() == null || pj.getCnpj().isBlank())
+            throw new PessoaJuridicaInvalidaException("CNPJ é obrigatório");
+        if (pj.getCnpj().length() != 14)
+            throw new PessoaJuridicaInvalidaException("CNPJ deve ter 14 caracteres");
+        if (pj.getPorteEmpresa() == null)
+            throw new PessoaJuridicaInvalidaException("PorteEmpresa é obrigatório");
+        if (pj.getAreaAtuacao() == null || pj.getAreaAtuacao().isBlank())
+            throw new PessoaJuridicaInvalidaException("AreaAtuacao é obrigatório");
+
+    }
+
+    private void validarPessoa(PessoaJuridica pj) {
+        if (pj.getNome() == null || pj.getNome().isBlank())
+            throw new PessoaInvalidaException("Nome é obrigatório");
+        if (pj.getEmail() == null|| pj.getEmail().isBlank())
+            throw new PessoaInvalidaException("Email é obrigatório");
+        if (pj.getTipoPessoa() == null)
+            throw new PessoaInvalidaException("TipoPessoa é obrigatório");
     }
 }
