@@ -34,9 +34,9 @@ public class Pessoa {
     protected Set<Telefone> telefoneSet = new HashSet<>();
 
     public void atualizarDados(@Valid Pessoa pessoa) {
-        EntityUtils.setIfNotNull(this::setNome, pessoa.getNome());
-        EntityUtils.setIfNotNull(this::setEmail, pessoa.getEmail());
-        EntityUtils.setIfNotNull(this::setTipoPessoa, pessoa.getTipoPessoa());
+        this.setNome(pessoa.getNome());
+        this.setEmail(pessoa.getEmail());
+        this.setTipoPessoa(pessoa.getTipoPessoa());
         if (pessoa.getTelefoneSet() != null) {
             this.getTelefoneSet().clear();
             if (!pessoa.getTelefoneSet().isEmpty())

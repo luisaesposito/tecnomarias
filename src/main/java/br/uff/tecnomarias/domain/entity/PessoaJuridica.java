@@ -52,11 +52,11 @@ public class PessoaJuridica extends Pessoa {
 
     public PessoaJuridica atualizarDados(final PessoaJuridica pjAtualizada) {
         super.atualizarDados(pjAtualizada);
-        EntityUtils.setIfNotNull(this::setCnpj, pjAtualizada.getCnpj());
-        EntityUtils.setIfNotNull(this::setAreaAtuacao, pjAtualizada.getAreaAtuacao());
-        EntityUtils.setIfNotNull(this::setPorteEmpresa, pjAtualizada.getPorteEmpresa());
-        this.cnpj = pjAtualizada.getCnpj();
-        this.descricao = pjAtualizada.getDescricao();
+        this.setCnpj(pjAtualizada.getCnpj());
+        this.setAreaAtuacao(pjAtualizada.getAreaAtuacao());
+        this.setPorteEmpresa(pjAtualizada.getPorteEmpresa());
+        this.setCnpj(pjAtualizada.getCnpj());
+        this.setDescricao(pjAtualizada.getDescricao());
         if (pjAtualizada.getEndereco() != null)
             this.endereco.atualizar(pjAtualizada.getEndereco());
         return this;

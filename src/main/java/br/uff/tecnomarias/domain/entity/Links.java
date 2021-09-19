@@ -19,10 +19,10 @@ public class Links {
     }
 
     public Links atualizarLinks(final Links links) {
-        this.linkedIn = links.getLinkedIn();
-        this.gitHub = links.getGitHub();
-        this.portfolio = links.getPortfolio();
-        this.facebook = links.getFacebook();
+        this.setLinkedIn(links.getLinkedIn());
+        this.setGitHub(links.getGitHub());
+        this.setPortfolio(links.getPortfolio());
+        this.setFacebook(links.getFacebook());
         return this;
     }
 
