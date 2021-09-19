@@ -19,7 +19,7 @@ public class Telefone {
 
     @Column(length = 2)
     @NotBlank(message = "DDD é obrigatório")
-    @Size(min = 2,max = 2, message = "DDD deve possuir apenas 2 digitos")
+    @Size(min = 2, max = 2, message = "DDD deve possuir apenas 2 digitos")
     private String ddd;
 
     @Column(length = 10)
@@ -31,9 +31,9 @@ public class Telefone {
     }
 
     public Telefone atualizar(@Valid Telefone telAtualizado) {
-        this.ddi = telAtualizado.getDdi();
-        this.ddd = telAtualizado.getDdd();
-        this.numero = telAtualizado.getNumero();
+        this.setDdi(telAtualizado.getDdi());
+        this.setDdd(telAtualizado.getDdd());
+        this.setNumero(telAtualizado.getNumero());
         return this;
     }
 

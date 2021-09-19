@@ -36,18 +36,18 @@ public class Vaga {
     }
 
     public Vaga atualizarDados(@Valid final Vaga vagaAtualizada) {
-        EntityUtils.setIfNotNull(this::setAreaAtuacao, vagaAtualizada.getAreaAtuacao());
-        EntityUtils.setIfNotNull(this::setCargo, vagaAtualizada.getCargo());
-        EntityUtils.setIfNotNull(this::setDescricao, vagaAtualizada.getDescricao());
-        EntityUtils.setIfNotNull(this::setValor, vagaAtualizada.getValor());
-        EntityUtils.setIfNotNull(this::setLocalidade, vagaAtualizada.getLocalidade());
+        this.setAreaAtuacao(vagaAtualizada.getAreaAtuacao());
+        this.setCargo(vagaAtualizada.getCargo());
+        this.setDescricao(vagaAtualizada.getDescricao());
+        this.setValor(vagaAtualizada.getValor());
+        this.setLocalidade(vagaAtualizada.getLocalidade());
         return this;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Vaga )) return false;
+        if (!(o instanceof Vaga)) return false;
         return id != null && id.equals(((Vaga) o).getId());
     }
 

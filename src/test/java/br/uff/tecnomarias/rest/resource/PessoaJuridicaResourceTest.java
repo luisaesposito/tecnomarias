@@ -21,7 +21,8 @@ class PessoaJuridicaResourceTest {
     private static final String BASE_PATH = "http://localhost:%s/api/v1/empresa/";
 
     private static final Long ID_EMPRESA_SALVA = 1L;
-    private static final Long ID_EMPRESA_PARA_REMOVER = 2L;
+    private static final Long ID_EMPRESA_PARA_REMOVER = 101L;
+    private static final Long ID_AVALIACAO_PARA_REMOVER = 105L;
 
     @Test
     @DisplayName("TM-1 : Criar perfil empresa com sucesso")
@@ -40,14 +41,18 @@ class PessoaJuridicaResourceTest {
     @Test
     @DisplayName("TM-2 : Criar perfil empresa falha por requisição inválida")
     void deveRetornarErroBadRequestSalvarComBodyInvalido() {
-        String json = "{\"nome\":\"nova empresa\",\"tipoPessoa\":\"PJ\",\"email\":\"teste@email.com\",\"cnpj\":\"   \",\"porteEmpresa\":\"MICROEMPRESA\",\"areaAtuacao\":\"area\"}";
+        String json = "{\"nome\":\"nova empresa\",\"tipoPessoa\":\"PJ\",\"email\":\"teste@email.com\",\"cnpj\": \"   \",\"porteEmpresa\":\"MICROEMPRESA\",\"areaAtuacao\":\"area\"}";
         given()
                 .contentType(ContentType.JSON)
                 .body(json)
                 .when()
                 .post(String.format(BASE_PATH, port))
                 .then()
-                .statusCode(HttpStatus.SC_BAD_REQUEST);
+                .statusCode(HttpStatus.SC_BAD_REQUEST)
+                .body("message", oneOf(
+                        "CNPJ deve ter 14 caracteres",
+                        "CNPJ é obrigatório"
+                ));
     }
 
     @Test
@@ -182,7 +187,7 @@ class PessoaJuridicaResourceTest {
     @DisplayName("TM-52 : Remover avaliação de empresa com sucesso")
     void deveRemoverAvaliacaoComSucesso() {
         given()
-                .pathParam("id", 19)
+                .pathParam("id", ID_AVALIACAO_PARA_REMOVER)
                 .when()
                 .delete(String.format(BASE_PATH, port) + "avaliacao/{id}")
                 .then()

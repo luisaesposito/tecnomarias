@@ -32,11 +32,11 @@ public class Endereco {
     }
 
     public Endereco atualizar(Endereco enderecoAtualizado) {
-        EntityUtils.setIfNotNull(this::setLogradouro, enderecoAtualizado.getLogradouro());
-        EntityUtils.setIfNotNull(this::setNumero, enderecoAtualizado.getNumero());
-        this.complemento = enderecoAtualizado.getComplemento();
-        this.bairro = enderecoAtualizado.getBairro();
-        this.municipioIBGE = enderecoAtualizado.getMunicipioIBGE();
+        this.setLogradouro(enderecoAtualizado.getLogradouro());
+        this.setNumero(enderecoAtualizado.getNumero());
+        this.setComplemento(enderecoAtualizado.getComplemento());
+        this.setBairro(enderecoAtualizado.getBairro());
+        this.setMunicipioIBGE(enderecoAtualizado.getMunicipioIBGE());
         return this;
     }
 

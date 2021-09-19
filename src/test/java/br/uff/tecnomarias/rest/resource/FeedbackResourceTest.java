@@ -21,7 +21,7 @@ class FeedbackResourceTest {
 
     private static final Long ID_USUARIA_SEM_FEEDBACK = 50L;
     private static final Long ID_USUARIA_COM_FEEDBACK = 8L;
-    private static final Long ID_FEEDBACK_PARA_REMOVER = 17L;
+    private static final Long ID_FEEDBACK_PARA_REMOVER = 107L;
 
     @Test
     @DisplayName("TM-54 : Criar feedback com sucesso")
@@ -58,6 +58,7 @@ class FeedbackResourceTest {
                 .when()
                 .delete(String.format(BASE_PATH, port)+"{id}")
                 .then()
+                .log().all()
                 .statusCode(HttpStatus.SC_OK);
     }
 

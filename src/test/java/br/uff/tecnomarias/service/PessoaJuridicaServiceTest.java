@@ -306,7 +306,7 @@ public class PessoaJuridicaServiceTest {
     }
 
     @Test
-    void deveRetornarTodosPJ(){
+    void deveRetornarTodosPJ() {
         List<PessoaJuridica> pj = new ArrayList<PessoaJuridica>();
         pj.add(montarPJ());
         Mockito.when(pjRepositoryMock.findAll()).thenReturn(pj);
@@ -315,7 +315,7 @@ public class PessoaJuridicaServiceTest {
     }
 
     @Test
-    void deveRetornarPJ(){
+    void deveRetornarPJ() {
         PessoaJuridica pj = montarPJ();
         Mockito.when(pjRepositoryMock.findById(Mockito.anyLong())).thenReturn(Optional.of(pj));
         PessoaJuridica busca = pjService.buscarPorId(1L);

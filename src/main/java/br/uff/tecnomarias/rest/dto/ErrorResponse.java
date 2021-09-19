@@ -17,7 +17,7 @@ public class ErrorResponse {
         private String path;
 
         public Builder() {
-            timestamp = LocalDateTime.now();
+            this.timestamp = LocalDateTime.now();
         }
 
         public Builder statusCode(int statusCode) {
@@ -46,6 +46,7 @@ public class ErrorResponse {
             response.error = this.error;
             response.message = this.message;
             response.path = this.path;
+            response.timestamp = this.timestamp;
             return response;
         }
     }
