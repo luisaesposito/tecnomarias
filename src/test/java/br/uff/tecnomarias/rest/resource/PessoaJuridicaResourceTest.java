@@ -161,9 +161,9 @@ class PessoaJuridicaResourceTest {
                 .contentType(ContentType.JSON)
                 .body(json)
                 .pathParam("id", Long.valueOf(ID_EMPRESA_SALVA))
-                .when().log().all()
+                .when()
                 .post(String.format(BASE_PATH, port) + "{id}/avaliacao")
-                .then().log().all()
+                .then()
                 .statusCode(HttpStatus.SC_CREATED)
                 .body("id", notNullValue(),
                         "idEmpresa", equalTo(ID_EMPRESA_SALVA.intValue()));
@@ -217,7 +217,6 @@ class PessoaJuridicaResourceTest {
                 .when()
                 .post(String.format(BASE_PATH, port) + "{id}/avaliacao")
                 .then()
-                .log().all()
                 .statusCode(HttpStatus.SC_NOT_FOUND);
     }
 
@@ -232,7 +231,6 @@ class PessoaJuridicaResourceTest {
                 .when()
                 .post(String.format(BASE_PATH, port) + "{id}/avaliacao")
                 .then()
-                .log().all()
                 .statusCode(HttpStatus.SC_BAD_REQUEST)
                 .body("message", is("Usuária deve estar cadastrada há 3 meses para avaliar empresa"));
     }

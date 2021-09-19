@@ -123,7 +123,7 @@ class VagaResourceTest {
                 .pathParam("id", ID_VAGA_PARA_REMOVER)
                 .when()
                 .delete(String.format(BASE_PATH, port) + "{id}")
-                .then().log().all()
+                .then()
                 .statusCode(HttpStatus.SC_OK);
     }
 
@@ -196,7 +196,7 @@ class VagaResourceTest {
                 .pathParam("id", 1)
                 .when()
                 .get(String.format(BASE_PATH, port) + "empresa/{id}")
-                .then().log().all()
+                .then()
                 .statusCode(HttpStatus.SC_OK)
                 .body("size()", greaterThanOrEqualTo(3));
     }
@@ -209,7 +209,6 @@ class VagaResourceTest {
                 .when()
                 .get(String.format(BASE_PATH, port) + "empresa/{id}")
                 .then()
-                .log().all()
                 .statusCode(HttpStatus.SC_BAD_REQUEST)
                 .body("message", is("Empresa nao encontrada"));
     }
@@ -247,10 +246,8 @@ class VagaResourceTest {
                 .queryParam("filtro", "cargo")
                 .queryParam("valor", "PLENO")
                 .when()
-                .log().all()
                 .get(String.format(BASE_PATH, port) + "filtro")
                 .then()
-                .log().all()
                 .statusCode(HttpStatus.SC_OK)
                 .body("size()", is(2));
     }
@@ -288,7 +285,6 @@ class VagaResourceTest {
                 .queryParam("filtro", "localidade")
                 .queryParam("valor", "nope")
                 .when()
-                .log().all()
                 .get(String.format(BASE_PATH, port) + "filtro")
                 .then()
                 .statusCode(HttpStatus.SC_OK)
@@ -301,7 +297,6 @@ class VagaResourceTest {
         when()
                 .get(String.format(BASE_PATH, port) + "count")
                 .then()
-                .log().all()
                 .statusCode(HttpStatus.SC_OK)
                 .body(greaterThanOrEqualTo(String.valueOf(4)));
     }

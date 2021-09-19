@@ -114,10 +114,8 @@ class PessoaFisicaResourceTest {
                 .body(dto)
                 .pathParam("id", ID_USUARIA_SALVA)
                 .when()
-                .log().all()
                 .put(String.format(BASE_PATH, port)+"{id}")
                 .then()
-                .log().all()
                 .statusCode(HttpStatus.SC_BAD_REQUEST);
     }
 

@@ -58,7 +58,6 @@ class FeedbackResourceTest {
                 .when()
                 .delete(String.format(BASE_PATH, port)+"{id}")
                 .then()
-                .log().all()
                 .statusCode(HttpStatus.SC_OK);
     }
 
