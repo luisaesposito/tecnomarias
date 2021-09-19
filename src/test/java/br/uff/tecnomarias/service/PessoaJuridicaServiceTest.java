@@ -5,6 +5,7 @@ import br.uff.tecnomarias.domain.entity.PessoaFisica;
 import br.uff.tecnomarias.domain.entity.PessoaJuridica;
 import br.uff.tecnomarias.domain.enums.PorteEmpresa;
 import br.uff.tecnomarias.domain.repository.AvaliacaoRepository;
+import br.uff.tecnomarias.domain.repository.PessoaFisicaRepository;
 import br.uff.tecnomarias.domain.repository.PessoaJuridicaRepository;
 import br.uff.tecnomarias.service.exception.EntidadeNaoEncontradaException;
 import br.uff.tecnomarias.service.exception.PessoaInvalidaException;
@@ -18,6 +19,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +28,8 @@ import java.util.Optional;
 @ExtendWith(MockitoExtension.class)
 public class PessoaJuridicaServiceTest {
 
+    @Mock
+    private PessoaFisicaRepository pfRepositoryMock;
     @Mock
     private PessoaJuridicaRepository pjRepositoryMock;
     @Mock
@@ -345,10 +349,12 @@ public class PessoaJuridicaServiceTest {
     @Test
     void deveRetornarPJAvaliado() {
         PessoaJuridica pj = montarPJ();
+        PessoaFisica avaliadora = montarPF();
         List<Avaliacao> avs = new ArrayList<Avaliacao>();
         pj.setAvaliacoes(avs);
         Avaliacao av = montarAvaliacao();
         Mockito.when(pjRepositoryMock.findById(Mockito.anyLong())).thenReturn(Optional.of(pj));
+        Mockito.when(pfRepositoryMock.findById(Mockito.anyLong())).thenReturn(Optional.of(avaliadora));
         pjService.avaliarEmpresa(1L, av);
         Mockito.verify(pjRepositoryMock).save(pj);
     }
@@ -365,7 +371,7 @@ public class PessoaJuridicaServiceTest {
     }
 
     private static Avaliacao montarAvaliacao() {
-        PessoaFisica avaliadora = new PessoaFisica();
+        PessoaFisica avaliadora = montarPF();
         Avaliacao av = new Avaliacao();
         av.setId(1L);
         av.setData(LocalDateTime.now());
@@ -373,5 +379,12 @@ public class PessoaJuridicaServiceTest {
         av.setAvaliadora(avaliadora);
         av.setNota(5);
         return av;
+    }
+
+    private static PessoaFisica montarPF() {
+        PessoaFisica pf = new PessoaFisica();
+        pf.setId(20L);
+        pf.setDataCadastro(LocalDate.now().minusMonths(5));
+        return pf;
     }
 }
