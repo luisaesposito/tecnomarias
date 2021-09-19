@@ -23,25 +23,25 @@ public class CNPJValidatorTest {
     }
 
     @Test
-    void cnpj_nulo_valido() {
+    void cnpjNuloValido() {
         Set<ConstraintViolation<MockEmpresa>> violations = validator.validate(new MockEmpresa(null));
         Assertions.assertTrue(violations.isEmpty());
     }
 
     @Test
-    void cnpj_sem_pontuacao_valido() {
+    void cnpjSemPontuacaoValido() {
         Set<ConstraintViolation<MockEmpresa>> violations = validator.validate(new MockEmpresa("07755311000100"));
         Assertions.assertTrue(violations.isEmpty());
     }
 
     @Test
-    void cnpj_com_pontuacao_valido() {
+    void cnpjComPontuacaoValido() {
         Set<ConstraintViolation<MockEmpresa>> violations = validator.validate(new MockEmpresa("07.755.311/0001-00"));
         Assertions.assertTrue(violations.isEmpty());
     }
 
     @Test
-    void cnpj_sem_pontuacao_check_1_2_fail_invalido() {
+    void cnpjSemPontuacaoCheck1E2FailInvalido() {
         Set<ConstraintViolation<MockEmpresa>> violations = validator.validate(new MockEmpresa("91509901000160"));
         List<String> msgs = violations.stream().map(ConstraintViolation::getMessage).collect(Collectors.toList());
 
@@ -51,7 +51,7 @@ public class CNPJValidatorTest {
     }
 
     @Test
-    void cnpj_sem_pontuacao_check_1_fail_invalido() {
+    void cnpjSemPontuacaoCheck1FailInvalido() {
         Set<ConstraintViolation<MockEmpresa>> violations = validator.validate(new MockEmpresa("07755311000200"));
         List<String> msgs = violations.stream().map(ConstraintViolation::getMessage).collect(Collectors.toList());
 
@@ -61,7 +61,7 @@ public class CNPJValidatorTest {
     }
 
     @Test
-    void cnpj_sem_pontuacao_check_2_fail_invalido() {
+    void cnpjSemPontuacaoCheck2FailInvalido() {
         Set<ConstraintViolation<MockEmpresa>> violations = validator.validate(new MockEmpresa("07755311000102"));
         List<String> msgs = violations.stream().map(ConstraintViolation::getMessage).collect(Collectors.toList());
 
@@ -71,7 +71,7 @@ public class CNPJValidatorTest {
     }
 
     @Test
-    void cnpj_com_pontuacao_check_1_2_fail_invalido() {
+    void cnpjComPontuacaoCheck1E2FailInvalido() {
         Set<ConstraintViolation<MockEmpresa>> violations = validator.validate(new MockEmpresa("91.509.901/0001-60"));
         List<String> msgs = violations.stream().map(ConstraintViolation::getMessage).collect(Collectors.toList());
 
@@ -81,7 +81,7 @@ public class CNPJValidatorTest {
     }
 
     @Test
-    void cnpj_com_pontuacao_check_1_fail_invalido() {
+    void cnpjComPontuacaoCheck1FailInvalido() {
         Set<ConstraintViolation<MockEmpresa>> violations = validator.validate(new MockEmpresa("10.259.354/0002-09"));
         List<String> msgs = violations.stream().map(ConstraintViolation::getMessage).collect(Collectors.toList());
 
@@ -91,7 +91,7 @@ public class CNPJValidatorTest {
     }
 
     @Test
-    void cnpj_com_pontuacao_check_2_fail_invalido() {
+    void cnpjComPontuacaoCheck2FailInvalido() {
         Set<ConstraintViolation<MockEmpresa>> violations = validator.validate(new MockEmpresa("07.755.311/0001-02"));
         List<String> msgs = violations.stream().map(ConstraintViolation::getMessage).collect(Collectors.toList());
 
