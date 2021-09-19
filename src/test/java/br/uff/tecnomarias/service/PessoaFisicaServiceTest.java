@@ -3,6 +3,7 @@ package br.uff.tecnomarias.service;
 import br.uff.tecnomarias.domain.entity.Avaliacao;
 import br.uff.tecnomarias.domain.entity.Feedback;
 import br.uff.tecnomarias.domain.entity.PessoaFisica;
+import br.uff.tecnomarias.domain.entity.PessoaJuridica;
 import br.uff.tecnomarias.domain.enums.TipoPessoa;
 import br.uff.tecnomarias.domain.repository.AvaliacaoRepository;
 import br.uff.tecnomarias.domain.repository.FeedbackRepository;
@@ -12,6 +13,8 @@ import br.uff.tecnomarias.service.exception.PessoaInvalidaException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -34,44 +37,26 @@ class PessoaFisicaServiceTest {
     @InjectMocks
     private PessoaFisicaService pfService;
 
-    @Test
-    void deveLancarErroSalvarPFNomeVazio() {
+    @ParameterizedTest
+    @CsvSource({", Nome é obrigatório", " '', Nome é obrigatório"})
+    void deveLancarErroSalvarPFNomeInvalido(String nome, String erro) {
         PessoaFisica pfAlterada = montarPF();
-        pfAlterada.setNome(null);
+        pfAlterada.setNome(nome);
         Exception ex = Assertions.assertThrows(PessoaInvalidaException.class, () -> {
             pfService.salvar(pfAlterada);
         });
-        Assertions.assertEquals("Nome é obrigatório", ex.getMessage());
+        Assertions.assertEquals(erro, ex.getMessage());
     }
 
-    @Test
-    void deveLancarErroSalvarPFNomeEmBranco() {
+    @ParameterizedTest
+    @CsvSource({", Email é obrigatório", " '', Email é obrigatório"})
+    void deveLancarErroSalvarPFEmailInvalido(String email, String erro) {
         PessoaFisica pfAlterada = montarPF();
-        pfAlterada.setNome("");
+        pfAlterada.setEmail(email);
         Exception ex = Assertions.assertThrows(PessoaInvalidaException.class, () -> {
             pfService.salvar(pfAlterada);
         });
-        Assertions.assertEquals("Nome é obrigatório", ex.getMessage());
-    }
-
-    @Test
-    void deveLancarErroSalvarPFEmailVazio() {
-        PessoaFisica pfAlterada = montarPF();
-        pfAlterada.setEmail(null);
-        Exception ex = Assertions.assertThrows(PessoaInvalidaException.class, () -> {
-            pfService.salvar(pfAlterada);
-        });
-        Assertions.assertEquals("Email é obrigatório", ex.getMessage());
-    }
-
-    @Test
-    void deveLancarErroSalvarPFEmailEmBranco() {
-        PessoaFisica pfAlterada = montarPF();
-        pfAlterada.setEmail("");
-        Exception ex = Assertions.assertThrows(PessoaInvalidaException.class, () -> {
-            pfService.salvar(pfAlterada);
-        });
-        Assertions.assertEquals("Email é obrigatório", ex.getMessage());
+        Assertions.assertEquals(erro, ex.getMessage());
     }
 
     @Test
@@ -84,44 +69,26 @@ class PessoaFisicaServiceTest {
         Assertions.assertEquals("TipoPessoa é obrigatório", ex.getMessage());
     }
 
-    @Test
-    void deveLancarErroAlterarPFNomeVazio() {
+    @ParameterizedTest
+    @CsvSource({", Nome é obrigatório", " '', Nome é obrigatório"})
+    void deveLancarErroAlterarPFNomeInvalido(String nome, String erro) {
         PessoaFisica pfAlterada = montarPF();
-        pfAlterada.setNome(null);
+        pfAlterada.setNome(nome);
         Exception ex = Assertions.assertThrows(PessoaInvalidaException.class, () -> {
             pfService.alterar(1L, pfAlterada);
         });
-        Assertions.assertEquals("Nome é obrigatório", ex.getMessage());
+        Assertions.assertEquals(erro, ex.getMessage());
     }
 
-    @Test
-    void deveLancarErroAlterarPFNomeEmBranco() {
+    @ParameterizedTest
+    @CsvSource({", Email é obrigatório", " '', Email é obrigatório"})
+    void deveLancarErroAlterarPFEmailInvalido(String email, String erro) {
         PessoaFisica pfAlterada = montarPF();
-        pfAlterada.setNome("");
+        pfAlterada.setEmail(email);
         Exception ex = Assertions.assertThrows(PessoaInvalidaException.class, () -> {
             pfService.alterar(1L, pfAlterada);
         });
-        Assertions.assertEquals("Nome é obrigatório", ex.getMessage());
-    }
-
-    @Test
-    void deveLancarErroAlterarPFEmailVazio() {
-        PessoaFisica pfAlterada = montarPF();
-        pfAlterada.setEmail(null);
-        Exception ex = Assertions.assertThrows(PessoaInvalidaException.class, () -> {
-            pfService.alterar(1L, pfAlterada);
-        });
-        Assertions.assertEquals("Email é obrigatório", ex.getMessage());
-    }
-
-    @Test
-    void deveLancarErroAlterarPFEmailEmBranco() {
-        PessoaFisica pfAlterada = montarPF();
-        pfAlterada.setEmail("");
-        Exception ex = Assertions.assertThrows(PessoaInvalidaException.class, () -> {
-            pfService.alterar(1L, pfAlterada);
-        });
-        Assertions.assertEquals("Email é obrigatório", ex.getMessage());
+        Assertions.assertEquals(erro, ex.getMessage());
     }
 
     @Test
