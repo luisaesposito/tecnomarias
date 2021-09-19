@@ -1,7 +1,5 @@
 package br.uff.tecnomarias.domain.entity;
 
-import org.springframework.data.annotation.CreatedDate;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;

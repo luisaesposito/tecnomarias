@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
-public class FeedbackServiceTest {
+class FeedbackServiceTest {
 
     @Mock
     private PessoaFisicaRepository pfRepo;
@@ -33,9 +33,10 @@ public class FeedbackServiceTest {
 
     @Test
     void deveRetornarErroUsuariaInexistente() {
+        Feedback feedback = montarFeedback();
         Mockito.when(pfRepo.findById(Mockito.anyLong())).thenReturn(Optional.empty());
         Exception ex = Assertions.assertThrows(EntidadeNaoEncontradaException.class, () -> {
-            feedbackService.salvarFeedback(1L, new Feedback());
+            feedbackService.salvarFeedback(1L, feedback);
         });
         Assertions.assertEquals("Pessoa não encontrada", ex.getMessage());
     }
@@ -43,10 +44,11 @@ public class FeedbackServiceTest {
     @Test
     void deveRetornarErroFeedbackExistente() {
         PessoaFisica pessoaFisica = montarPF();
-        pessoaFisica.setFeedback(montarFeedback());
+        Feedback feedback = montarFeedback();
+        pessoaFisica.setFeedback(feedback);
         Mockito.when(pfRepo.findById(Mockito.anyLong())).thenReturn(Optional.of(pessoaFisica));
         Exception ex = Assertions.assertThrows(BadRequestException.class, () -> {
-            feedbackService.salvarFeedback(1L, new Feedback());
+            feedbackService.salvarFeedback(1L, feedback);
         });
         Assertions.assertEquals("Usuaria ja avaliou o site", ex.getMessage());
     }
@@ -54,11 +56,11 @@ public class FeedbackServiceTest {
     @Test
     void deveRetornarFeedbackCriado() {
         PessoaFisica pessoaFisica = montarPF();
-        Feedback feed = montarFeedback();
-        feed.setPessoa(pessoaFisica);
+        Feedback feedback = montarFeedback();
+        feedback.setPessoa(pessoaFisica);
         Mockito.when(pfRepo.findById(Mockito.anyLong())).thenReturn(Optional.of(pessoaFisica));
-        Feedback save = feedbackService.salvarFeedback(1L, feed);
-        Assertions.assertEquals(feed, save);
+        Feedback save = feedbackService.salvarFeedback(1L, feedback);
+        Assertions.assertEquals(feedback, save);
     }
 
     @Test
@@ -72,17 +74,17 @@ public class FeedbackServiceTest {
 
     @Test
     void deveRetornarSucessoFeedbackRemovido() {
-        Feedback feed = montarFeedback();
+        Feedback feedback = montarFeedback();
         PessoaFisica pf = montarPF();
-        feed.setPessoa(pf);
-        Mockito.when(feedbackRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(feed));
+        feedback.setPessoa(pf);
+        Mockito.when(feedbackRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(feedback));
         feedbackService.remover(1L);
         Mockito.verify(pfRepo).save(pf);
-        Mockito.verify(feedbackRepository).delete(feed);
+        Mockito.verify(feedbackRepository).delete(feedback);
     }
 
     @Test
-    void deveRetornarFeedbacksRecentes(){
+    void deveRetornarFeedbacksRecentes() {
         List<Feedback> fb = new ArrayList<Feedback>();
         fb.add(montarFeedback());
         fb.add(montarFeedback());

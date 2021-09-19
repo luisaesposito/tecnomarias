@@ -16,6 +16,7 @@ public class CNPJValidator implements ConstraintValidator<CNPJ, CharSequence> {
     private final Mod11CheckValidator withoutSeparatorMod11Validator2 = new Mod11CheckValidator();
 
     public CNPJValidator() {
+        //construtor
     }
 
     @Override

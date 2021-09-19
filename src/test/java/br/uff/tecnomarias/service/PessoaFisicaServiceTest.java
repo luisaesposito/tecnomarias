@@ -23,7 +23,7 @@ import java.util.Optional;
 
 
 @ExtendWith(MockitoExtension.class)
-public class PessoaFisicaServiceTest {
+class PessoaFisicaServiceTest {
 
     @Mock
     private AvaliacaoRepository avRepositoryMock;
@@ -198,7 +198,7 @@ public class PessoaFisicaServiceTest {
     }
 
     @Test
-    void deveRetornarTodosPF(){
+    void deveRetornarTodosPF() {
         List<PessoaFisica> pf = new ArrayList<PessoaFisica>();
         pf.add(montarPF());
         Mockito.when(pfRepositoryMock.findAll()).thenReturn(pf);
@@ -207,7 +207,7 @@ public class PessoaFisicaServiceTest {
     }
 
     @Test
-    void deveRetornarPF(){
+    void deveRetornarPF() {
         PessoaFisica pf = montarPF();
         Mockito.when(pfRepositoryMock.findById(Mockito.anyLong())).thenReturn(Optional.of(pf));
         PessoaFisica busca = pfService.buscarPorId(1L);
