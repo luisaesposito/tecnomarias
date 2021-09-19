@@ -2,10 +2,7 @@ package br.uff.tecnomarias.domain.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -25,13 +22,19 @@ public class Avaliacao {
     @NotNull(message = "Data de avaliacao é obrigatorio")
     private LocalDateTime data;
 
-    private String nomeAvaliadora;
+    @OneToOne
+    @JoinColumn(name = "avaliadora_id")
+    @NotNull(message = "Avaliadora é obrigatorio")
+    private PessoaFisica avaliadora;
+
+    private Boolean anonima = true;
 
     @ManyToOne
     @JoinColumn(name = "id_empresa")
     private PessoaJuridica empresa;
 
     public Avaliacao() {
+        //Deserialization.
     }
 
     public Long getId() {
@@ -66,12 +69,20 @@ public class Avaliacao {
         this.data = data;
     }
 
-    public String getNomeAvaliadora() {
-        return nomeAvaliadora;
+    public PessoaFisica getAvaliadora() {
+        return avaliadora;
     }
 
-    public void setNomeAvaliadora(String avaliadora) {
-        this.nomeAvaliadora = avaliadora;
+    public void setAvaliadora(PessoaFisica avaliadora) {
+        this.avaliadora = avaliadora;
+    }
+
+    public Boolean getAnonima() {
+        return anonima;
+    }
+
+    public void setAnonima(Boolean anonima) {
+        this.anonima = anonima;
     }
 
     public PessoaJuridica getEmpresa() {

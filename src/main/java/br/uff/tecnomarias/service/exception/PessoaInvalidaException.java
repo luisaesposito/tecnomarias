@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(value = HttpStatus.BAD_REQUEST)
 @ResponseBody
-public class BadRequestException extends RuntimeException {
+public class PessoaInvalidaException extends RuntimeException {
 
-    public BadRequestException(String message) {
+    public PessoaInvalidaException(String message) {
         super(message);
     }
 

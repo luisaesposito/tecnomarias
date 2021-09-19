@@ -17,6 +17,7 @@ public class Feedback {
     private PessoaFisica pessoa;
 
     public Feedback() {
+        //Deserialization
     }
 
     public Feedback(String comentario) {
