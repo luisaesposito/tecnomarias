@@ -13,7 +13,8 @@ import br.uff.tecnomarias.service.exception.PessoaJuridicaInvalidaException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -87,34 +88,15 @@ public class PessoaJuridicaServiceTest {
         Assertions.assertEquals("TipoPessoa é obrigatório", ex.getMessage());
     }
 
-    @Test
-    void deveLancarErroSalvarPJCPNJInvalido() {
+    @ParameterizedTest
+    @CsvSource({"12345, CNPJ deve ter 14 caracteres", " , CNPJ é obrigatório", " '', CNPJ é obrigatório"})
+    void deveLancarErroSalvarPJCPNJInvalido(String cnpj, String erro) {
         PessoaJuridica pjAlterada = montarPJ();
-        pjAlterada.setCnpj("12345");
+        pjAlterada.setCnpj(cnpj);
         Exception ex = Assertions.assertThrows(PessoaJuridicaInvalidaException.class, () -> {
             pjService.salvar(pjAlterada);
         });
-        Assertions.assertEquals("CNPJ deve ter 14 caracteres", ex.getMessage());
-    }
-
-    @Test
-    void deveLancarErroSalvarPJCPNJVazio() {
-        PessoaJuridica pjAlterada = montarPJ();
-        pjAlterada.setCnpj(null);
-        Exception ex = Assertions.assertThrows(PessoaJuridicaInvalidaException.class, () -> {
-            pjService.salvar(pjAlterada);
-        });
-        Assertions.assertEquals("CNPJ é obrigatório", ex.getMessage());
-    }
-
-    @Test
-    void deveLancarErroSalvarPJCPNJEmBranco() {
-        PessoaJuridica pjAlterada = montarPJ();
-        pjAlterada.setCnpj("");
-        Exception ex = Assertions.assertThrows(PessoaJuridicaInvalidaException.class, () -> {
-            pjService.salvar(pjAlterada);
-        });
-        Assertions.assertEquals("CNPJ é obrigatório", ex.getMessage());
+        Assertions.assertEquals(erro, ex.getMessage());
     }
 
     @Test
