@@ -19,16 +19,14 @@ VALUES (1, 'e-commerce', '81898985000116', 'Vendemos artigos esportivos pela int
 INSERT INTO vaga(id, empresa_id, area_atuacao, cargo, descricao, valor, localidade)
 VALUES (5, 1, 'analise de dados', 'JUNIOR', 'analise dados, modelagem', 3500, 'Rio de Janeiro'),
        (6, 1, 'analise de dados', 'ESTAGIARIA', 'analise dados, modelagem', 2000, 'Rio de Janeiro'),
-       (7, 2, 'desenvolvimento de software', 'PLENO', 'desenvolver aplicações web em java', 5500, 'São Paulo'),
-       (31, 2, 'analista de sistema', 'PLENO', 'desenvolver aplicações web em php', 5500, 'São Paulo');
+       (7, 2, 'desenvolvimento de software', 'PLENO', 'desenvolver aplicações web em java', 5500, 'São Paulo');
 
 -- insere PFs
 INSERT INTO pessoa (id, nome, tipo_pessoa, email)
 VALUES (8, 'Graziela de Jesus', 'PF', 'grazielajj@gmail.com'),
        (9, 'Maria Antonieta Da Paz', 'PF', 'mariaantonieta@gmail.com'),
        (10, 'Yasmin Natália Santos', 'PF', 'yasminsantos@gmail.com'),
-       (11, 'Analu Camila Débora Ramos', 'PF', 'analuramos@gmail.com'),
-       (50, 'Duda Martins', 'PF', 'duda@gmail.com');
+       (11, 'Analu Camila Débora Ramos', 'PF', 'analuramos@gmail.com');
 
 INSERT INTO links (id, linked_in, git_hub, portfolio, facebook)
 VALUES (12, 'linkedIn.com/grazielajj', 'git_hub.com/grazielajj', 'seuportifolio.com/grazielajj',
@@ -36,15 +34,13 @@ VALUES (12, 'linkedIn.com/grazielajj', 'git_hub.com/grazielajj', 'seuportifolio.
        (13, 'linkedIn.com/mariaantonieta', 'git_hub.com/mariaantonieta', 'seuportifolio.com/mariaantonieta',
         'facebook.com/mariaantonieta'),
        (14, 'linkedIn.com/yasmin-nat', 'git_hub.com/yasmin', 'seuportifolio.com/yasmin-nat', NULL),
-       (15, 'linkedIn.com/analu', 'git_hub.com/analu', 'seuportifolio.com/analu', NULL),
-       (51, 'linkedIn.com/duda', null, null, NULL);
+       (15, 'linkedIn.com/analu', 'git_hub.com/analu', 'seuportifolio.com/analu', NULL);
 
 INSERT INTO pessoa_fisica (id, links_id, data_cadastro)
-VALUES (8, 12, {ts '2020-01-01'}),
-       (9, 13, {ts '2018-09-10'}),
-       (10, 14, {ts '2019-10-22'}),
-       (11, 15, {ts '2021-02-15'}),
-       (50, 51, CURRENT_DATE);
+VALUES (8, 12, '2020-01-01'),
+       (9, 13, '2018-09-10'),
+       (10, 14, '2019-10-22'),
+       (11, 15, '2021-02-15');
 
 -- insere feedbacks
 INSERT INTO feedback (id, pessoa_fisica_id, comentario)

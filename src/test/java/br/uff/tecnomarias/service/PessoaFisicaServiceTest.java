@@ -1,12 +1,9 @@
 package br.uff.tecnomarias.service;
 
-import br.uff.tecnomarias.domain.entity.*;
+import br.uff.tecnomarias.domain.entity.Feedback;
 import br.uff.tecnomarias.domain.entity.PessoaFisica;
-import br.uff.tecnomarias.domain.enums.PorteEmpresa;
 import br.uff.tecnomarias.domain.enums.TipoPessoa;
-import br.uff.tecnomarias.domain.repository.AvaliacaoRepository;
 import br.uff.tecnomarias.domain.repository.FeedbackRepository;
-import br.uff.tecnomarias.domain.repository.PessoaFisicaRepository;
 import br.uff.tecnomarias.domain.repository.PessoaFisicaRepository;
 import br.uff.tecnomarias.service.exception.EntidadeNaoEncontradaException;
 import br.uff.tecnomarias.service.exception.PessoaInvalidaException;
@@ -18,7 +15,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

@@ -1,36 +1,27 @@
 package br.uff.tecnomarias.service;
 
-import br.uff.tecnomarias.domain.entity.*;
+import br.uff.tecnomarias.domain.entity.Avaliacao;
+import br.uff.tecnomarias.domain.entity.PessoaFisica;
+import br.uff.tecnomarias.domain.entity.PessoaJuridica;
 import br.uff.tecnomarias.domain.enums.PorteEmpresa;
 import br.uff.tecnomarias.domain.repository.AvaliacaoRepository;
 import br.uff.tecnomarias.domain.repository.PessoaJuridicaRepository;
-import br.uff.tecnomarias.service.PessoaJuridicaService;
 import br.uff.tecnomarias.service.exception.EntidadeNaoEncontradaException;
 import br.uff.tecnomarias.service.exception.PessoaInvalidaException;
 import br.uff.tecnomarias.service.exception.PessoaJuridicaInvalidaException;
-import org.junit.AfterClass;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
-
 
 @ExtendWith(MockitoExtension.class)
 public class PessoaJuridicaServiceTest {
@@ -374,11 +365,12 @@ public class PessoaJuridicaServiceTest {
     }
 
     private static Avaliacao montarAvaliacao() {
+        PessoaFisica avaliadora = new PessoaFisica();
         Avaliacao av = new Avaliacao();
         av.setId(1L);
         av.setData(LocalDateTime.now());
         av.setComentario("Empresa muito jóia!!");
-        av.setNomeAvaliadora("Ester Matos");
+        av.setAvaliadora(avaliadora);
         av.setNota(5);
         return av;
     }

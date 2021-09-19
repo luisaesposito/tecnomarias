@@ -1,7 +1,7 @@
 package br.uff.tecnomarias.service;
 
 import br.uff.tecnomarias.domain.entity.PessoaFisica;
-import br.uff.tecnomarias.domain.entity.PessoaJuridica;
+import br.uff.tecnomarias.domain.repository.AvaliacaoRepository;
 import br.uff.tecnomarias.domain.repository.FeedbackRepository;
 import br.uff.tecnomarias.domain.repository.PessoaFisicaRepository;
 import br.uff.tecnomarias.service.exception.EntidadeNaoEncontradaException;
@@ -20,7 +20,8 @@ public class PessoaFisicaService {
 
     @Autowired
     FeedbackRepository feedbackRepository;
-
+    @Autowired
+    AvaliacaoRepository avaliacaoRepository;
     @Autowired
     PessoaFisicaRepository pfRepository;
 
@@ -54,6 +55,9 @@ public class PessoaFisicaService {
                 .orElseThrow(() -> new EntidadeNaoEncontradaException(NOT_FOUND_MSG));
         if (pf.getFeedback() != null)
             feedbackRepository.delete(pf.getFeedback());
+        avaliacaoRepository.findByAvaliadora(pf).ifPresent(av -> {
+            avaliacaoRepository.delete(av);
+        });
         pfRepository.delete(pf);
         pfRepository.flush();
     }

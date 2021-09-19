@@ -1,10 +1,9 @@
 package br.uff.tecnomarias.service;
 
-import br.uff.tecnomarias.domain.entity.*;
-import br.uff.tecnomarias.domain.enums.PorteEmpresa;
+import br.uff.tecnomarias.domain.entity.Feedback;
+import br.uff.tecnomarias.domain.entity.PessoaFisica;
 import br.uff.tecnomarias.domain.repository.FeedbackRepository;
 import br.uff.tecnomarias.domain.repository.PessoaFisicaRepository;
-import br.uff.tecnomarias.rest.dto.FeedbackDTO;
 import br.uff.tecnomarias.service.exception.BadRequestException;
 import br.uff.tecnomarias.service.exception.EntidadeNaoEncontradaException;
 import org.junit.jupiter.api.Assertions;

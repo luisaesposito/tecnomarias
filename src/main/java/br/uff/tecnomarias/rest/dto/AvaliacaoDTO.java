@@ -1,6 +1,7 @@
 package br.uff.tecnomarias.rest.dto;
 
 import br.uff.tecnomarias.domain.entity.Avaliacao;
+import br.uff.tecnomarias.domain.entity.PessoaFisica;
 import br.uff.tecnomarias.domain.entity.PessoaJuridica;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -13,7 +14,8 @@ public class AvaliacaoDTO {
     private String comentario;
     private int nota;
     private LocalDateTime data;
-    private String nomeAvaliadora;
+    private Long idAvaliadora;
+    private Boolean anonima;
     private Long idEmpresa;
 
     public AvaliacaoDTO() { }
@@ -23,7 +25,8 @@ public class AvaliacaoDTO {
         this.comentario = avaliacao.getComentario();
         this.nota = avaliacao.getNota();
         this.data = avaliacao.getData();
-        this.nomeAvaliadora = avaliacao.getNomeAvaliadora();
+        this.idAvaliadora = avaliacao.getAvaliadora().getId();
+        this.anonima = avaliacao.getAnonima();
         this.idEmpresa = avaliacao.getEmpresa().getId();
     }
 
@@ -32,7 +35,11 @@ public class AvaliacaoDTO {
         avaliacao.setComentario(this.comentario);
         avaliacao.setNota(this.nota);
         avaliacao.setData(this.data);
-        avaliacao.setNomeAvaliadora(this.nomeAvaliadora);
+        if (idAvaliadora != null) {
+            var avaliadora = new PessoaFisica();
+            avaliadora.setId(this.idAvaliadora);
+            avaliacao.setAvaliadora(avaliadora);
+        }
         var empresa = new PessoaJuridica();
         empresa.setId(this.idEmpresa);
         avaliacao.setEmpresa(empresa);
@@ -71,12 +78,20 @@ public class AvaliacaoDTO {
         this.data = data;
     }
 
-    public String getNomeAvaliadora() {
-        return nomeAvaliadora;
+    public Long getIdAvaliadora() {
+        return idAvaliadora;
     }
 
-    public void setNomeAvaliadora(String nomeAvaliadora) {
-        this.nomeAvaliadora = nomeAvaliadora;
+    public void setIdAvaliadora(Long idAvaliadora) {
+        this.idAvaliadora = idAvaliadora;
+    }
+
+    public Boolean getAnonima() {
+        return anonima;
+    }
+
+    public void setAnonima(Boolean anonima) {
+        this.anonima = anonima;
     }
 
     public Long getIdEmpresa() {

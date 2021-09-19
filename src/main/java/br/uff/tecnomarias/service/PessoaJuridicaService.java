@@ -1,9 +1,12 @@
 package br.uff.tecnomarias.service;
 
 import br.uff.tecnomarias.domain.entity.Avaliacao;
+import br.uff.tecnomarias.domain.entity.PessoaFisica;
 import br.uff.tecnomarias.domain.entity.PessoaJuridica;
 import br.uff.tecnomarias.domain.repository.AvaliacaoRepository;
+import br.uff.tecnomarias.domain.repository.PessoaFisicaRepository;
 import br.uff.tecnomarias.domain.repository.PessoaJuridicaRepository;
+import br.uff.tecnomarias.service.exception.BadRequestException;
 import br.uff.tecnomarias.service.exception.EntidadeNaoEncontradaException;
 import br.uff.tecnomarias.service.exception.PessoaInvalidaException;
 import br.uff.tecnomarias.service.exception.PessoaJuridicaInvalidaException;
@@ -11,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -20,13 +24,17 @@ public class PessoaJuridicaService {
 
     private final PessoaJuridicaRepository pjRepository;
     private final AvaliacaoRepository avaliacaoRepository;
+    private final PessoaFisicaRepository pfRepository;
 
     public PessoaJuridicaService(PessoaJuridicaRepository pjRepository,
-                                 AvaliacaoRepository avaliacaoRepository) {
+                                 AvaliacaoRepository avaliacaoRepository,
+                                 PessoaFisicaRepository pfRepository) {
         Objects.requireNonNull(pjRepository);
         Objects.requireNonNull(avaliacaoRepository);
+        Objects.requireNonNull(pfRepository);
         this.pjRepository = pjRepository;
         this.avaliacaoRepository = avaliacaoRepository;
+        this.pfRepository = pfRepository;
     }
 
     @Transactional
@@ -61,9 +69,19 @@ public class PessoaJuridicaService {
     }
 
     @Transactional
-    public Avaliacao avaliarEmpresa(Long idEmpresa, Avaliacao avaliacao) {
+    public Avaliacao avaliarEmpresa(Long idEmpresa, @Valid Avaliacao avaliacao) {
         PessoaJuridica pj = pjRepository.findById(idEmpresa)
                 .orElseThrow(() -> new EntidadeNaoEncontradaException("Empresa não encontrada"));
+
+        PessoaFisica avaliadora = pfRepository.findById(avaliacao.getAvaliadora().getId())
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Avaliadora não encontrada"));
+
+        if (avaliadora.getDataCadastro().isAfter(LocalDate.now().minusMonths(3)))
+            throw new BadRequestException("Usuária deve estar cadastrada há 3 meses para avaliar empresa");
+
+        if (avaliacaoRepository.findByAvaliadora(avaliadora).isPresent())
+            throw new BadRequestException("Usuária já avaliou empresa");
+
         avaliacao.setEmpresa(pj);
         avaliacao.setData(LocalDateTime.now());
         pj.addAvaliacao(avaliacao);

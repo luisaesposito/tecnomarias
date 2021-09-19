@@ -1,21 +1,15 @@
 package br.uff.tecnomarias.service;
 
-import br.uff.tecnomarias.domain.entity.Avaliacao;
-import br.uff.tecnomarias.domain.entity.PessoaFisica;
 import br.uff.tecnomarias.domain.entity.PessoaJuridica;
 import br.uff.tecnomarias.domain.entity.Vaga;
 import br.uff.tecnomarias.domain.enums.Cargo;
 import br.uff.tecnomarias.domain.enums.PorteEmpresa;
-import br.uff.tecnomarias.domain.repository.AvaliacaoRepository;
 import br.uff.tecnomarias.domain.repository.PessoaJuridicaRepository;
 import br.uff.tecnomarias.domain.repository.VagaRepository;
 import br.uff.tecnomarias.service.exception.BadRequestException;
 import br.uff.tecnomarias.service.exception.EntidadeNaoEncontradaException;
-import br.uff.tecnomarias.service.exception.PessoaJuridicaInvalidaException;
 import br.uff.tecnomarias.service.exception.VagaInvalidaException;
-import org.junit.AfterClass;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -23,15 +17,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 
 @ExtendWith(MockitoExtension.class)
