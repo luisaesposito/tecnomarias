@@ -8,10 +8,13 @@ import br.uff.tecnomarias.domain.repository.PessoaJuridicaRepository;
 import br.uff.tecnomarias.domain.repository.VagaRepository;
 import br.uff.tecnomarias.service.exception.BadRequestException;
 import br.uff.tecnomarias.service.exception.EntidadeNaoEncontradaException;
+import br.uff.tecnomarias.service.exception.PessoaInvalidaException;
 import br.uff.tecnomarias.service.exception.VagaInvalidaException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -23,7 +26,7 @@ import java.util.Optional;
 
 
 @ExtendWith(MockitoExtension.class)
-public class VagaServiceTest {
+class VagaServiceTest {
 
     @Mock
     private PessoaJuridicaRepository pjRepositoryMock;
@@ -32,24 +35,15 @@ public class VagaServiceTest {
     @InjectMocks
     private VagaService vgService;
 
-    @Test
-    void deveLancarErroSalvarVagaDescricaoVazio() {
+    @ParameterizedTest
+    @CsvSource({", Descrição é obrigatório", " '', Descrição é obrigatório"})
+    void deveLancarSalvarVagaDescricaoInvalido(String descricao, String erro) {
         Vaga vaga = montarVaga();
-        vaga.setDescricao(null);
+        vaga.setDescricao(descricao);
         Exception ex = Assertions.assertThrows(VagaInvalidaException.class, () -> {
-            vgService.salvar(vaga);
+            vgService.salvar( vaga);
         });
-        Assertions.assertEquals("Descrição é obrigatório", ex.getMessage());
-    }
-
-    @Test
-    void deveLancarErroSalvarVagaDescricaoEmBranco() {
-        Vaga vaga = montarVaga();
-        vaga.setDescricao("");
-        Exception ex = Assertions.assertThrows(VagaInvalidaException.class, () -> {
-            vgService.salvar(vaga);
-        });
-        Assertions.assertEquals("Descrição é obrigatório", ex.getMessage());
+        Assertions.assertEquals(erro, ex.getMessage());
     }
 
     @Test
@@ -62,44 +56,28 @@ public class VagaServiceTest {
         Assertions.assertEquals("Cargo é obrigatório", ex.getMessage());
     }
 
-    @Test
-    void deveLancarErroSalvarVagaAreaAtuacaoVazio() {
+
+    @ParameterizedTest
+    @CsvSource({", Área Atuação é obrigatório", " '', Área Atuação é obrigatório"})
+    void deveLancarSalvarVagaAreaAtuacaoInvalido(String area, String erro) {
         Vaga vaga = montarVaga();
-        vaga.setAreaAtuacao(null);
+        vaga.setAreaAtuacao(area);
         Exception ex = Assertions.assertThrows(VagaInvalidaException.class, () -> {
             vgService.salvar(vaga);
         });
-        Assertions.assertEquals("Área Atuação é obrigatório", ex.getMessage());
+        Assertions.assertEquals(erro, ex.getMessage());
     }
 
-    @Test
-    void deveLancarErroSalvarVagaAreaAtuacaoEmBranco() {
-        Vaga vaga = montarVaga();
-        vaga.setAreaAtuacao("");
-        Exception ex = Assertions.assertThrows(VagaInvalidaException.class, () -> {
-            vgService.salvar(vaga);
-        });
-        Assertions.assertEquals("Área Atuação é obrigatório", ex.getMessage());
-    }
 
-    @Test
-    void deveLancarErroAlterarVagaDescricaoVazio() {
+    @ParameterizedTest
+    @CsvSource({", Descrição é obrigatório", " '', Descrição é obrigatório"})
+    void deveLancarAlterarVagaDescricaoInvalido(String descricao, String erro) {
         Vaga vaga = montarVaga();
-        vaga.setDescricao(null);
+        vaga.setDescricao(descricao);
         Exception ex = Assertions.assertThrows(VagaInvalidaException.class, () -> {
             vgService.alterar(1L, vaga);
         });
-        Assertions.assertEquals("Descrição é obrigatório", ex.getMessage());
-    }
-
-    @Test
-    void deveLancarErroAlterarVagaDescricaoEmBranco() {
-        Vaga vaga = montarVaga();
-        vaga.setDescricao("");
-        Exception ex = Assertions.assertThrows(VagaInvalidaException.class, () -> {
-            vgService.alterar(1L, vaga);
-        });
-        Assertions.assertEquals("Descrição é obrigatório", ex.getMessage());
+        Assertions.assertEquals(erro, ex.getMessage());
     }
 
     @Test
@@ -112,24 +90,15 @@ public class VagaServiceTest {
         Assertions.assertEquals("Cargo é obrigatório", ex.getMessage());
     }
 
-    @Test
-    void deveLancarErroAlterarVagaAreaAtuacaoVazio() {
+    @ParameterizedTest
+    @CsvSource({", Área Atuação é obrigatório", " '', Área Atuação é obrigatório"})
+    void deveLancarAlterarVagaAreaAtuacaoInvalido(String area, String erro) {
         Vaga vaga = montarVaga();
-        vaga.setAreaAtuacao(null);
+        vaga.setAreaAtuacao(area);
         Exception ex = Assertions.assertThrows(VagaInvalidaException.class, () -> {
             vgService.alterar(1L, vaga);
         });
-        Assertions.assertEquals("Área Atuação é obrigatório", ex.getMessage());
-    }
-
-    @Test
-    void deveLancarErroAlterarVagaAreaAtuacaoEmBranco() {
-        Vaga vaga = montarVaga();
-        vaga.setAreaAtuacao("");
-        Exception ex = Assertions.assertThrows(VagaInvalidaException.class, () -> {
-            vgService.alterar(1L, vaga);
-        });
-        Assertions.assertEquals("Área Atuação é obrigatório", ex.getMessage());
+        Assertions.assertEquals(erro, ex.getMessage());
     }
 
 
@@ -208,7 +177,7 @@ public class VagaServiceTest {
     }
 
     @Test
-    void deveRetornarTodasVagas(){
+    void deveRetornarTodasVagas() {
         List<Vaga> vg = new ArrayList<Vaga>();
         vg.add(montarVaga());
         Mockito.when(vgRepositoryMock.findAll()).thenReturn(vg);

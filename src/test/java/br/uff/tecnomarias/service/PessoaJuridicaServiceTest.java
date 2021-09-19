@@ -13,7 +13,8 @@ import br.uff.tecnomarias.service.exception.PessoaJuridicaInvalidaException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -26,7 +27,7 @@ import java.util.List;
 import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
-public class PessoaJuridicaServiceTest {
+class PessoaJuridicaServiceTest {
 
     @Mock
     private PessoaFisicaRepository pfRepositoryMock;
@@ -37,44 +38,27 @@ public class PessoaJuridicaServiceTest {
     @InjectMocks
     private PessoaJuridicaService pjService;
 
-    @Test
-    void deveLancarErroSalvarPJNomeVazio() {
+
+    @ParameterizedTest
+    @CsvSource({", Nome é obrigatório", " '', Nome é obrigatório"})
+    void deveLancarErroSalvarPJNomeInvalido(String nome, String erro) {
         PessoaJuridica pjAlterada = montarPJ();
-        pjAlterada.setNome(null);
+        pjAlterada.setNome(nome);
         Exception ex = Assertions.assertThrows(PessoaInvalidaException.class, () -> {
             pjService.salvar(pjAlterada);
         });
-        Assertions.assertEquals("Nome é obrigatório", ex.getMessage());
+        Assertions.assertEquals(erro, ex.getMessage());
     }
 
-    @Test
-    void deveLancarErroSalvarPJNomeEmBranco() {
+    @ParameterizedTest
+    @CsvSource({", Email é obrigatório", " '', Email é obrigatório"})
+    void deveLancarErroSalvarPJEmailInvalido(String email, String erro) {
         PessoaJuridica pjAlterada = montarPJ();
-        pjAlterada.setNome("");
+        pjAlterada.setEmail(email);
         Exception ex = Assertions.assertThrows(PessoaInvalidaException.class, () -> {
             pjService.salvar(pjAlterada);
         });
-        Assertions.assertEquals("Nome é obrigatório", ex.getMessage());
-    }
-
-    @Test
-    void deveLancarErroSalvarPJEmailVazio() {
-        PessoaJuridica pjAlterada = montarPJ();
-        pjAlterada.setEmail(null);
-        Exception ex = Assertions.assertThrows(PessoaInvalidaException.class, () -> {
-            pjService.salvar(pjAlterada);
-        });
-        Assertions.assertEquals("Email é obrigatório", ex.getMessage());
-    }
-
-    @Test
-    void deveLancarErroSalvarPJEmailEmBranco() {
-        PessoaJuridica pjAlterada = montarPJ();
-        pjAlterada.setEmail("");
-        Exception ex = Assertions.assertThrows(PessoaInvalidaException.class, () -> {
-            pjService.salvar(pjAlterada);
-        });
-        Assertions.assertEquals("Email é obrigatório", ex.getMessage());
+        Assertions.assertEquals(erro, ex.getMessage());
     }
 
     @Test
@@ -87,34 +71,15 @@ public class PessoaJuridicaServiceTest {
         Assertions.assertEquals("TipoPessoa é obrigatório", ex.getMessage());
     }
 
-    @Test
-    void deveLancarErroSalvarPJCPNJInvalido() {
+    @ParameterizedTest
+    @CsvSource({"12345, CNPJ deve ter 14 caracteres", " , CNPJ é obrigatório", " '', CNPJ é obrigatório"})
+    void deveLancarErroSalvarPJCPNJInvalido(String cnpj, String erro) {
         PessoaJuridica pjAlterada = montarPJ();
-        pjAlterada.setCnpj("12345");
+        pjAlterada.setCnpj(cnpj);
         Exception ex = Assertions.assertThrows(PessoaJuridicaInvalidaException.class, () -> {
             pjService.salvar(pjAlterada);
         });
-        Assertions.assertEquals("CNPJ deve ter 14 caracteres", ex.getMessage());
-    }
-
-    @Test
-    void deveLancarErroSalvarPJCPNJVazio() {
-        PessoaJuridica pjAlterada = montarPJ();
-        pjAlterada.setCnpj(null);
-        Exception ex = Assertions.assertThrows(PessoaJuridicaInvalidaException.class, () -> {
-            pjService.salvar(pjAlterada);
-        });
-        Assertions.assertEquals("CNPJ é obrigatório", ex.getMessage());
-    }
-
-    @Test
-    void deveLancarErroSalvarPJCPNJEmBranco() {
-        PessoaJuridica pjAlterada = montarPJ();
-        pjAlterada.setCnpj("");
-        Exception ex = Assertions.assertThrows(PessoaJuridicaInvalidaException.class, () -> {
-            pjService.salvar(pjAlterada);
-        });
-        Assertions.assertEquals("CNPJ é obrigatório", ex.getMessage());
+        Assertions.assertEquals(erro, ex.getMessage());
     }
 
     @Test
@@ -127,74 +92,37 @@ public class PessoaJuridicaServiceTest {
         Assertions.assertEquals("PorteEmpresa é obrigatório", ex.getMessage());
     }
 
-    @Test
-    void deveLancarErroSalvarPJAreaAtuacaoVazio() {
+    @ParameterizedTest
+    @CsvSource({" , AreaAtuacao é obrigatório", " '', AreaAtuacao é obrigatório"})
+    void deveLancarErroSalvarPJAreaAtuacaoInvalido(String area, String erro) {
         PessoaJuridica pjAlterada = montarPJ();
-        pjAlterada.setAreaAtuacao(null);
+        pjAlterada.setAreaAtuacao(area);
         Exception ex = Assertions.assertThrows(PessoaJuridicaInvalidaException.class, () -> {
             pjService.salvar(pjAlterada);
         });
-        Assertions.assertEquals("AreaAtuacao é obrigatório", ex.getMessage());
+        Assertions.assertEquals(erro, ex.getMessage());
     }
 
-    @Test
-    void deveLancarErroSalvarPJAreaAtuacaoEmBranco() {
+    @ParameterizedTest
+    @CsvSource({" , Nome é obrigatório", " '', Nome é obrigatório"})
+    void deveLancarErroAlterarPJNomeInvalido(String nome, String erro) {
         PessoaJuridica pjAlterada = montarPJ();
-        pjAlterada.setAreaAtuacao("");
-        Exception ex = Assertions.assertThrows(PessoaJuridicaInvalidaException.class, () -> {
-            pjService.salvar(pjAlterada);
-        });
-        Assertions.assertEquals("AreaAtuacao é obrigatório", ex.getMessage());
-    }
-
-    @Test
-    void deveLancarErroAlterarPJCPNJInvalido() {
-        PessoaJuridica pjAlterada = montarPJ();
-        pjAlterada.setCnpj("12345");
-        Exception ex = Assertions.assertThrows(PessoaJuridicaInvalidaException.class, () -> {
-            pjService.alterar(1L, pjAlterada);
-        });
-        Assertions.assertEquals("CNPJ deve ter 14 caracteres", ex.getMessage());
-    }
-
-    @Test
-    void deveLancarErroAlterarPJNomeVazio() {
-        PessoaJuridica pjAlterada = montarPJ();
-        pjAlterada.setNome(null);
+        pjAlterada.setNome(nome);
         Exception ex = Assertions.assertThrows(PessoaInvalidaException.class, () -> {
             pjService.alterar(1L, pjAlterada);
         });
-        Assertions.assertEquals("Nome é obrigatório", ex.getMessage());
+        Assertions.assertEquals(erro, ex.getMessage());
     }
 
-    @Test
-    void deveLancarErroAlterarPJNomeEmBranco() {
+    @ParameterizedTest
+    @CsvSource({", Email é obrigatório", " '', Email é obrigatório"})
+    void deveLancarErroAlterarPJEmailInvalido(String email, String erro) {
         PessoaJuridica pjAlterada = montarPJ();
-        pjAlterada.setNome("");
+        pjAlterada.setEmail(email);
         Exception ex = Assertions.assertThrows(PessoaInvalidaException.class, () -> {
-            pjService.alterar(1L, pjAlterada);
+            pjService.alterar(1L,pjAlterada);
         });
-        Assertions.assertEquals("Nome é obrigatório", ex.getMessage());
-    }
-
-    @Test
-    void deveLancarErroAlterarPJEmailVazio() {
-        PessoaJuridica pjAlterada = montarPJ();
-        pjAlterada.setEmail(null);
-        Exception ex = Assertions.assertThrows(PessoaInvalidaException.class, () -> {
-            pjService.alterar(1L, pjAlterada);
-        });
-        Assertions.assertEquals("Email é obrigatório", ex.getMessage());
-    }
-
-    @Test
-    void deveLancarErroAlterarPJEmailEmBranco() {
-        PessoaJuridica pjAlterada = montarPJ();
-        pjAlterada.setEmail("");
-        Exception ex = Assertions.assertThrows(PessoaInvalidaException.class, () -> {
-            pjService.alterar(1L, pjAlterada);
-        });
-        Assertions.assertEquals("Email é obrigatório", ex.getMessage());
+        Assertions.assertEquals(erro, ex.getMessage());
     }
 
     @Test
@@ -207,24 +135,15 @@ public class PessoaJuridicaServiceTest {
         Assertions.assertEquals("TipoPessoa é obrigatório", ex.getMessage());
     }
 
-    @Test
-    void deveLancarErroAlterarPJCNPJVazio() {
+    @ParameterizedTest
+    @CsvSource({"12345, CNPJ deve ter 14 caracteres", " , CNPJ é obrigatório", " '', CNPJ é obrigatório"})
+    void deveLancarErroAlterarPJCPNJInvalido(String cnpj, String erro) {
         PessoaJuridica pjAlterada = montarPJ();
-        pjAlterada.setCnpj(null);
+        pjAlterada.setCnpj(cnpj);
         Exception ex = Assertions.assertThrows(PessoaJuridicaInvalidaException.class, () -> {
-            pjService.alterar(1L, pjAlterada);
+            pjService.alterar(1L,pjAlterada);
         });
-        Assertions.assertEquals("CNPJ é obrigatório", ex.getMessage());
-    }
-
-    @Test
-    void deveLancarErroAlterarPJCNPJEmBranco() {
-        PessoaJuridica pjAlterada = montarPJ();
-        pjAlterada.setCnpj("");
-        Exception ex = Assertions.assertThrows(PessoaJuridicaInvalidaException.class, () -> {
-            pjService.alterar(1L, pjAlterada);
-        });
-        Assertions.assertEquals("CNPJ é obrigatório", ex.getMessage());
+        Assertions.assertEquals(erro, ex.getMessage());
     }
 
     @Test
@@ -237,24 +156,15 @@ public class PessoaJuridicaServiceTest {
         Assertions.assertEquals("PorteEmpresa é obrigatório", ex.getMessage());
     }
 
-    @Test
-    void deveLancarErroAlterarPJPAreaAtuacaoVazio() {
+    @ParameterizedTest
+    @CsvSource({" , AreaAtuacao é obrigatório", " '', AreaAtuacao é obrigatório"})
+    void deveLancarErroAlterarPJAreaAtuacaoInvalido(String area, String erro) {
         PessoaJuridica pjAlterada = montarPJ();
-        pjAlterada.setAreaAtuacao(null);
+        pjAlterada.setAreaAtuacao(area);
         Exception ex = Assertions.assertThrows(PessoaJuridicaInvalidaException.class, () -> {
             pjService.alterar(1L, pjAlterada);
         });
-        Assertions.assertEquals("AreaAtuacao é obrigatório", ex.getMessage());
-    }
-
-    @Test
-    void deveLancarErroAlterarPJPAreaAtuacaoEmBranco() {
-        PessoaJuridica pjAlterada = montarPJ();
-        pjAlterada.setAreaAtuacao("");
-        Exception ex = Assertions.assertThrows(PessoaJuridicaInvalidaException.class, () -> {
-            pjService.alterar(1L, pjAlterada);
-        });
-        Assertions.assertEquals("AreaAtuacao é obrigatório", ex.getMessage());
+        Assertions.assertEquals(erro, ex.getMessage());
     }
 
     @Test
