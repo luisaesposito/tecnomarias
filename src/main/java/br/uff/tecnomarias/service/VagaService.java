@@ -5,7 +5,9 @@ import br.uff.tecnomarias.domain.entity.Vaga;
 import br.uff.tecnomarias.domain.enums.Cargo;
 import br.uff.tecnomarias.domain.repository.PessoaJuridicaRepository;
 import br.uff.tecnomarias.domain.repository.VagaRepository;
-import br.uff.tecnomarias.service.exception.*;
+import br.uff.tecnomarias.service.exception.BadRequestException;
+import br.uff.tecnomarias.service.exception.EntidadeNaoEncontradaException;
+import br.uff.tecnomarias.service.exception.VagaInvalidaException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -151,15 +151,15 @@ class PessoaJuridicaResourceTest {
     @Test
     @DisplayName("TM-50 : Criar avaliação de empresa com sucesso")
     void deveSalvarAvaliacaoComSucesso() {
-        String json = "{\"comentario\": \"Adorei a empresa\", \"nota\": 5,  \"nomeAvaliadora\": \"Samantha Costa\"}";
+        String json = "{\"comentario\": \"Adorei a empresa\", \"nota\": 5, \"idAvaliadora\": 9}";
         given()
                 .contentType(ContentType.JSON)
                 .body(json)
                 .pathParam("id", Long.valueOf(ID_EMPRESA_SALVA))
-                .when()
+                .when().log().all()
                 .post(String.format(BASE_PATH, port) + "{id}/avaliacao")
-                .then()
-                .statusCode(HttpStatus.SC_OK)
+                .then().log().all()
+                .statusCode(HttpStatus.SC_CREATED)
                 .body("id", notNullValue(),
                         "idEmpresa", equalTo(ID_EMPRESA_SALVA.intValue()));
     }
@@ -167,7 +167,7 @@ class PessoaJuridicaResourceTest {
     @Test
     @DisplayName("TM-51 : Criar avaliação de empresa falha por requisição inválida")
     void deveRetornarBadRequestSalvarAvaliacaoComBodyInvalido() {
-        String json = "{\"comentario\": \"Adorei a empresa\", \"nota\": ,  \"nomeAvaliadora\": \"Samantha Costa\"}";
+        String json = "{\"comentario\": \"Adorei a empresa\", \"nota\": }";
         given()
                 .contentType(ContentType.JSON)
                 .body(json)
@@ -204,7 +204,7 @@ class PessoaJuridicaResourceTest {
     @Test
     @DisplayName("TM-58 : Criar avaliação de empresa falha por id não encontrado")
     void deveRetornarNotFoundSalvarAvaliacaoComEmpresaNaoCadastrada() {
-        String json = "{\"comentario\": \"Adorei a empresa\", \"nota\": 5,  \"nomeAvaliadora\": \"Samantha Costa\"}";
+        String json = "{\"comentario\": \"Adorei a empresa\", \"nota\": 5,  \"idAvaliadora\": 50}";
         given()
                 .contentType(ContentType.JSON)
                 .body(json)
@@ -212,21 +212,24 @@ class PessoaJuridicaResourceTest {
                 .when()
                 .post(String.format(BASE_PATH, port) + "{id}/avaliacao")
                 .then()
+                .log().all()
                 .statusCode(HttpStatus.SC_NOT_FOUND);
     }
 
     @Test
+    @DisplayName("TM-110 : Criar avaliação de empresa falha por usuária cadastrada há menos de 3 meses")
     void deveRetornarBadRequestUsuariaCadastradaMenos3MesesAvaliar() {
-        String json = "{\"comentario\": \"bom\", \"nota\": 3\"idAvaliadora\": 50}";
+        String json = "{\"comentario\": \"Adorei a empresa\", \"nota\": 5,  \"idAvaliadora\": 50}";
         given()
                 .contentType(ContentType.JSON)
                 .body(json)
-                .pathParam("id", 50)
+                .pathParam("id", 1)
                 .when()
                 .post(String.format(BASE_PATH, port) + "{id}/avaliacao")
                 .then()
+                .log().all()
                 .statusCode(HttpStatus.SC_BAD_REQUEST)
-                .body("message", is("Usuária deve ser cadastrada há 3 meses para avaliar"));
+                .body("message", is("Usuária deve estar cadastrada há 3 meses para avaliar empresa"));
     }
 
     @Test

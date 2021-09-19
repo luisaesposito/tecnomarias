@@ -9,8 +9,8 @@ import org.springframework.boot.web.server.LocalServerPort;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.when;
-import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class FeedbackResourceTest {
@@ -19,7 +19,7 @@ class FeedbackResourceTest {
     private Integer port;
     private static final String BASE_PATH = "http://localhost:%s/api/v1/feedback/";
 
-    private static final Long ID_USUARIA_SEM_FEEDBACK = 11L;
+    private static final Long ID_USUARIA_SEM_FEEDBACK = 50L;
     private static final Long ID_USUARIA_COM_FEEDBACK = 8L;
     private static final Long ID_FEEDBACK_PARA_REMOVER = 17L;
 

@@ -69,7 +69,10 @@ public class PessoaJuridicaService {
     }
 
     @Transactional
-    public Avaliacao avaliarEmpresa(Long idEmpresa, Avaliacao avaliacao) {
+    public Avaliacao avaliarEmpresa(Long idEmpresa, @Valid Avaliacao avaliacao) {
+        PessoaJuridica pj = pjRepository.findById(idEmpresa)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Empresa não encontrada"));
+
         PessoaFisica avaliadora = pfRepository.findById(avaliacao.getAvaliadora().getId())
                 .orElseThrow(() -> new EntidadeNaoEncontradaException("Avaliadora não encontrada"));
 
@@ -79,8 +82,6 @@ public class PessoaJuridicaService {
         if (avaliacaoRepository.findByAvaliadora(avaliadora).isPresent())
             throw new BadRequestException("Usuária já avaliou empresa");
 
-        PessoaJuridica pj = pjRepository.findById(idEmpresa)
-                .orElseThrow(() -> new EntidadeNaoEncontradaException("Empresa não encontrada"));
         avaliacao.setEmpresa(pj);
         avaliacao.setData(LocalDateTime.now());
         pj.addAvaliacao(avaliacao);

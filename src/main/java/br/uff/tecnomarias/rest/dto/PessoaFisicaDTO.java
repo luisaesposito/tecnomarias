@@ -42,4 +42,12 @@ public class PessoaFisicaDTO extends PessoaDTO {
     public void setLinks(Links links) {
         this.links = links;
     }
+
+    public LocalDate getDataCadastro() {
+        return dataCadastro;
+    }
+
+    public void setDataCadastro(LocalDate dataCadastro) {
+        this.dataCadastro = dataCadastro;
+    }
 }

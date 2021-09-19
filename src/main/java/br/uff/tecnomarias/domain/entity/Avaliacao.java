@@ -24,6 +24,7 @@ public class Avaliacao {
 
     @OneToOne
     @JoinColumn(name = "avaliadora_id")
+    @NotNull(message = "Avaliadora é obrigatorio")
     private PessoaFisica avaliadora;
 
     private Boolean anonima = true;

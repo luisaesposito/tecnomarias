@@ -21,7 +21,7 @@ class VagaResourceTest {
 
     private static final Long ID_VAGA_SALVA = 5L;
     private static final Long ID_VAGA_PARA_ALTERAR = 6L;
-    private static final Long ID_VAGA_PARA_REMOVER = 7L;
+    private static final Long ID_VAGA_PARA_REMOVER = 31L;
     private static final String AREA_ATUACAO_SALVA = "analise";
 
     @Test
@@ -123,7 +123,7 @@ class VagaResourceTest {
                 .pathParam("id", ID_VAGA_PARA_REMOVER)
                 .when()
                 .delete(String.format(BASE_PATH, port) + "{id}")
-                .then()
+                .then().log().all()
                 .statusCode(HttpStatus.SC_OK);
     }
 
@@ -196,9 +196,9 @@ class VagaResourceTest {
                 .pathParam("id", 1)
                 .when()
                 .get(String.format(BASE_PATH, port) + "empresa/{id}")
-                .then()
+                .then().log().all()
                 .statusCode(HttpStatus.SC_OK)
-                .body("size()", is(2));
+                .body("size()", greaterThanOrEqualTo(3));
     }
 
     @Test
@@ -247,6 +247,7 @@ class VagaResourceTest {
                 .queryParam("filtro", "cargo")
                 .queryParam("valor", "PLENO")
                 .when()
+                .log().all()
                 .get(String.format(BASE_PATH, port) + "filtro")
                 .then()
                 .log().all()
@@ -300,6 +301,7 @@ class VagaResourceTest {
         when()
                 .get(String.format(BASE_PATH, port) + "count")
                 .then()
+                .log().all()
                 .statusCode(HttpStatus.SC_OK)
                 .body(is(String.valueOf(3)));
     }

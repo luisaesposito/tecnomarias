@@ -129,3 +129,18 @@ ALTER TABLE telefone
 
 ALTER TABLE vaga
     ADD CONSTRAINT fk_vaga_empresa_id FOREIGN KEY (empresa_id) REFERENCES pessoa_juridica(id);
+
+ALTER TABLE pessoa_fisica
+    ADD COLUMN data_cadastro date;
+
+ALTER TABLE avaliacao
+    ADD COLUMN avaliadora_id BIGINT;
+
+ALTER TABLE avaliacao
+    ADD COLUMN anonima BOOLEAN default true;
+
+ALTER TABLE avaliacao
+    DROP COLUMN nome_avaliadora;
+
+ALTER TABLE avaliacao
+    ADD CONSTRAINT fk_avaliacao_pf FOREIGN KEY (avaliadora_id) REFERENCES pessoa_fisica(id);

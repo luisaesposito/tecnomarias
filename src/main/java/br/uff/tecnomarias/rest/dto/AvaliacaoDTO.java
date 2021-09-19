@@ -35,9 +35,11 @@ public class AvaliacaoDTO {
         avaliacao.setComentario(this.comentario);
         avaliacao.setNota(this.nota);
         avaliacao.setData(this.data);
-        var avaliadora = new PessoaFisica();
-        avaliadora.setId(this.idAvaliadora);
-        avaliacao.setAvaliadora(avaliadora);
+        if (idAvaliadora != null) {
+            var avaliadora = new PessoaFisica();
+            avaliadora.setId(this.idAvaliadora);
+            avaliacao.setAvaliadora(avaliadora);
+        }
         var empresa = new PessoaJuridica();
         empresa.setId(this.idEmpresa);
         avaliacao.setEmpresa(empresa);
@@ -74,6 +76,22 @@ public class AvaliacaoDTO {
 
     public void setData(LocalDateTime data) {
         this.data = data;
+    }
+
+    public Long getIdAvaliadora() {
+        return idAvaliadora;
+    }
+
+    public void setIdAvaliadora(Long idAvaliadora) {
+        this.idAvaliadora = idAvaliadora;
+    }
+
+    public Boolean getAnonima() {
+        return anonima;
+    }
+
+    public void setAnonima(Boolean anonima) {
+        this.anonima = anonima;
     }
 
     public Long getIdEmpresa() {
