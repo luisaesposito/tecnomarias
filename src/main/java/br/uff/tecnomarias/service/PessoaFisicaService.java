@@ -55,9 +55,7 @@ public class PessoaFisicaService {
                 .orElseThrow(() -> new EntidadeNaoEncontradaException(NOT_FOUND_MSG));
         if (pf.getFeedback() != null)
             feedbackRepository.delete(pf.getFeedback());
-        avaliacaoRepository.findByAvaliadora(pf).ifPresent(av -> {
-            avaliacaoRepository.delete(av);
-        });
+        avaliacaoRepository.findByAvaliadora(pf).ifPresent(av -> avaliacaoRepository.delete(av));
         pfRepository.delete(pf);
         pfRepository.flush();
     }
@@ -65,7 +63,7 @@ public class PessoaFisicaService {
     private void validarPessoa(PessoaFisica pf) {
         if (pf.getNome() == null || pf.getNome().isBlank())
             throw new PessoaInvalidaException("Nome é obrigatório");
-        if (pf.getEmail() == null|| pf.getEmail().isBlank())
+        if (pf.getEmail() == null || pf.getEmail().isBlank())
             throw new PessoaInvalidaException("Email é obrigatório");
         if (pf.getTipoPessoa() == null)
             throw new PessoaInvalidaException("TipoPessoa é obrigatório");

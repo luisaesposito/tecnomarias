@@ -23,7 +23,7 @@ import java.util.Optional;
 
 
 @ExtendWith(MockitoExtension.class)
-public class VagaServiceTest {
+class VagaServiceTest {
 
     @Mock
     private PessoaJuridicaRepository pjRepositoryMock;
@@ -208,7 +208,7 @@ public class VagaServiceTest {
     }
 
     @Test
-    void deveRetornarTodasVagas(){
+    void deveRetornarTodasVagas() {
         List<Vaga> vg = new ArrayList<Vaga>();
         vg.add(montarVaga());
         Mockito.when(vgRepositoryMock.findAll()).thenReturn(vg);

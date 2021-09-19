@@ -33,7 +33,7 @@ public class ConstraintViolationHandler extends ResponseEntityExceptionHandler {
         response = new ErrorResponse.Builder()
                 .message("Erros de validação: " + errors)
                 .statusCode(HttpStatus.BAD_REQUEST.value())
-                .error(cause.getClass().getName())
+                .error(cause != null ? cause.getClass().getName() : "Bad Request")
                 .path(request.getRequest().getRequestURI())
                 .build();
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
