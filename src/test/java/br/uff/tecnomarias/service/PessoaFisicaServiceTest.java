@@ -1,8 +1,10 @@
 package br.uff.tecnomarias.service;
 
+import br.uff.tecnomarias.domain.entity.Avaliacao;
 import br.uff.tecnomarias.domain.entity.Feedback;
 import br.uff.tecnomarias.domain.entity.PessoaFisica;
 import br.uff.tecnomarias.domain.enums.TipoPessoa;
+import br.uff.tecnomarias.domain.repository.AvaliacaoRepository;
 import br.uff.tecnomarias.domain.repository.FeedbackRepository;
 import br.uff.tecnomarias.domain.repository.PessoaFisicaRepository;
 import br.uff.tecnomarias.service.exception.EntidadeNaoEncontradaException;
@@ -23,6 +25,8 @@ import java.util.Optional;
 @ExtendWith(MockitoExtension.class)
 public class PessoaFisicaServiceTest {
 
+    @Mock
+    private AvaliacaoRepository avRepositoryMock;
     @Mock
     private FeedbackRepository feedbackRepository;
     @Mock
@@ -165,17 +169,32 @@ public class PessoaFisicaServiceTest {
         Feedback fb = montarFeedback();
         pf.setFeedback(fb);
         Mockito.when(pfRepositoryMock.findById(Mockito.anyLong())).thenReturn(Optional.of(pf));
+        Mockito.when(avRepositoryMock.findByAvaliadora(Mockito.any(PessoaFisica.class))).thenReturn(Optional.empty());
         pfService.remover(1L);
         Mockito.verify(feedbackRepository).delete(fb);
         Mockito.verify(pfRepositoryMock).delete(pf);
+        Mockito.verify(avRepositoryMock, Mockito.times(0)).delete(Mockito.any(Avaliacao.class));
     }
 
     @Test
     void deveRemoverPFSemFeedback() {
         PessoaFisica pf = montarPF();
         Mockito.when(pfRepositoryMock.findById(Mockito.anyLong())).thenReturn(Optional.of(pf));
+        Mockito.when(avRepositoryMock.findByAvaliadora(Mockito.any(PessoaFisica.class))).thenReturn(Optional.empty());
         pfService.remover(1L);
         Mockito.verify(pfRepositoryMock).delete(pf);
+        Mockito.verify(avRepositoryMock, Mockito.times(0)).delete(Mockito.any(Avaliacao.class));
+    }
+
+    @Test
+    void deveRemoverPFComAvaliacao() {
+        PessoaFisica pf = montarPF();
+        Avaliacao avaliacao = montarAvaliacao(pf);
+        Mockito.when(pfRepositoryMock.findById(Mockito.anyLong())).thenReturn(Optional.of(pf));
+        Mockito.when(avRepositoryMock.findByAvaliadora(Mockito.any(PessoaFisica.class))).thenReturn(Optional.of(avaliacao));
+        pfService.remover(1L);
+        Mockito.verify(pfRepositoryMock).delete(pf);
+        Mockito.verify(avRepositoryMock).delete(avaliacao);
     }
 
     @Test
@@ -222,5 +241,12 @@ public class PessoaFisicaServiceTest {
         pf.setEmail("julinha@email.com");
         pf.setTipoPessoa(TipoPessoa.PF);
         return pf;
+    }
+
+    private static Avaliacao montarAvaliacao(PessoaFisica pf) {
+        Avaliacao av = new Avaliacao();
+        av.setAvaliadora(pf);
+        av.setId(8L);
+        return av;
     }
 }
