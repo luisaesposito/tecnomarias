@@ -21,7 +21,7 @@
         <rest-assured.version>4.3.0</rest-assured.version>
         <groovy.version>3.0.7</groovy.version>
         <!-- Jacoco Properties -->
-        <jacoco.version>0.8.6</jacoco.version>
+        <jacoco.version>0.8.7</jacoco.version>
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
         <sonar.coverage.exclusions>**/entity/*</sonar.coverage.exclusions>
         <sonar.cpd.exclusions>**/entity/*</sonar.cpd.exclusions>
@@ -58,7 +58,7 @@
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-ui</artifactId>
-            <version>1.5.0</version>
+            <version>1.6.4</version>
         </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
